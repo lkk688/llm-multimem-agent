@@ -1,0 +1,1976 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../llm/">
+      
+      
+        <link rel="next" href="../transformers_advanced/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Memory Systems - Multimodal Memory LLM and AI Agent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-header__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Multimodal Memory LLM and AI Agent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Memory Systems
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-nav__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Multimodal Memory LLM and AI Agent
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Core Modules
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Core Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transformer Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tool Calling and Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embeddings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multimodal Embeddings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../llm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLM Frameworks and Architectures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Memory Systems
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Memory Systems
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-memory-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Memory Approaches
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Memory Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context Window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-based-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary-Based Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vector-database-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector Database Memory
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vector Database Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-in-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation in This Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-memory-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Memory Approaches
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Memory Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structured-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structured Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#episodic-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Episodic Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflective-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reflective Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-in-llm-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory in LLM Frameworks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory in LLM Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-memory-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparison of Memory Implementations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-responses-api-replacing-assistants-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Responses API (Replacing Assistants API)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      LangChain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamaindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaIndex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Semantic Kernel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-directions-and-future-trends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Research Directions and Future Trends
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Research Directions and Future Trends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continual Learning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-compression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Compression
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#causal-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causal Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers_advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Transformer Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference_optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inference Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notebooks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Notebooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/memory_example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Example
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-memory-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Memory Approaches
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Memory Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context Window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-based-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary-Based Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vector-database-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vector Database Memory
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vector Database Memory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-in-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation in This Project
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-memory-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Memory Approaches
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Memory Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structured-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structured Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#episodic-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Episodic Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflective-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reflective Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-in-llm-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory in LLM Frameworks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory in LLM Frameworks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparison-of-memory-implementations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparison of Memory Implementations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-responses-api-replacing-assistants-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Responses API (Replacing Assistants API)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      LangChain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llamaindex" class="md-nav__link">
+    <span class="md-ellipsis">
+      LlamaIndex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#semantic-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Semantic Kernel
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#research-directions-and-future-trends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Research Directions and Future Trends
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Research Directions and Future Trends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continual-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continual Learning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-compression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Compression
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#causal-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causal Memory
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="memory">Memory</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Memory is a critical component in Large Language Models (LLMs) that enables them to maintain context over extended interactions, recall previous information, and build upon past knowledge. Without effective memory mechanisms, LLMs would be limited to processing only the immediate context provided in the current prompt, severely limiting their usefulness in applications requiring continuity and persistence.</p>
+<p>This document explores various approaches to implementing memory in LLMs, from basic techniques to advanced research and practical implementations across different frameworks. We'll cover the theoretical foundations, implementation details, and practical considerations for each approach.</p>
+<h2 id="basic-memory-approaches">Basic Memory Approaches</h2>
+<h3 id="context-window">Context Window</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> - The original Transformer paper
+- <a href="https://arxiv.org/abs/2303.08774">GPT-4 Technical Report</a> - Discusses context window scaling</p>
+<p><strong>Motivation:</strong> Enable the model to access and utilize information from the current conversation or document.</p>
+<p><strong>Problem:</strong> LLMs need to maintain awareness of the entire conversation or document to generate coherent and contextually appropriate responses.</p>
+<p><strong>Solution:</strong> The context window is the most basic form of memory in LLMs, representing the sequence of tokens that the model can process in a single forward pass. It includes the prompt, previous exchanges, and any other text provided to the model.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Basic implementation of context window management</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContextWindowMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4096</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span> <span class="o">=</span> <span class="n">max_tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_context</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new message to the context&quot;&quot;&quot;</span>
+        <span class="c1"># Tokenize the text (simplified)</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">token_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+        <span class="c1"># Create message entry</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">role</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="n">token_count</span><span class="p">}</span>
+
+        <span class="c1"># Add to context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_context</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">+=</span> <span class="n">token_count</span>
+
+        <span class="c1"># Trim context if needed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_trim_to_max_tokens</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_trim_to_max_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure context stays within token limit&quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_context</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Remove oldest messages first (typically system prompts are preserved)</span>
+            <span class="n">removed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_context</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Keep the first message (system)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">-=</span> <span class="n">removed</span><span class="p">[</span><span class="s2">&quot;tokens&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_formatted_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the formatted context for the LLM&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;role&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">msg</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">]</span>
+        <span class="p">}</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_context</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simplified tokenization function&quot;&quot;&quot;</span>
+        <span class="c1"># In practice, you would use the model&#39;s tokenizer</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  <span class="c1"># Simple whitespace tokenization for illustration</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Universal; all LLM applications use some form of context window management.</p>
+<p><strong>Models/Frameworks:</strong> All LLM frameworks implement context window management, with varying approaches to handling token limits:
+- OpenAI API: Automatically manages context within model limits (4K-128K tokens)
+- LangChain: Provides <code>ConversationBufferMemory</code> and <code>ConversationBufferWindowMemory</code>
+- LlamaIndex: Offers context management through its <code>ContextChatEngine</code></p>
+<h3 id="sliding-window">Sliding Window</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://python.langchain.com/docs/modules/memory/types/buffer_window">LangChain Documentation: ConversationBufferWindowMemory</a>
+- <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></p>
+<p><strong>Motivation:</strong> Maintain recent context while staying within token limits.</p>
+<p><strong>Problem:</strong> Full conversation history can exceed context window limits, especially in long-running conversations.</p>
+<p><strong>Solution:</strong> Keep only the most recent N messages or tokens in the context window, discarding older ones.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SlidingWindowMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_messages</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_messages</span> <span class="o">=</span> <span class="n">max_messages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="c1"># Keep only the most recent messages</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_messages</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">max_messages</span><span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> High; commonly used in chatbots and conversational agents.</p>
+<p><strong>Models/Frameworks:</strong>
+- LangChain: <code>ConversationBufferWindowMemory</code>
+- LlamaIndex: <code>ChatMemoryBuffer</code> with window size parameter
+- Semantic Kernel: Memory configuration with message limits</p>
+<h3 id="summary-based-memory">Summary-Based Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://python.langchain.com/docs/modules/memory/types/summary">LangChain Documentation: ConversationSummaryMemory</a>
+- <a href="https://arxiv.org/abs/2310.08560">MemGPT: Towards LLMs as Operating Systems</a></p>
+<p><strong>Motivation:</strong> Maintain the essence of longer conversations while reducing token usage.</p>
+<p><strong>Problem:</strong> Long conversations exceed context limits, but simply truncating loses important information.</p>
+<p><strong>Solution:</strong> Periodically summarize older parts of the conversation and include only the summary plus recent messages in the context window.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SummaryMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_client</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">summary_threshold</span><span class="o">=</span><span class="mi">3000</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span> <span class="o">=</span> <span class="n">llm_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_tokens</span> <span class="o">=</span> <span class="n">max_tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">summary_threshold</span> <span class="o">=</span> <span class="n">summary_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_summary</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">token_count</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">+=</span> <span class="n">token_count</span>
+
+        <span class="c1"># Check if we need to summarize</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">summary_threshold</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_create_summary</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Prepare messages to summarize (all except the most recent)</span>
+        <span class="n">to_summarize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Create prompt for summarization</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Summarize the following conversation concisely while preserving all important information:</span>
+
+<span class="s2">        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_summary</span><span class="si">}</span><span class="s2">  # Include previous summary if it exists</span>
+
+<span class="s2">        </span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;role&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">to_summarize</span><span class="p">])</span><span class="si">}</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get summary from LLM</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+        <span class="c1"># Update state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_summary</span> <span class="o">=</span> <span class="n">summary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>  <span class="c1"># Keep only the most recent message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tokenize</span><span class="p">(</span><span class="n">summary</span><span class="p">))</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;content&quot;</span><span class="p">]))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_summary</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Previous conversation summary: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_summary</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># Simplified tokenization</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium-high; used in applications requiring long-term conversation memory.</p>
+<p><strong>Models/Frameworks:</strong>
+- LangChain: <code>ConversationSummaryMemory</code> and <code>ConversationSummaryBufferMemory</code>
+- LlamaIndex: <code>SummaryIndex</code> for condensing information
+- MemGPT: Uses summarization for archival memory</p>
+<h2 id="vector-database-memory">Vector Database Memory</h2>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2005.11401">Retrieval Augmented Generation (RAG)</a>
+- <a href="https://python.langchain.com/docs/modules/memory/types/vectorstore_retriever">LangChain Documentation: VectorStoreRetrieverMemory</a>
+- <a href="https://www.pinecone.io/">Pinecone: Vector Database</a>
+- <a href="https://www.trychroma.com/">Chroma: Open-source Embedding Database</a></p>
+<p><strong>Motivation:</strong> Store and retrieve large amounts of information based on semantic similarity.</p>
+<p><strong>Problem:</strong> Context windows are limited, but applications may need to reference vast amounts of historical information.</p>
+<p><strong>Solution:</strong> Store embeddings of past interactions or knowledge in a vector database, then retrieve the most relevant information based on the current query.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">VectorMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_model</span><span class="p">,</span> <span class="n">vector_db</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embedding_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span> <span class="o">=</span> <span class="n">vector_db</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Generate embedding</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="c1"># Store in vector database</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">vectors</span><span class="o">=</span><span class="p">[</span><span class="n">embedding</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">[</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">}]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="c1"># Generate query embedding</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Search vector database</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="n">query_vector</span><span class="o">=</span><span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Return relevant texts</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_relevant_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="n">relevant_texts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;Relevant information from memory:&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">relevant_texts</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Very high; the foundation of Retrieval Augmented Generation (RAG) systems.</p>
+<p><strong>Models/Frameworks:</strong>
+- LangChain: <code>VectorStoreRetrieverMemory</code> with support for multiple vector databases
+- LlamaIndex: <code>VectorStoreIndex</code> for retrieval-based memory
+- Pinecone, Weaviate, Chroma, FAISS: Popular vector database options</p>
+<h3 id="implementation-in-this-project">Implementation in This Project</h3>
+<p>This project implements a comprehensive <code>MemoryManager</code> class that uses FAISS for vector storage and retrieval. Key features include:</p>
+<ul>
+<li>Vector similarity search with metadata filtering</li>
+<li>Support for multiple modalities (text, images, audio)</li>
+<li>Time-based filtering and hybrid search capabilities</li>
+<li>Index optimization and specialized index creation</li>
+<li>Backup and restore functionality</li>
+</ul>
+<p>The implementation supports both CPU and GPU acceleration through FAISS, with automatic fallback mechanisms.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example usage of the MemoryManager in this project</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llm_multi_core.memory.manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryManager</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Initialize memory manager</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">MemoryManager</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Add vectors with metadata</span>
+<span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>  <span class="c1"># 512-dimensional embedding</span>
+<span class="n">meta</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Important information about the project&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;modality&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;documentation&quot;</span>
+<span class="p">}</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">meta</span><span class="p">)</span>
+
+<span class="c1"># Search for similar vectors</span>
+<span class="n">query_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Filter by metadata</span>
+<span class="n">text_results</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query_vector</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">modalities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+
+<span class="c1"># Save to disk</span>
+<span class="n">memory</span><span class="o">.</span><span class="n">save_all</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="advanced-memory-approaches">Advanced Memory Approaches</h2>
+<h3 id="hierarchical-memory">Hierarchical Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2310.08560">MemGPT: Towards LLMs as Operating Systems</a>
+- <a href="https://github.com/run-llama/llama_index/blob/main/llama_index/retrievers/router/hierarchical.py">HierarchicalRAG</a></p>
+<p><strong>Motivation:</strong> Organize memory into different levels based on importance and recency.</p>
+<p><strong>Problem:</strong> Different types of information require different retrieval strategies and retention policies.</p>
+<p><strong>Solution:</strong> Implement a multi-tiered memory system with different storage and retrieval mechanisms for each tier.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">HierarchicalMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_client</span><span class="p">,</span> <span class="n">embedding_model</span><span class="p">,</span> <span class="n">vector_db</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span> <span class="o">=</span> <span class="n">llm_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embedding_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span> <span class="o">=</span> <span class="n">vector_db</span>
+
+        <span class="c1"># Different memory tiers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Most recent/important items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Recent conversation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_term_memory</span> <span class="o">=</span> <span class="n">vector_db</span>  <span class="c1"># Archived information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">core_memory</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Critical information that should always be available</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">importance</span><span class="o">=</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Add to appropriate memory tier based on importance</span>
+        <span class="k">if</span> <span class="n">importance</span> <span class="o">==</span> <span class="s2">&quot;critical&quot;</span><span class="p">:</span>
+            <span class="c1"># Add to core memory</span>
+            <span class="n">category</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_categorize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">core_memory</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="k">elif</span> <span class="n">importance</span> <span class="o">==</span> <span class="s2">&quot;high&quot;</span><span class="p">:</span>
+            <span class="c1"># Add to working memory and long-term</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_long_term</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Add to short-term and long-term</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_long_term</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+
+        <span class="c1"># Manage memory sizes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_manage_memory_sizes</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_to_long_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">long_term_memory</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">vectors</span><span class="o">=</span><span class="p">[</span><span class="n">embedding</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">[</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">}]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_categorize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># Use LLM to categorize the information</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Categorize this information into one of: personal, preferences, goals, constraints.</span><span class="se">\n\n</span><span class="s2">Information: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_manage_memory_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Keep working memory small</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+
+        <span class="c1"># Keep short-term memory manageable</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="c1"># Summarize oldest items and remove them</span>
+            <span class="n">to_summarize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span><span class="p">[:</span><span class="o">-</span><span class="mi">15</span><span class="p">]</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summarize</span><span class="p">(</span><span class="n">to_summarize</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_long_term</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;summary&quot;</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span><span class="p">[</span><span class="o">-</span><span class="mi">15</span><span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_summarize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Summarize the following information concisely:</span><span class="se">\n\n</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="c1"># Always include core memory</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Core memory - </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">core_memory</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+        <span class="c1"># Include working memory</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">working_memory</span><span class="p">])</span>
+
+        <span class="c1"># Include relevant short-term memory</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_term_memory</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]])</span>
+
+        <span class="c1"># Retrieve from long-term memory</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">long_term_memory</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="n">query_vector</span><span class="o">=</span><span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;Context from memory:&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">context</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; growing in advanced AI assistant applications.</p>
+<p><strong>Models/Frameworks:</strong>
+- MemGPT: Implements a hierarchical memory system with core, working, and archival memory
+- LlamaIndex: <code>HierarchicalRetriever</code> for multi-level retrieval
+- AutoGPT: Uses different memory types for different purposes</p>
+<h3 id="structured-memory">Structured Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2302.12442">Structured Memory Architecture for LLMs</a>
+- <a href="https://python.langchain.com/docs/modules/memory/types/entity_memory">LangChain Documentation: Entity Memory</a></p>
+<p><strong>Motivation:</strong> Organize memory around entities and their attributes rather than just text chunks.</p>
+<p><strong>Problem:</strong> Unstructured memory makes it difficult to track specific entities and their properties over time.</p>
+<p><strong>Solution:</strong> Extract and store information about entities (people, places, concepts) in a structured format for more precise retrieval.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EntityMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_client</span><span class="p">,</span> <span class="n">embedding_model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span> <span class="o">=</span> <span class="n">llm_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embedding_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Dictionary of entity information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Embeddings for each entity</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_from_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># Extract entities and information</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Extract entities and their attributes from the text below. </span>
+<span class="s2">        Format: Entity: attribute1=value1, attribute2=value2</span>
+
+<span class="s2">        Text: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span>
+
+<span class="s2">        Entities:&quot;&quot;&quot;</span>
+
+        <span class="n">extraction_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="n">entity_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_entity_extraction</span><span class="p">(</span><span class="n">extraction_result</span><span class="p">)</span>
+
+        <span class="c1"># Update entity database</span>
+        <span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">attributes</span> <span class="ow">in</span> <span class="n">entity_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">entity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c1"># Create embedding for new entity</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+            <span class="c1"># Update attributes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_parse_entity_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># Parse the entity extraction output</span>
+        <span class="c1"># This is a simplified implementation</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;:&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">entity</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">entity</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+                <span class="k">for</span> <span class="n">attr_pair</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="s1">&#39;=&#39;</span> <span class="ow">in</span> <span class="n">attr_pair</span><span class="p">:</span>
+                        <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">attr_pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="n">result</span><span class="p">[</span><span class="n">entity</span><span class="p">][</span><span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_entity_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity_name</span><span class="p">):</span>
+        <span class="c1"># Direct lookup</span>
+        <span class="k">if</span> <span class="n">entity_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">entity_name</span><span class="p">]</span>
+
+        <span class="c1"># Fuzzy matching using embeddings</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">entity_name</span><span class="p">)</span>
+        <span class="n">best_match</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">embedding</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">embedding</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>  <span class="c1"># Threshold</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+                <span class="n">best_match</span> <span class="o">=</span> <span class="n">entity</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">best_match</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_relevant_entities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="n">entities_with_scores</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">embedding</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_embeddings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">embedding</span><span class="p">)</span>
+            <span class="n">entities_with_scores</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">entity</span><span class="p">,</span> <span class="n">score</span><span class="p">))</span>
+
+        <span class="c1"># Sort by similarity score</span>
+        <span class="n">entities_with_scores</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Return top k entities with their information</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">entity</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">entities_with_scores</span><span class="p">[:</span><span class="n">k</span><span class="p">]:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">[</span><span class="n">entity</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cosine_similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; used in applications requiring detailed tracking of entities.</p>
+<p><strong>Models/Frameworks:</strong>
+- LangChain: <code>EntityMemory</code> for tracking entities mentioned in conversations
+- LlamaIndex: <code>KnowledgeGraphIndex</code> for structured information storage
+- Neo4j Vector Search: Graph-based entity storage with vector capabilities</p>
+<h3 id="episodic-memory">Episodic Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2304.03442">Generative Agents: Interactive Simulacra of Human Behavior</a>
+- <a href="https://arxiv.org/abs/2310.08560">MemGPT: Towards LLMs as Operating Systems</a></p>
+<p><strong>Motivation:</strong> Enable recall of specific events and experiences in temporal sequence.</p>
+<p><strong>Problem:</strong> Standard vector retrieval doesn't preserve temporal relationships between memories.</p>
+<p><strong>Solution:</strong> Store memories as discrete episodes with timestamps and relationships, enabling temporal queries and narrative recall.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EpisodicMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding_model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embedding_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episodes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List of episodes in chronological order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episode_embeddings</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Corresponding embeddings</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_episode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># Create episode record</span>
+        <span class="n">episode</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+            <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+            <span class="s2">&quot;participants&quot;</span><span class="p">:</span> <span class="n">participants</span> <span class="ow">or</span> <span class="p">[],</span>
+            <span class="s2">&quot;embedding&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Add to episodes list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">episode_embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">episode</span><span class="p">[</span><span class="s2">&quot;embedding&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_by_similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="c1"># Get query embedding</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Calculate similarities</span>
+        <span class="n">similarities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">emb</span><span class="p">)</span> 
+                       <span class="k">for</span> <span class="n">emb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episode_embeddings</span><span class="p">]</span>
+
+        <span class="c1"># Get top k episodes</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">similarities</span><span class="p">)[</span><span class="o">-</span><span class="n">k</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">episodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_by_timeframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">):</span>
+        <span class="c1"># Filter episodes by timestamp</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ep</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes</span> 
+                <span class="k">if</span> <span class="n">start_time</span> <span class="o">&lt;=</span> <span class="n">ep</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_time</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_by_participant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">participant</span><span class="p">):</span>
+        <span class="c1"># Filter episodes by participant</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ep</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">episodes</span> 
+                <span class="k">if</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">ep</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;participants&quot;</span><span class="p">,</span> <span class="p">[])]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_narrative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">max_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="c1"># Get relevant episodes</span>
+        <span class="n">relevant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieve_by_similarity</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">max_episodes</span><span class="p">)</span>
+
+        <span class="c1"># Sort by timestamp to preserve narrative order</span>
+        <span class="n">relevant</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Format as narrative</span>
+        <span class="n">narrative</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Relevant memories in chronological order:&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">relevant</span><span class="p">:</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ep</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M&quot;</span><span class="p">)</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; at </span><span class="si">{</span><span class="n">ep</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">ep</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">participants</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; with </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ep</span><span class="p">[</span><span class="s1">&#39;participants&#39;</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">ep</span><span class="p">[</span><span class="s2">&quot;participants&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">narrative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}{</span><span class="n">location</span><span class="si">}{</span><span class="n">participants</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">ep</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">narrative</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cosine_similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; used in agent simulations and advanced assistants.</p>
+<p><strong>Models/Frameworks:</strong>
+- Generative Agents: Uses episodic memory for agent simulations
+- MemGPT: Implements episodic memory for conversational agents
+- LangChain: <code>ConversationEntityMemory</code> can be adapted for episodic recall</p>
+<h3 id="reflective-memory">Reflective Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2303.11366">Reflexion: Language Agents with Verbal Reinforcement Learning</a>
+- <a href="https://arxiv.org/abs/2309.11495">Chain-of-Verification Reduces Hallucination in Large Language Models</a></p>
+<p><strong>Motivation:</strong> Enable the model to learn from past interactions and improve over time.</p>
+<p><strong>Problem:</strong> Standard memory approaches store information but don't help the model improve its reasoning.</p>
+<p><strong>Solution:</strong> Implement a reflection mechanism where the model analyzes its own responses, identifies errors or areas for improvement, and stores these reflections for future reference.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ReflectiveMemory</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">llm_client</span><span class="p">,</span> <span class="n">embedding_model</span><span class="p">,</span> <span class="n">vector_db</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span> <span class="o">=</span> <span class="n">llm_client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embedding_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span> <span class="o">=</span> <span class="n">vector_db</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_interaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">feedback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Generate reflection on the interaction</span>
+        <span class="n">reflection_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Analyze the following interaction:</span>
+
+<span class="s2">        User query: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span>
+<span class="s2">        Model response: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span>
+<span class="s2">        User feedback: </span><span class="si">{</span><span class="n">feedback</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">feedback</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Not provided&#39;</span><span class="si">}</span>
+
+<span class="s2">        Reflect on what went well and what could be improved. Identify any errors, misconceptions, or areas where the response could have been more helpful.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="n">reflection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">reflection_prompt</span><span class="p">)</span>
+
+        <span class="c1"># Store the reflection</span>
+        <span class="n">reflection_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;query&quot;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+            <span class="s2">&quot;response&quot;</span><span class="p">:</span> <span class="n">response</span><span class="p">,</span>
+            <span class="s2">&quot;feedback&quot;</span><span class="p">:</span> <span class="n">feedback</span><span class="p">,</span>
+            <span class="s2">&quot;reflection&quot;</span><span class="p">:</span> <span class="n">reflection</span><span class="p">,</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reflections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reflection_data</span><span class="p">)</span>
+
+        <span class="c1"># Add to vector database for retrieval</span>
+        <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">reflection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">vectors</span><span class="o">=</span><span class="p">[</span><span class="n">embedding</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;reflection&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">reflection_data</span><span class="p">}]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_relevant_reflections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="c1"># Get query embedding</span>
+        <span class="n">query_embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_model</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Search vector database</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector_db</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+            <span class="n">query_vector</span><span class="o">=</span><span class="n">query_embedding</span><span class="p">,</span>
+            <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+            <span class="nb">filter</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;reflection&quot;</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Format reflections</span>
+        <span class="n">formatted</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Relevant past reflections:&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">]</span>
+            <span class="n">formatted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query: </span><span class="si">{</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">formatted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reflection: </span><span class="si">{</span><span class="n">meta</span><span class="p">[</span><span class="s1">&#39;reflection&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">formatted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;---&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">formatted</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_improved_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">initial_response</span><span class="p">):</span>
+        <span class="c1"># Get relevant reflections</span>
+        <span class="n">reflections</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_relevant_reflections</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Generate improved response</span>
+        <span class="n">improvement_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Based on the following reflections from similar past interactions, improve this response:</span>
+
+<span class="s2">        Original query: </span><span class="si">{</span><span class="n">query</span><span class="si">}</span>
+<span class="s2">        Initial response: </span><span class="si">{</span><span class="n">initial_response</span><span class="si">}</span>
+
+<span class="s2">        </span><span class="si">{</span><span class="n">reflections</span><span class="si">}</span>
+
+<span class="s2">        Improved response:&quot;&quot;&quot;</span>
+
+        <span class="n">improved_response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">improvement_prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">improved_response</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; growing in advanced AI systems focused on self-improvement.</p>
+<p><strong>Models/Frameworks:</strong>
+- Reflexion: Implements reflective learning for language agents
+- LangChain: Can be implemented using custom memory classes
+- AutoGPT: Uses reflection mechanisms for agent improvement</p>
+<h2 id="memory-in-llm-frameworks">Memory in LLM Frameworks</h2>
+<h3 id="comparison-of-memory-implementations">Comparison of Memory Implementations</h3>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Memory Types</th>
+<th>Vector DB Support</th>
+<th>Unique Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LangChain</strong></td>
+<td>ConversationBufferMemory<br>ConversationSummaryMemory<br>VectorStoreMemory<br>EntityMemory</td>
+<td>Chroma, FAISS, Pinecone, Weaviate, Milvus, and more</td>
+<td>- Memory chains<br>- Agent memory<br>- Chat message history</td>
+</tr>
+<tr>
+<td><strong>LlamaIndex</strong></td>
+<td>ChatMemoryBuffer<br>SummaryIndex<br>VectorStoreIndex<br>KnowledgeGraphIndex</td>
+<td>Same as LangChain, plus Redis, Qdrant</td>
+<td>- Structured data connectors<br>- Query engines<br>- Composable indices</td>
+</tr>
+<tr>
+<td><strong>Semantic Kernel</strong></td>
+<td>ChatHistory<br>VolatileMemory<br>SemanticTextMemory</td>
+<td>Azure Cognitive Search, Qdrant, Pinecone, Memory DB</td>
+<td>- Skills system<br>- Semantic functions<br>- .NET integration</td>
+</tr>
+<tr>
+<td><strong>LangGraph</strong></td>
+<td>GraphMemory<br>MessageMemory</td>
+<td>Same as LangChain</td>
+<td>- Graph-based memory<br>- State machines<br>- Workflow memory</td>
+</tr>
+<tr>
+<td><strong>MemGPT</strong></td>
+<td>CoreMemory<br>ArchivalMemory<br>RecallMemory</td>
+<td>FAISS, SQLite</td>
+<td>- OS-like memory management<br>- Context overflow handling<br>- Persistent memory</td>
+</tr>
+<tr>
+<td><strong>This Project</strong></td>
+<td>VectorMemory<br>MetadataFiltering<br>TimeRangeFiltering</td>
+<td>FAISS (CPU/GPU)</td>
+<td>- Multi-modal support<br>- Hybrid search<br>- Index optimization</td>
+</tr>
+</tbody>
+</table>
+<h3 id="openai-responses-api-replacing-assistants-api">OpenAI Responses API (Replacing Assistants API)</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://platform.openai.com/docs/api-reference/responses">OpenAI Responses API Documentation</a>
+- <a href="https://platform.openai.com/docs/assistants/overview">OpenAI Assistants API Documentation</a> (Being deprecated)</p>
+<p><strong>Key Memory Features:</strong>
+- Built-in conversation history management
+- Vector storage for files and documents
+- Tool use memory (remembers previous tool calls and results)
+- Improved performance and reliability over the Assistants API</p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">openai</span>
+
+<span class="c1"># Create a client</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="c1"># Create a response with memory capabilities</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4-turbo&quot;</span><span class="p">,</span>
+    <span class="n">max_prompt_tokens</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
+    <span class="n">max_completion_tokens</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;retrieval&quot;</span><span class="p">}],</span>  <span class="c1"># Enable retrieval from uploaded files</span>
+    <span class="n">system_message</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant with memory capabilities.&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Add a message to the conversation</span>
+<span class="n">response</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Please remember that my favorite color is blue.&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Get the assistant&#39;s response</span>
+<span class="n">response_message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Later, test memory</span>
+<span class="n">response</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+    <span class="n">content</span><span class="o">=</span><span class="s2">&quot;What&#39;s my favorite color?&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Get the assistant&#39;s response that should remember the favorite color</span>
+<span class="n">response_message</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span>
+<span class="p">)</span>
+</code></pre></div></p>
+<blockquote>
+<p><strong>Note:</strong> OpenAI is transitioning from the Assistants API to the Responses API. The Responses API provides similar functionality with improved performance and reliability. Existing Assistants API implementations should be migrated to the Responses API.</p>
+</blockquote>
+<h3 id="langchain">LangChain</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://python.langchain.com/docs/modules/memory/">LangChain Memory Documentation</a></p>
+<p><strong>Key Memory Features:</strong>
+- Multiple memory types (buffer, summary, entity, etc.)
+- Integration with various vector databases
+- Memory chains for complex memory management</p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">langchain.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationBufferMemory</span><span class="p">,</span> <span class="n">VectorStoreRetrieverMemory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.embeddings</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAIEmbeddings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.vectorstores</span><span class="w"> </span><span class="kn">import</span> <span class="n">FAISS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.chains</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConversationChain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">langchain.llms</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="c1"># Simple conversation memory</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ConversationBufferMemory</span><span class="p">()</span>
+<span class="n">conversation</span> <span class="o">=</span> <span class="n">ConversationChain</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">OpenAI</span><span class="p">(),</span>
+    <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Vector store memory</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">OpenAIEmbeddings</span><span class="p">()</span>
+<span class="n">vector_store</span> <span class="o">=</span> <span class="n">FAISS</span><span class="o">.</span><span class="n">from_texts</span><span class="p">([</span><span class="s2">&quot;Memory is important&quot;</span><span class="p">],</span> <span class="n">embeddings</span><span class="p">)</span>
+<span class="n">retriever</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">as_retriever</span><span class="p">()</span>
+<span class="n">vector_memory</span> <span class="o">=</span> <span class="n">VectorStoreRetrieverMemory</span><span class="p">(</span><span class="n">retriever</span><span class="o">=</span><span class="n">retriever</span><span class="p">)</span>
+
+<span class="c1"># Use in conversation</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;Hi, my name is Bob&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="c1"># Later</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">conversation</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="s2">&quot;What&#39;s my name?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>  <span class="c1"># Should remember the name is Bob</span>
+</code></pre></div></p>
+<h3 id="llamaindex">LlamaIndex</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://docs.llamaindex.ai/en/stable/module_guides/storing/memory/">LlamaIndex Memory Documentation</a></p>
+<p><strong>Key Memory Features:</strong>
+- Chat message history
+- Vector store integration
+- Query engines with memory</p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">VectorStoreIndex</span><span class="p">,</span> <span class="n">SimpleDirectoryReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.core.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMemoryBuffer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">llama_index.llms.openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="c1"># Create a chat engine with memory</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">)</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">ChatMemoryBuffer</span><span class="o">.</span><span class="n">from_defaults</span><span class="p">(</span><span class="n">token_limit</span><span class="o">=</span><span class="mi">3900</span><span class="p">)</span>
+
+<span class="c1"># Load documents</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">SimpleDirectoryReader</span><span class="p">(</span><span class="s2">&quot;./data&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">VectorStoreIndex</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+
+<span class="c1"># Create chat engine with memory</span>
+<span class="n">chat_engine</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">as_chat_engine</span><span class="p">(</span>
+    <span class="n">chat_mode</span><span class="o">=</span><span class="s2">&quot;condense_plus_context&quot;</span><span class="p">,</span>
+    <span class="n">memory</span><span class="o">=</span><span class="n">memory</span><span class="p">,</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span>
+<span class="p">)</span>
+
+<span class="c1"># Chat with memory</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat_engine</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;Hi, I&#39;m Alice&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="c1"># Later</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">chat_engine</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="s2">&quot;What&#39;s my name?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>  <span class="c1"># Should remember the name is Alice</span>
+</code></pre></div></p>
+<h3 id="semantic-kernel">Semantic Kernel</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://learn.microsoft.com/en-us/semantic-kernel/memories/">Semantic Kernel Memory Documentation</a></p>
+<p><strong>Key Memory Features:</strong>
+- Volatile and persistent memory options
+- Semantic text memory
+- Integration with Azure Cognitive Search</p>
+<p><strong>Implementation:</strong>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">semantic_kernel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">semantic_kernel.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">VolatileMemoryStore</span>
+
+<span class="c1"># Create kernel with memory</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">sk</span><span class="o">.</span><span class="n">Kernel</span><span class="p">()</span>
+<span class="n">kernel</span><span class="o">.</span><span class="n">add_text_completion_service</span><span class="p">(</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span> <span class="n">OpenAITextCompletion</span><span class="p">(</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">))</span>
+
+<span class="c1"># Set up memory</span>
+<span class="n">memory_store</span> <span class="o">=</span> <span class="n">VolatileMemoryStore</span><span class="p">()</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="n">SemanticTextMemory</span><span class="p">(</span><span class="n">memory_store</span><span class="p">,</span> <span class="n">OpenAITextEmbedding</span><span class="p">())</span>
+<span class="n">kernel</span><span class="o">.</span><span class="n">register_memory_store</span><span class="p">(</span><span class="n">memory_store</span><span class="p">)</span>
+
+<span class="c1"># Add memories</span>
+<span class="k">await</span> <span class="n">memory</span><span class="o">.</span><span class="n">save_information_async</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;favorite_color&quot;</span><span class="p">,</span> <span class="s2">&quot;My favorite color is green&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a function that uses memory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">semantic_kernel.skill_definition</span><span class="w"> </span><span class="kn">import</span> <span class="n">sk_function</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MemorySkill</span><span class="p">:</span>
+    <span class="nd">@sk_function</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Recall information about the user&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;recall&quot;</span>
+    <span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">recall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">sk</span><span class="o">.</span><span class="n">SKContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span>
+        <span class="n">memories</span> <span class="o">=</span> <span class="k">await</span> <span class="n">context</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">search_async</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">memories</span><span class="p">])</span>
+
+<span class="c1"># Register the skill</span>
+<span class="n">kernel</span><span class="o">.</span><span class="n">import_skill</span><span class="p">(</span><span class="n">MemorySkill</span><span class="p">(),</span> <span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+
+<span class="c1"># Use the memory</span>
+<span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">kernel</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span><span class="n">kernel</span><span class="o">.</span><span class="n">skills</span><span class="p">[</span><span class="s2">&quot;memory&quot;</span><span class="p">][</span><span class="s2">&quot;recall&quot;</span><span class="p">],</span> <span class="nb">input</span><span class="o">=</span><span class="s2">&quot;What is my favorite color?&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># Should recall the favorite color is green</span>
+</code></pre></div></p>
+<h2 id="research-directions-and-future-trends">Research Directions and Future Trends</h2>
+<h3 id="multimodal-memory">Multimodal Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2311.13165">Multimodal Large Language Models: A Survey</a>
+- <a href="https://arxiv.org/abs/2204.14198">Flamingo: a Visual Language Model for Few-Shot Learning</a></p>
+<p><strong>Key Concepts:</strong>
+- Storing and retrieving memories across different modalities (text, images, audio, video)
+- Cross-modal retrieval for finding relevant information regardless of input modality
+- Unified embeddings for multimodal content</p>
+<h3 id="continual-learning">Continual Learning</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2308.04466">Continual Learning with Large Language Models</a>
+- <a href="https://arxiv.org/abs/2301.12314">Progressive Prompting</a></p>
+<p><strong>Key Concepts:</strong>
+- Updating model knowledge without full retraining
+- Preventing catastrophic forgetting when adding new information
+- Memory-augmented continual learning approaches</p>
+<h3 id="memory-compression">Memory Compression</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2310.04878">In-Context Compression for Memory Efficiency</a>
+- <a href="https://arxiv.org/abs/2310.06201">Compressing Context to Enhance Inference Efficiency</a></p>
+<p><strong>Key Concepts:</strong>
+- Techniques for compressing memories to reduce token usage
+- Hierarchical summarization for efficient storage
+- Information-theoretic approaches to memory optimization</p>
+<h3 id="causal-memory">Causal Memory</h3>
+<p><strong>Reference Links:</strong>
+- <a href="https://arxiv.org/abs/2305.00050">Causal Reasoning in Large Language Models</a>
+- <a href="https://arxiv.org/abs/2102.02098">Towards Causal Representation Learning</a></p>
+<p><strong>Key Concepts:</strong>
+- Storing cause-effect relationships in memory
+- Enabling causal reasoning through structured memory
+- Temporal and causal graphs for memory organization</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Memory systems are a critical component of effective LLM applications, enabling models to maintain context, recall relevant information, and build upon past interactions. From simple context windows to sophisticated hierarchical and reflective memory systems, the field offers a range of approaches to suit different requirements and constraints.</p>
+<p>This project's <code>MemoryManager</code> implementation provides a solid foundation for vector-based memory with FAISS, supporting multiple modalities and advanced search capabilities. By understanding the various memory approaches and their implementations across different frameworks, developers can make informed decisions about which memory systems best suit their specific applications.</p>
+<p>As research continues to advance, we can expect to see even more sophisticated memory architectures that further enhance the capabilities of LLMs, enabling more natural, contextual, and helpful AI assistants and applications.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

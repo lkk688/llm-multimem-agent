@@ -1,0 +1,1802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../transformers_advanced/">
+      
+      
+        <link rel="next" href="../notebooks/memory_example/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Inference Optimization - Multimodal Memory LLM and AI Agent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#inference-optimization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-header__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Multimodal Memory LLM and AI Agent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Inference Optimization
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-nav__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Multimodal Memory LLM and AI Agent
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Core Modules
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Core Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transformer Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tool Calling and Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embeddings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multimodal Embeddings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../llm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLM Frameworks and Architectures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers_advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Transformer Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Inference Optimization
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Inference Optimization
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-llm-inference-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview of LLM Inference Optimization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inference-optimizations-in-latest-llm-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inference Optimizations in Latest LLM Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inference Optimizations in Latest LLM Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kv-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      KV Caching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KV Caching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-based-kv-cache-llama-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block-based KV Cache (Llama 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compressed-kv-cache-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compressed KV Cache (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window-kv-cache-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window KV Cache (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-tier-kv-cache-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-tier KV Cache (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quantization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#awq-llama-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWQ (Llama 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gptq-and-qlora" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPTQ and QLoRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#w4a16-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      W4A16 (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#int4int8-with-dynamic-activation-quantization-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      INT4/INT8 with Dynamic Activation Quantization (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-wise-mixed-precision-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer-wise Mixed Precision (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gguf-format-llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      GGUF Format (llama.cpp)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoothquant-and-fp8-nvidia-tensorrt-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      SmoothQuant and FP8 (NVIDIA TensorRT-LLM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculative-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speculative Decoding
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Speculative Decoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distilled-draft-models-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distilled Draft Models (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-token-budget-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adaptive Token Budget (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tree-based-verification-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tree-based Verification (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-stage-pipeline-llama-3-via-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-stage Pipeline (Llama 3 via vLLM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuous-batching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuous Batching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Batching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pagedattention-llama-3-via-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      PagedAttention (Llama 3 via vLLM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-level-scheduling-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iteration-level Scheduling (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-batching-with-optimized-kernels-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic Batching with Optimized Kernels (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-approach-with-prefill-decode-separation-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hybrid Approach with Prefill-Decode Separation (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notebooks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Notebooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/memory_example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Example
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-of-llm-inference-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview of LLM Inference Optimization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inference-optimizations-in-latest-llm-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inference Optimizations in Latest LLM Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inference Optimizations in Latest LLM Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kv-caching" class="md-nav__link">
+    <span class="md-ellipsis">
+      KV Caching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KV Caching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-based-kv-cache-llama-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block-based KV Cache (Llama 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compressed-kv-cache-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compressed KV Cache (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window-kv-cache-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window KV Cache (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-tier-kv-cache-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-tier KV Cache (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quantization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#awq-llama-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWQ (Llama 3)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gptq-and-qlora" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPTQ and QLoRA
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#w4a16-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      W4A16 (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#int4int8-with-dynamic-activation-quantization-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      INT4/INT8 with Dynamic Activation Quantization (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-wise-mixed-precision-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer-wise Mixed Precision (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gguf-format-llamacpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      GGUF Format (llama.cpp)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smoothquant-and-fp8-nvidia-tensorrt-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      SmoothQuant and FP8 (NVIDIA TensorRT-LLM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speculative-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speculative Decoding
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Speculative Decoding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#distilled-draft-models-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distilled Draft Models (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-token-budget-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adaptive Token Budget (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tree-based-verification-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tree-based Verification (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-stage-pipeline-llama-3-via-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-stage Pipeline (Llama 3 via vLLM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuous-batching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Continuous Batching
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Continuous Batching">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-variations_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation Variations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Variations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pagedattention-llama-3-via-vllm" class="md-nav__link">
+    <span class="md-ellipsis">
+      PagedAttention (Llama 3 via vLLM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-level-scheduling-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iteration-level Scheduling (DeepSeek)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-batching-with-optimized-kernels-gpt-oss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic Batching with Optimized Kernels (GPT-oss)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hybrid-approach-with-prefill-decode-separation-qwen-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hybrid Approach with Prefill-Decode Separation (Qwen-2)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="inference-optimization">Inference Optimization</h1>
+<h2 id="overview-of-llm-inference-optimization">Overview of LLM Inference Optimization</h2>
+<p><strong>Why Inference Optimization Matters:</strong></p>
+<p>Large Language Models (LLMs) present unique inference challenges due to their massive parameter counts (billions to trillions), complex architecture, and resource-intensive nature. Optimizing inference is critical for:</p>
+<ol>
+<li><strong>Latency Reduction</strong>: Minimizing response time for real-time applications</li>
+<li><strong>Throughput Maximization</strong>: Increasing the number of requests handled per unit time</li>
+<li><strong>Cost Efficiency</strong>: Reducing computational and memory resources required per inference</li>
+<li><strong>Energy Efficiency</strong>: Lowering power consumption for environmental sustainability</li>
+<li><strong>Deployment Flexibility</strong>: Enabling models to run on diverse hardware from data centers to edge devices</li>
+</ol>
+<p><strong>Major Optimization Directions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Technique Category</th>
+<th>Purpose</th>
+<th>Example Methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Computational Efficiency</strong></td>
+<td>Reduce FLOPs and accelerate matrix operations</td>
+<td>KV caching, Flash Attention, Continuous batching, Tensor parallelism</td>
+</tr>
+<tr>
+<td><strong>Memory Optimization</strong></td>
+<td>Reduce memory footprint and bandwidth requirements</td>
+<td>Weight quantization (INT8/4/2), Activation pruning, Gradient checkpointing</td>
+</tr>
+<tr>
+<td><strong>Model Compression</strong></td>
+<td>Reduce model size while preserving capabilities</td>
+<td>Knowledge distillation, Model pruning, Low-rank factorization, Parameter-efficient fine-tuning</td>
+</tr>
+<tr>
+<td><strong>Algorithmic Improvements</strong></td>
+<td>Change inference algorithms for better efficiency</td>
+<td>Speculative decoding, Draft models, Structured state space models</td>
+</tr>
+<tr>
+<td><strong>Hardware Acceleration</strong></td>
+<td>Leverage specialized hardware</td>
+<td>GPU optimization, TPU/NPU utilization, FPGA implementation, ASIC design</td>
+</tr>
+<tr>
+<td><strong>System-Level Optimization</strong></td>
+<td>Improve overall serving infrastructure</td>
+<td>Request batching, Caching, Load balancing, Distributed inference</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trade-offs in Optimization:</strong></p>
+<p>Most optimization techniques involve balancing:
+- Speed vs. accuracy
+- Memory usage vs. computational complexity
+- Generalization vs. specialization
+- Development effort vs. performance gain</p>
+<p>The optimal approach depends on specific deployment constraints, quality requirements, and available resources.</p>
+<h2 id="inference-optimizations-in-latest-llm-models">Inference Optimizations in Latest LLM Models</h2>
+<h3 id="kv-caching">KV Caching</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a> (original concept)
+- GitHub: <a href="https://github.com/huggingface/transformers/blob/main/src/transformers/generation/utils.py">huggingface/transformers</a></p>
+<p><strong>Motivation:</strong> Improve inference efficiency for autoregressive generation.</p>
+<p><strong>Problem:</strong> Recomputing key and value projections for all tokens at each generation step is wasteful.</p>
+<p><strong>Solution:</strong> Cache the key and value projections for previously processed tokens, only computing them for new tokens.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified KV Caching implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_with_kv_cache</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">max_length</span><span class="p">):</span>
+    <span class="c1"># Initialize KV cache</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">kv_cache</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">num_layers</span>
+
+    <span class="c1"># Initial forward pass to fill the cache</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">past_key_values</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">next_token_logits</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">kv_cache</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">past_key_values</span>
+
+    <span class="c1"># Generate tokens autoregressively</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_length</span> <span class="o">-</span> <span class="n">input_ids</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">next_token</span> <span class="o">=</span> <span class="n">sample_from_logits</span><span class="p">(</span><span class="n">next_token_logits</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">next_token</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Forward pass with cached KV</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">next_token</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">past_key_values</span><span class="o">=</span><span class="n">kv_cache</span><span class="p">)</span>
+        <span class="n">next_token_logits</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">logits</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">kv_cache</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">past_key_values</span>
+
+    <span class="k">return</span> <span class="n">input_ids</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Universal in all LLM inference systems.</p>
+<p><strong>Models/Frameworks:</strong> All modern LLMs and inference frameworks.</p>
+<h4 id="implementation-variations">Implementation Variations</h4>
+<h5 id="block-based-kv-cache-llama-3">Block-based KV Cache (Llama 3)</h5>
+<p><strong>Motivation:</strong> Optimize memory allocation and access patterns for efficient GPU utilization.</p>
+<p><strong>Problem:</strong> Standard KV cache implementations can lead to memory fragmentation and inefficient memory access.</p>
+<p><strong>Solution:</strong> Organize the KV cache in fixed-size blocks, similar to virtual memory systems, allowing for more efficient memory management.</p>
+<p><strong>Popularity:</strong> High; increasingly common in optimized inference systems.</p>
+<p><strong>Models/Frameworks:</strong> Llama 3 via vLLM, and other high-performance inference systems.</p>
+<h5 id="compressed-kv-cache-deepseek">Compressed KV Cache (DeepSeek)</h5>
+<p><strong>Motivation:</strong> Reduce memory requirements for the KV cache to enable longer contexts or larger batch sizes.</p>
+<p><strong>Problem:</strong> The KV cache can consume a significant portion of GPU memory, limiting context length or batch size.</p>
+<p><strong>Solution:</strong> Apply quantization and compression techniques to the KV cache, trading a small amount of computation for significant memory savings.</p>
+<p><strong>Popularity:</strong> Medium-high; growing in specialized inference systems.</p>
+<p><strong>Models/Frameworks:</strong> DeepSeek and some research implementations.</p>
+<h5 id="sliding-window-kv-cache-gpt-oss">Sliding Window KV Cache (GPT-oss)</h5>
+<p><strong>Motivation:</strong> Enable processing of very long sequences with limited memory.</p>
+<p><strong>Problem:</strong> The KV cache size grows linearly with sequence length, making very long sequences impractical.</p>
+<p><strong>Solution:</strong> Maintain a sliding window of recent tokens in the KV cache, discarding older tokens beyond a certain distance.</p>
+<p><strong>Popularity:</strong> Medium-high; common in long-context models.</p>
+<p><strong>Models/Frameworks:</strong> GPT-oss, Longformer, and various long-context inference systems.</p>
+<h5 id="multi-tier-kv-cache-qwen-2">Multi-tier KV Cache (Qwen-2)</h5>
+<p><strong>Motivation:</strong> Balance memory usage and performance for different parts of the context.</p>
+<p><strong>Problem:</strong> Different parts of the context may have different importance for generation, but standard KV caches treat all tokens equally.</p>
+<p><strong>Solution:</strong> Implement multiple tiers of KV cache with different precision or compression levels based on token recency or importance.</p>
+<p><strong>Popularity:</strong> Medium; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> Qwen-2 and some research implementations.</p>
+<h3 id="quantization">Quantization</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2210.17323">GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a>
+- GitHub: <a href="https://github.com/IST-DASLab/gptq">IST-DASLab/gptq</a></p>
+<p><strong>Motivation:</strong> Reduce model size and inference compute requirements while maintaining performance.</p>
+<p><strong>Problem:</strong> Full-precision (FP16/FP32) models require significant memory and computational resources.</p>
+<p><strong>Solution:</strong> Reduce the precision of model weights and/or activations through various quantization techniques.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified GPTQ implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quantize_layer_weights</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">groupsize</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+    <span class="c1"># W: weight matrix to quantize</span>
+    <span class="c1"># Compute quantization parameters per group</span>
+    <span class="n">W_groups</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">groupsize</span><span class="p">)</span>
+    <span class="n">scales</span> <span class="o">=</span> <span class="n">W_groups</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Quantize weights</span>
+    <span class="n">W_quant</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">W_groups</span> <span class="o">/</span> <span class="n">scales</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">W_quant</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">W_quant</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Dequantize for inference</span>
+    <span class="n">W_dequant</span> <span class="o">=</span> <span class="n">W_quant</span> <span class="o">*</span> <span class="n">scales</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">W_dequant</span> <span class="o">=</span> <span class="n">W_dequant</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">W_dequant</span><span class="p">,</span> <span class="n">W_quant</span><span class="p">,</span> <span class="n">scales</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Very high; essential for efficient deployment of large models.</p>
+<p><strong>Models/Frameworks:</strong> All major LLM inference frameworks support some form of quantization.</p>
+<h4 id="implementation-variations_1">Implementation Variations</h4>
+<h5 id="awq-llama-3">AWQ (Llama 3)</h5>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2306.00978">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a>
+- GitHub: <a href="https://github.com/mit-han-lab/llm-awq">mit-han-lab/llm-awq</a></p>
+<p><strong>Motivation:</strong> Improve quantization quality by considering activation patterns.</p>
+<p><strong>Problem:</strong> Standard quantization methods can significantly degrade model performance, especially at lower bit widths.</p>
+<p><strong>Solution:</strong> Analyze activation patterns to identify and preserve the most important weights during quantization.</p>
+<p>AWQ works by identifying which weights are most important for preserving activation patterns and then applying different scaling factors to different channels. The key insight is that not all weights contribute equally to the final output, and by preserving the most important ones, model quality can be maintained even at low bit widths.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># AWQ implementation (simplified)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">awq_quantize</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">activations</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">group_size</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+    <span class="c1"># Compute per-channel importance scores based on activations</span>
+    <span class="n">importance</span> <span class="o">=</span> <span class="n">compute_channel_importance</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span> <span class="n">activations</span><span class="p">)</span>
+
+    <span class="c1"># Scale weights by importance before quantization</span>
+    <span class="n">scales</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">scales</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">importance</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># Apply scaling</span>
+    <span class="n">weight_scaled</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">scales</span>
+
+    <span class="c1"># Quantize scaled weights using standard techniques</span>
+    <span class="n">weight_quant</span><span class="p">,</span> <span class="n">quant_scales</span> <span class="o">=</span> <span class="n">quantize_per_group</span><span class="p">(</span><span class="n">weight_scaled</span><span class="p">,</span> <span class="n">bits</span><span class="p">,</span> <span class="n">group_size</span><span class="p">)</span>
+
+    <span class="c1"># Store both quantized weights and scaling factors for inference</span>
+    <span class="k">return</span> <span class="n">weight_quant</span><span class="p">,</span> <span class="n">quant_scales</span><span class="p">,</span> <span class="n">scales</span>
+
+<span class="c1"># During inference</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">awq_inference</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">weight_quant</span><span class="p">,</span> <span class="n">quant_scales</span><span class="p">,</span> <span class="n">scales</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># Dequantize weights</span>
+    <span class="n">weight_dequant</span> <span class="o">=</span> <span class="n">dequantize</span><span class="p">(</span><span class="n">weight_quant</span><span class="p">,</span> <span class="n">quant_scales</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
+
+    <span class="c1"># Remove scaling applied during quantization</span>
+    <span class="n">weight_dequant</span> <span class="o">=</span> <span class="n">weight_dequant</span> <span class="o">/</span> <span class="n">scales</span>
+
+    <span class="c1"># Perform matrix multiplication</span>
+    <span class="k">return</span> <span class="n">input_data</span> <span class="o">@</span> <span class="n">weight_dequant</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> High; widely adopted for 4-bit quantization.</p>
+<p><strong>Models/Frameworks:</strong> Llama 3 and many other models via libraries like vLLM, Hugging Face, and llama.cpp.</p>
+<h5 id="gptq-and-qlora">GPTQ and QLoRA</h5>
+<p><strong>Reference Links:</strong>
+- Paper (GPTQ): <a href="https://arxiv.org/abs/2210.17323">GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a>
+- Paper (QLoRA): <a href="https://arxiv.org/abs/2305.14314">QLoRA: Efficient Finetuning of Quantized LLMs</a>
+- GitHub (GPTQ): <a href="https://github.com/IST-DASLab/gptq">IST-DASLab/gptq</a>
+- GitHub (QLoRA): <a href="https://github.com/artidoro/qlora">artidoro/qlora</a></p>
+<p><strong>Motivation:</strong> Enable efficient quantization with minimal accuracy loss (GPTQ) and fine-tuning of quantized models (QLoRA).</p>
+<p><strong>Problem:</strong> Naive quantization methods often lead to significant performance degradation, and fine-tuning quantized models is challenging.</p>
+<p><strong>Solution:</strong> GPTQ uses layer-by-layer quantization with error correction, while QLoRA enables fine-tuning of quantized models using low-rank adapters.</p>
+<p>GPTQ quantizes the model one layer at a time, using the Optimal Brain Quantization algorithm to minimize the quantization error by redistributing the error to subsequent weights. This approach maintains model quality even at 3-4 bit precision.</p>
+<p>QLoRA builds on this by enabling fine-tuning of quantized models. It keeps the model weights in 4-bit precision while adding trainable low-rank adapters in higher precision.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># GPTQ implementation (simplified)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">gptq_quantize_layer</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># W: weight matrix to quantize</span>
+    <span class="c1"># X: calibration data (activations)</span>
+
+    <span class="c1"># Initialize quantized weights</span>
+    <span class="n">W_quant</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+
+    <span class="c1"># Process each output dimension</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="c1"># Compute Hessian approximation</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span>  <span class="c1"># Approximation of the Hessian</span>
+
+        <span class="c1"># Quantize weights with error redistribution</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="c1"># Compute quantization step</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">round_to_nearest</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">bits</span><span class="p">)</span>
+
+            <span class="c1"># Compute quantization error</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">q</span>
+
+            <span class="c1"># Update remaining weights to compensate for error</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Redistribute error to subsequent weights</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-=</span> <span class="n">error</span> <span class="o">*</span> <span class="n">H</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">H</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+            <span class="c1"># Store quantized weight</span>
+            <span class="n">W_quant</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
+
+    <span class="k">return</span> <span class="n">W_quant</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Very high; GPTQ is one of the most widely used quantization methods, and QLoRA is becoming the standard for fine-tuning quantized models.</p>
+<p><strong>Models/Frameworks:</strong> Supported in Hugging Face Transformers, llama.cpp, and many other frameworks.</p>
+<h5 id="w4a16-qwen-2">W4A16 (Qwen-2)</h5>
+<p><strong>Motivation:</strong> Balance performance and efficiency by quantizing only weights.</p>
+<p><strong>Problem:</strong> Full quantization of both weights and activations can lead to significant quality degradation.</p>
+<p><strong>Solution:</strong> Quantize weights to 4 bits while keeping activations in 16-bit precision.</p>
+<p>W4A16 is a pragmatic approach that offers a good balance between model size reduction and performance preservation. By keeping activations in 16-bit precision, the computational patterns remain more similar to the original model, which helps maintain accuracy while still achieving significant memory savings.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># W4A16 implementation in a PyTorch-like framework</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">QuantizedLinear</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Quantize weights to 4 bits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_scales</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_quant</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">weight</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_scales</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_scales</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_scales</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span>
+
+        <span class="c1"># Keep bias in fp16 if present</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">bias</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span> <span class="k">if</span> <span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Input x is in fp16 (A16)</span>
+        <span class="c1"># Dequantize weights to fp16 for computation</span>
+        <span class="n">weight_dequant</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight_quant</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_scales</span><span class="p">)</span>
+        <span class="c1"># Compute output in fp16</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weight_dequant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> High; common approach for practical deployments.</p>
+<p><strong>Models/Frameworks:</strong> Qwen-2 and many other quantized models in frameworks like llama.cpp and Hugging Face.</p>
+<h5 id="int4int8-with-dynamic-activation-quantization-deepseek">INT4/INT8 with Dynamic Activation Quantization (DeepSeek)</h5>
+<p><strong>Motivation:</strong> Achieve higher compression rates while maintaining performance.</p>
+<p><strong>Problem:</strong> Static quantization of activations can lead to significant quality degradation.</p>
+<p><strong>Solution:</strong> Use dynamic quantization for activations based on their runtime statistics, combined with static weight quantization.</p>
+<p>This approach uses INT4 or INT8 for weights (determined statically during model conversion) but dynamically quantizes activations during inference based on their actual values. This preserves more information in the activations, which are typically more sensitive to quantization errors.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dynamic activation quantization</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dynamic_quantize_activations</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="c1"># Compute dynamic scaling factor based on current activation values</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Quantize activations</span>
+    <span class="n">x_quant</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">scale</span><span class="p">)</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">bits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+    <span class="c1"># Dequantize for computation</span>
+    <span class="n">x_dequant</span> <span class="o">=</span> <span class="n">x_quant</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+
+    <span class="k">return</span> <span class="n">x_dequant</span>
+
+<span class="c1"># Inference with INT4 weights and dynamic INT8 activations</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mixed_precision_inference</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weight_quant</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">):</span>
+    <span class="c1"># Dynamically quantize activations</span>
+    <span class="n">x_dequant</span> <span class="o">=</span> <span class="n">dynamic_quantize_activations</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+    <span class="c1"># Dequantize weights (which were statically quantized to INT4)</span>
+    <span class="n">weight_dequant</span> <span class="o">=</span> <span class="n">weight_quant</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float16</span><span class="p">)</span> <span class="o">*</span> <span class="n">weight_scale</span>
+
+    <span class="c1"># Compute output</span>
+    <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x_dequant</span><span class="p">,</span> <span class="n">weight_dequant</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium-high; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> DeepSeek and some research implementations, with growing support in frameworks like vLLM.</p>
+<h5 id="layer-wise-mixed-precision-gpt-oss">Layer-wise Mixed Precision (GPT-oss)</h5>
+<p><strong>Motivation:</strong> Optimize the precision for each layer based on its sensitivity.</p>
+<p><strong>Problem:</strong> Different layers have different sensitivity to quantization, making uniform quantization suboptimal.</p>
+<p><strong>Solution:</strong> Apply different quantization schemes to different layers based on their sensitivity analysis.</p>
+<p>This approach analyzes each layer's sensitivity to quantization and assigns different bit widths accordingly. Typically, embedding layers and final output layers are kept at higher precision (8-bit or 16-bit), while intermediate layers might use lower precision (2-bit to 4-bit).</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Layer-wise mixed precision quantization</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quantize_model_mixed_precision</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">calibration_data</span><span class="p">):</span>
+    <span class="c1"># Analyze layer sensitivity</span>
+    <span class="n">sensitivities</span> <span class="o">=</span> <span class="n">analyze_layer_sensitivity</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">calibration_data</span><span class="p">)</span>
+
+    <span class="c1"># Assign bit widths based on sensitivity</span>
+    <span class="n">bit_widths</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">layer_name</span><span class="p">,</span> <span class="n">sensitivity</span> <span class="ow">in</span> <span class="n">sensitivities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">sensitivity</span> <span class="o">&gt;</span> <span class="n">high_threshold</span><span class="p">:</span>
+            <span class="n">bit_widths</span><span class="p">[</span><span class="n">layer_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># High sensitivity -&gt; higher precision</span>
+        <span class="k">elif</span> <span class="n">sensitivity</span> <span class="o">&gt;</span> <span class="n">medium_threshold</span><span class="p">:</span>
+            <span class="n">bit_widths</span><span class="p">[</span><span class="n">layer_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># Medium sensitivity</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bit_widths</span><span class="p">[</span><span class="n">layer_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Low sensitivity -&gt; lower precision</span>
+
+    <span class="c1"># Special handling for critical layers</span>
+    <span class="n">bit_widths</span><span class="p">[</span><span class="s1">&#39;embedding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># Keep embeddings at higher precision</span>
+    <span class="n">bit_widths</span><span class="p">[</span><span class="s1">&#39;lm_head&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>   <span class="c1"># Keep output layer at higher precision</span>
+
+    <span class="c1"># Quantize each layer with its assigned bit width</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_modules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">bit_widths</span><span class="p">:</span>
+            <span class="n">quantize_layer</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="n">bit_widths</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">model</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> GPT-oss and some research implementations, with experimental support in frameworks like llama.cpp.</p>
+<h5 id="gguf-format-llamacpp">GGUF Format (llama.cpp)</h5>
+<p><strong>Reference Links:</strong>
+- GitHub: <a href="https://github.com/ggerganov/llama.cpp">ggerganov/llama.cpp</a></p>
+<p><strong>Motivation:</strong> Provide a unified format for quantized models with multiple quantization options.</p>
+<p><strong>Problem:</strong> Different quantization methods require different model formats, making it difficult to switch between them.</p>
+<p><strong>Solution:</strong> GGUF (GPT-Generated Unified Format) provides a flexible container format that supports multiple quantization schemes.</p>
+<p>GGUF is the successor to GGML and has become the de facto standard for quantized models in the open-source community. It supports various quantization schemes including:</p>
+<ul>
+<li><strong>Q4_0</strong>: 4-bit quantization with 32-bit block scaling</li>
+<li><strong>Q4_K_M</strong>: 4-bit quantization with K-means clustering</li>
+<li><strong>Q5_K_M</strong>: 5-bit quantization with K-means clustering</li>
+<li><strong>Q8_0</strong>: 8-bit quantization with 32-bit block scaling</li>
+<li><strong>IQ2_XXS</strong>: 2-bit integer quantization with special optimizations</li>
+<li><strong>IQ3_XXS</strong>: 3-bit integer quantization with special optimizations</li>
+</ul>
+<p>These quantization methods offer different trade-offs between model size, inference speed, and quality.</p>
+<p><strong>Popularity:</strong> Very high; the standard format for quantized models in CPU and consumer GPU deployments.</p>
+<p><strong>Models/Frameworks:</strong> llama.cpp, which powers many user-friendly interfaces like Ollama, LM Studio, and more.</p>
+<h5 id="smoothquant-and-fp8-nvidia-tensorrt-llm">SmoothQuant and FP8 (NVIDIA TensorRT-LLM)</h5>
+<p><strong>Reference Links:</strong>
+- Paper (SmoothQuant): <a href="https://arxiv.org/abs/2211.10438">SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models</a>
+- GitHub (TensorRT-LLM): <a href="https://github.com/NVIDIA/TensorRT-LLM">NVIDIA/TensorRT-LLM</a></p>
+<p><strong>Motivation:</strong> Enable efficient quantization specifically optimized for NVIDIA GPUs.</p>
+<p><strong>Problem:</strong> Standard quantization methods don't fully leverage GPU-specific optimizations.</p>
+<p><strong>Solution:</strong> SmoothQuant redistributes quantization difficulty from activations to weights, while FP8 leverages NVIDIA's hardware support for 8-bit floating point.</p>
+<p>SmoothQuant addresses the challenge that activations are often more difficult to quantize than weights due to their higher dynamic range. It introduces a channel-wise scaling factor that "smooths" the activations, making them easier to quantize, while transferring the complexity to the weights, which are more robust to quantization.</p>
+<p>FP8 (8-bit floating point) is supported in NVIDIA's latest GPUs (Hopper architecture) and offers better numerical precision than INT8 for the same bit width, making it particularly suitable for LLM inference.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># SmoothQuant implementation (simplified)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">smooth_quant</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+    <span class="c1"># Compute per-channel activation statistics</span>
+    <span class="n">X_abs_max</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Compute smoothing factors</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">X_abs_max</span> <span class="o">**</span> <span class="n">alpha</span>
+
+    <span class="c1"># Apply smoothing: scale down activations, scale up weights</span>
+    <span class="n">X_smoothed</span> <span class="o">=</span> <span class="n">X</span> <span class="o">/</span> <span class="n">s</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Scale activations down</span>
+    <span class="n">W_smoothed</span> <span class="o">=</span> <span class="n">W</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Scale weights up</span>
+
+    <span class="c1"># Now both can be quantized more effectively</span>
+    <span class="n">X_quant</span> <span class="o">=</span> <span class="n">quantize_to_int8</span><span class="p">(</span><span class="n">X_smoothed</span><span class="p">)</span>
+    <span class="n">W_quant</span> <span class="o">=</span> <span class="n">quantize_to_int8</span><span class="p">(</span><span class="n">W_smoothed</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X_quant</span><span class="p">,</span> <span class="n">W_quant</span><span class="p">,</span> <span class="n">s</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> High for NVIDIA GPU deployments.</p>
+<p><strong>Models/Frameworks:</strong> NVIDIA TensorRT-LLM, with growing support in other frameworks targeting NVIDIA GPUs.</p>
+<h3 id="speculative-decoding">Speculative Decoding</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2302.01318">Accelerating Large Language Model Decoding with Speculative Sampling</a>
+- GitHub: <a href="https://github.com/huggingface/transformers/blob/main/src/transformers/generation/utils.py">huggingface/transformers</a></p>
+<p><strong>Motivation:</strong> Accelerate autoregressive generation without sacrificing quality.</p>
+<p><strong>Problem:</strong> Autoregressive generation is inherently sequential and slow, with each token requiring a separate forward pass.</p>
+<p><strong>Solution:</strong> Use a smaller, faster "draft" model to predict multiple tokens at once, then verify them with the larger model in a single forward pass.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Speculative Decoding</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">speculative_decoding</span><span class="p">(</span><span class="n">target_model</span><span class="p">,</span> <span class="n">draft_model</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="p">,</span> <span class="n">n_draft_tokens</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">generated</span> <span class="o">=</span> <span class="n">prompt</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">generated</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_new_tokens</span><span class="p">:</span>
+        <span class="c1"># Draft phase: Generate candidate tokens with smaller model</span>
+        <span class="n">draft_tokens</span> <span class="o">=</span> <span class="n">draft_model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">generated</span><span class="p">,</span> <span class="n">max_new_tokens</span><span class="o">=</span><span class="n">n_draft_tokens</span><span class="p">)</span>
+        <span class="n">draft_tokens</span> <span class="o">=</span> <span class="n">draft_tokens</span><span class="p">[:,</span> <span class="nb">len</span><span class="p">(</span><span class="n">generated</span><span class="p">):]</span> <span class="c1"># Only keep new tokens</span>
+
+        <span class="c1"># Target phase: Verify draft tokens with larger model</span>
+        <span class="n">target_logits</span> <span class="o">=</span> <span class="n">target_model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">generated</span><span class="p">,</span> <span class="n">draft_tokens</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">target_logits</span> <span class="o">=</span> <span class="n">target_logits</span><span class="p">[:,</span> <span class="nb">len</span><span class="p">(</span><span class="n">generated</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># Logits for current + draft tokens</span>
+
+        <span class="c1"># Accept tokens until rejection or all accepted</span>
+        <span class="n">accepted_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">draft_tokens</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">draft_prob</span> <span class="o">=</span> <span class="n">get_token_prob</span><span class="p">(</span><span class="n">draft_model_logits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">draft_tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+            <span class="n">target_prob</span> <span class="o">=</span> <span class="n">get_token_prob</span><span class="p">(</span><span class="n">target_logits</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">draft_tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+
+            <span class="n">accept_prob</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">target_prob</span> <span class="o">/</span> <span class="n">draft_prob</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">accept_prob</span><span class="p">:</span>
+                <span class="n">accepted_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">draft_tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Rejection: sample a new token from target model</span>
+                <span class="n">new_token</span> <span class="o">=</span> <span class="n">sample_from_logits</span><span class="p">(</span><span class="n">target_logits</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">accepted_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_token</span><span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Append accepted tokens to generated sequence</span>
+        <span class="n">generated</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">generated</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">accepted_tokens</span><span class="p">])],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">generated</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> High; increasingly common in production systems.</p>
+<p><strong>Models/Frameworks:</strong> Claude, GPT-4, and many open-source inference systems.</p>
+<h4 id="implementation-variations_2">Implementation Variations</h4>
+<h5 id="distilled-draft-models-gpt-oss">Distilled Draft Models (GPT-oss)</h5>
+<p><strong>Motivation:</strong> Improve the quality of draft token predictions.</p>
+<p><strong>Problem:</strong> Generic smaller models may not be well-aligned with the target model's distribution.</p>
+<p><strong>Solution:</strong> Specifically distill a draft model from the target model to better match its token distribution.</p>
+<p><strong>Popularity:</strong> Medium-high; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> GPT-oss and some research implementations.</p>
+<h5 id="adaptive-token-budget-deepseek">Adaptive Token Budget (DeepSeek)</h5>
+<p><strong>Motivation:</strong> Dynamically adjust the number of speculative tokens based on context.</p>
+<p><strong>Problem:</strong> A fixed number of speculative tokens may be suboptimal for different parts of the generation.</p>
+<p><strong>Solution:</strong> Adaptively determine how many tokens to speculate based on prediction confidence or other heuristics.</p>
+<p><strong>Popularity:</strong> Medium; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> DeepSeek and some research implementations.</p>
+<h5 id="tree-based-verification-qwen-2">Tree-based Verification (Qwen-2)</h5>
+<p><strong>Motivation:</strong> Explore multiple possible continuations simultaneously.</p>
+<p><strong>Problem:</strong> Linear speculative decoding only explores a single sequence of draft tokens.</p>
+<p><strong>Solution:</strong> Generate a tree of possible continuations and verify multiple branches in parallel.</p>
+<p><strong>Popularity:</strong> Medium; primarily in research contexts.</p>
+<p><strong>Models/Frameworks:</strong> Qwen-2 and some research implementations.</p>
+<h5 id="multi-stage-pipeline-llama-3-via-vllm">Multi-stage Pipeline (Llama 3 via vLLM)</h5>
+<p><strong>Motivation:</strong> Optimize the entire speculative decoding pipeline for maximum throughput.</p>
+<p><strong>Problem:</strong> Naive implementations of speculative decoding may not fully utilize available hardware.</p>
+<p><strong>Solution:</strong> Implement a multi-stage pipeline that overlaps draft generation, verification, and token acceptance.</p>
+<p><strong>Popularity:</strong> Medium-high; growing in high-performance systems.</p>
+<p><strong>Models/Frameworks:</strong> Llama 3 via vLLM and some other high-performance inference systems.</p>
+<h3 id="continuous-batching">Continuous Batching</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://www.usenix.org/conference/osdi22/presentation/yu">Orca: A Distributed Serving System for Transformer-Based Generative Models</a>
+- GitHub: <a href="https://github.com/vllm-project/vllm">vllm-project/vllm</a></p>
+<p><strong>Motivation:</strong> Maximize GPU utilization and throughput for serving multiple requests.</p>
+<p><strong>Problem:</strong> Traditional batching approaches wait for all sequences in a batch to complete, leading to inefficient resource utilization.</p>
+<p><strong>Solution:</strong> Dynamically add new requests to the batch as existing ones complete, maintaining high GPU utilization.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Continuous Batching</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">continuous_batching_server</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">,</span> <span class="n">max_batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+    <span class="n">active_requests</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Add new requests to batch up to max_batch_size</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">active_requests</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">max_batch_size</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">request_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+            <span class="n">request_id</span><span class="p">,</span> <span class="n">prompt</span> <span class="o">=</span> <span class="n">request_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">active_requests</span><span class="p">[</span><span class="n">request_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;input_ids&#39;</span><span class="p">:</span> <span class="n">tokenize</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
+                <span class="s1">&#39;generated&#39;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s1">&#39;finished&#39;</span><span class="p">:</span> <span class="kc">False</span>
+            <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">active_requests</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Prepare batch for model</span>
+        <span class="n">batch_inputs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">request_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">request_id</span><span class="p">,</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">active_requests</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;finished&#39;</span><span class="p">]:</span>
+                <span class="n">batch_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">request</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">],</span> 
+                                             <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s1">&#39;generated&#39;</span><span class="p">])]))</span>
+                <span class="n">request_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">request_id</span><span class="p">)</span>
+
+        <span class="c1"># Forward pass</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">pad_sequence</span><span class="p">(</span><span class="n">batch_inputs</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+        <span class="c1"># Process outputs and update requests</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">request_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">request_ids</span><span class="p">):</span>
+            <span class="n">next_token_logits</span> <span class="o">=</span> <span class="n">logits</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">next_token</span> <span class="o">=</span> <span class="n">sample_from_logits</span><span class="p">(</span><span class="n">next_token_logits</span><span class="p">)</span>
+
+            <span class="n">request</span> <span class="o">=</span> <span class="n">active_requests</span><span class="p">[</span><span class="n">request_id</span><span class="p">]</span>
+            <span class="n">request</span><span class="p">[</span><span class="s1">&#39;generated&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_token</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+            <span class="c1"># Check if request is finished</span>
+            <span class="k">if</span> <span class="n">is_finished</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s1">&#39;generated&#39;</span><span class="p">])</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s1">&#39;generated&#39;</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">max_length</span><span class="p">:</span>
+                <span class="n">request</span><span class="p">[</span><span class="s1">&#39;finished&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">yield</span> <span class="n">request_id</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;generated&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Remove finished requests</span>
+        <span class="n">active_requests</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">active_requests</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;finished&#39;</span><span class="p">]}</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Very high; standard in modern LLM serving systems.</p>
+<p><strong>Models/Frameworks:</strong> vLLM, TGI, and most high-performance inference systems.</p>
+<h4 id="implementation-variations_3">Implementation Variations</h4>
+<h5 id="pagedattention-llama-3-via-vllm">PagedAttention (Llama 3 via vLLM)</h5>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2309.06180">Efficient Memory Management for Large Language Model Serving with PagedAttention</a>
+- GitHub: <a href="https://github.com/vllm-project/vllm">vllm-project/vllm</a></p>
+<p><strong>Motivation:</strong> Optimize memory management for efficient continuous batching.</p>
+<p><strong>Problem:</strong> Standard KV cache implementations can lead to memory fragmentation and inefficient memory usage in continuous batching scenarios.</p>
+<p><strong>Solution:</strong> Implement a paged memory system for the KV cache, similar to virtual memory in operating systems.</p>
+<p><strong>Popularity:</strong> Very high; widely adopted in high-performance systems.</p>
+<p><strong>Models/Frameworks:</strong> vLLM, which is used for Llama 3 and many other models.</p>
+<h5 id="iteration-level-scheduling-deepseek">Iteration-level Scheduling (DeepSeek)</h5>
+<p><strong>Motivation:</strong> Optimize scheduling decisions at a fine-grained level.</p>
+<p><strong>Problem:</strong> Batch-level scheduling may not fully utilize available resources.</p>
+<p><strong>Solution:</strong> Make scheduling decisions at each iteration based on the current state of all active requests.</p>
+<p><strong>Popularity:</strong> Medium-high; growing in specialized systems.</p>
+<p><strong>Models/Frameworks:</strong> DeepSeek and some research implementations.</p>
+<h5 id="dynamic-batching-with-optimized-kernels-gpt-oss">Dynamic Batching with Optimized Kernels (GPT-oss)</h5>
+<p><strong>Motivation:</strong> Maximize hardware utilization through specialized implementations.</p>
+<p><strong>Problem:</strong> Generic implementations may not fully utilize specific hardware capabilities.</p>
+<p><strong>Solution:</strong> Implement hardware-specific optimizations and dynamic batch sizing based on hardware utilization metrics.</p>
+<p><strong>Popularity:</strong> Medium-high; common in high-performance systems.</p>
+<p><strong>Models/Frameworks:</strong> GPT-oss and various specialized inference systems.</p>
+<h5 id="hybrid-approach-with-prefill-decode-separation-qwen-2">Hybrid Approach with Prefill-Decode Separation (Qwen-2)</h5>
+<p><strong>Motivation:</strong> Optimize different phases of generation separately.</p>
+<p><strong>Problem:</strong> Prefill (processing the initial prompt) and decode (generating new tokens) phases have different computational characteristics.</p>
+<p><strong>Solution:</strong> Implement separate optimizations and scheduling strategies for prefill and decode phases.</p>
+<p><strong>Popularity:</strong> High; increasingly common in modern systems.</p>
+<p><strong>Models/Frameworks:</strong> Qwen-2, TGI, and many high-performance inference systems.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

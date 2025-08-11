@@ -1,0 +1,2107 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../memory/">
+      
+      
+        <link rel="next" href="../inference_optimization/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>Advanced Transformer Techniques - Multimodal Memory LLM and AI Agent</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modern-transformer-modifications-and-optimizations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-header__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Multimodal Memory LLM and AI Agent
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Advanced Transformer Techniques
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Multimodal Memory LLM and AI Agent" class="md-nav__button md-logo" aria-label="Multimodal Memory LLM and AI Agent" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Multimodal Memory LLM and AI Agent
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Core Modules
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Core Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transformer Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tool Calling and Agents
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../embeddings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multimodal Embeddings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../llm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LLM Frameworks and Architectures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Systems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Advanced Transformer Techniques
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Transformer Techniques
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architectural Innovations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Innovations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limitations-of-the-original-transformer-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitations of the Original Transformer Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-xl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transformer-XL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reformer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linformer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      FNet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sparse Transformers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attention-mechanism-optimizations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attention Mechanism Optimizations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attention Mechanism Optimizations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flashattention" class="md-nav__link">
+    <span class="md-ellipsis">
+      FlashAttention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-query-attention-mqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Query Attention (MQA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-query-attention-gqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grouped-Query Attention (GQA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-level-attention-mla" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Level Attention (MLA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window Attention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xformers-memory-efficient-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Xformers Memory-Efficient Attention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-and-scaling-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Training and Scaling Innovations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training and Scaling Innovations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rotary-positional-encoding-rope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rotary Positional Encoding (RoPE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alibi-attention-with-linear-biases" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALiBi (Attention with Linear Biases)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decoupled-knowledge-and-position-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoupled Knowledge and Position Encoding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mixture-of-experts-moe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mixture of Experts (MoE)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalization-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalization Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalization Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rmsnorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      RMSNorm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-normalization-vs-post-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-normalization vs. Post-normalization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference_optimization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inference Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Notebooks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Notebooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notebooks/memory_example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Example
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architectural Innovations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Innovations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#limitations-of-the-original-transformer-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitations of the Original Transformer Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-xl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transformer-XL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reformer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linformer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fnet" class="md-nav__link">
+    <span class="md-ellipsis">
+      FNet
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sparse-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sparse Transformers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attention-mechanism-optimizations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attention Mechanism Optimizations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attention Mechanism Optimizations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flashattention" class="md-nav__link">
+    <span class="md-ellipsis">
+      FlashAttention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-query-attention-mqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Query Attention (MQA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grouped-query-attention-gqa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grouped-Query Attention (GQA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-level-attention-mla" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Level Attention (MLA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sliding-window-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sliding Window Attention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xformers-memory-efficient-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Xformers Memory-Efficient Attention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-and-scaling-innovations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Training and Scaling Innovations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training and Scaling Innovations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rotary-positional-encoding-rope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rotary Positional Encoding (RoPE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alibi-attention-with-linear-biases" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALiBi (Attention with Linear Biases)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decoupled-knowledge-and-position-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoupled Knowledge and Position Encoding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mixture-of-experts-moe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mixture of Experts (MoE)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#normalization-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Normalization Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Normalization Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rmsnorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      RMSNorm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-normalization-vs-post-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-normalization vs. Post-normalization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="modern-transformer-modifications-and-optimizations">Modern Transformer Modifications and Optimizations</h1>
+<h2 id="architectural-innovations">Architectural Innovations</h2>
+<h3 id="limitations-of-the-original-transformer-architecture">Limitations of the Original Transformer Architecture</h3>
+<p><strong>Well-Known Problems:</strong></p>
+<ol>
+<li>
+<p><strong>Quadratic Complexity</strong>: The self-attention mechanism has <span class="arithmatex">\(O(n^2)\)</span> computational and memory complexity with respect to sequence length, limiting the model's ability to process long documents.</p>
+</li>
+<li>
+<p><strong>Fixed Context Window</strong>: Standard Transformers can only process a fixed-length input, making it challenging to model long-range dependencies across documents or lengthy contexts.</p>
+</li>
+<li>
+<p><strong>Position Encoding Limitations</strong>: The original sinusoidal position encodings don't generalize well to sequences longer than those seen during training.</p>
+</li>
+<li>
+<p><strong>Memory Inefficiency</strong>: Storing attention matrices and intermediate activations for all layers requires substantial memory, especially for deep models.</p>
+</li>
+<li>
+<p><strong>Inference Latency</strong>: The autoregressive nature of decoder-only models leads to high inference latency as tokens must be generated sequentially.</p>
+</li>
+</ol>
+<p><strong>Research Directions and Solutions:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Research Direction</th>
+<th>Example Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quadratic Complexity</td>
+<td>Efficient Attention</td>
+<td>Linformer (linear projections), Reformer (LSH attention), Performer (FAVOR+), Sparse Transformers (fixed patterns)</td>
+</tr>
+<tr>
+<td>Fixed Context Window</td>
+<td>Recurrence &amp; Memory</td>
+<td>Transformer-XL (segment recurrence), Compressive Transformers (compressed memory), Memorizing Transformers (kNN memory)</td>
+</tr>
+<tr>
+<td>Position Encoding</td>
+<td>Alternative Positional Representations</td>
+<td>RoPE (Rotary Position Embedding), ALiBi (Attention with Linear Biases), T5's relative position representations</td>
+</tr>
+<tr>
+<td>Memory Inefficiency</td>
+<td>Parameter Efficiency</td>
+<td>Reversible layers (Reformer), Gradient checkpointing, Low-rank adaptations (LoRA), Parameter-efficient fine-tuning (PEFT)</td>
+</tr>
+<tr>
+<td>Inference Latency</td>
+<td>Parallelization &amp; Caching</td>
+<td>Speculative decoding, KV-caching, Distillation to non-autoregressive models</td>
+</tr>
+</tbody>
+</table>
+<h3 id="transformer-xl">Transformer-XL</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1901.02860">Transformer-XL: Attentive Language Models Beyond a Fixed-Length Context</a>
+- GitHub: <a href="https://github.com/kimiyoung/transformer-xl">kimiyoung/transformer-xl</a></p>
+<p><strong>Motivation:</strong> Enable Transformers to handle longer sequences and capture dependencies beyond a fixed context window.</p>
+<p><strong>Problem:</strong> Standard Transformers are limited to fixed-length contexts and cannot efficiently model very long-term dependencies.</p>
+<p><strong>Solution:</strong> Introduce segment-level recurrence and relative positional encoding to enable learning dependencies beyond a fixed length without disrupting temporal coherence.</p>
+<p>The key innovation in Transformer-XL is the recurrence mechanism that allows information to flow across segments. For the <span class="arithmatex">\(\tau\)</span>-th segment, the hidden states are computed as:</p>
+<div class="arithmatex">\[
+\mathbf{h}_\tau^{(n)} = \text{Transformer-Layer}\left(\mathbf{h}_\tau^{(n-1)}, \mathbf{h}_{\tau-1}^{(n-1)}\right)
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{h}_\tau^{(n)}\)</span> represents the hidden state for the <span class="arithmatex">\(\tau\)</span>-th segment at the <span class="arithmatex">\(n\)</span>-th layer, and <span class="arithmatex">\(\mathbf{h}_{\tau-1}^{(n-1)}\)</span> represents the hidden state from the previous segment.</p>
+<p>Transformer-XL also introduces relative positional encoding, which replaces the absolute positional encoding with a relative version. The attention score is computed as:</p>
+<div class="arithmatex">\[
+A_{i,j} = \mathbf{q}_i^\top \mathbf{k}_j + \mathbf{q}_i^\top \mathbf{W}_{k,R} \mathbf{R}_{i-j} + \mathbf{u}^\top \mathbf{k}_j + \mathbf{v}^\top \mathbf{W}_{k,R} \mathbf{R}_{i-j}
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{R}_{i-j}\)</span> is the relative positional encoding, and <span class="arithmatex">\(\mathbf{W}_{k,R}\)</span>, <span class="arithmatex">\(\mathbf{u}\)</span>, and <span class="arithmatex">\(\mathbf{v}\)</span> are learnable parameters.</p>
+<p><strong>Popularity:</strong> Medium-high; the concept influenced many subsequent models, though the exact architecture is less commonly used today.</p>
+<p><strong>Models/Frameworks:</strong> Transformer-XL, XLNet, and influenced context handling in models like GPT-3 and beyond.</p>
+<h3 id="reformer">Reformer</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2001.04451">Reformer: The Efficient Transformer</a>
+- GitHub: <a href="https://github.com/google/trax/tree/master/trax/models/reformer">google/trax</a></p>
+<p><strong>Motivation:</strong> Reduce the memory and computational complexity of Transformers to handle longer sequences.</p>
+<p><strong>Problem:</strong> The self-attention mechanism in standard Transformers has quadratic complexity with respect to sequence length.</p>
+<p><strong>Solution:</strong> Replace dot-product attention with locality-sensitive hashing (LSH) attention and use reversible residual layers to reduce memory requirements.</p>
+<p>The Reformer introduces two key innovations:</p>
+<ol>
+<li><strong>LSH Attention</strong>: Instead of computing attention between all pairs of tokens (which is <span class="arithmatex">\(O(n^2)\)</span>), LSH attention uses locality-sensitive hashing to group similar vectors together and only compute attention within these groups, reducing complexity to <span class="arithmatex">\(O(n \log n)\)</span>.</li>
+</ol>
+<p>The LSH function maps similar vectors to the same hash bucket with high probability:</p>
+<div class="arithmatex">\[
+h(\mathbf{x}) = \arg\max_i (\mathbf{x}^\top \mathbf{r}_i)
+\]</div>
+<p>where <span class="arithmatex">\(\mathbf{r}_i\)</span> are random vectors. Tokens are then sorted by their hash values, and attention is computed only within a local neighborhood of each token.</p>
+<ol>
+<li><strong>Reversible Layers</strong>: Inspired by RevNets, Reformer uses reversible residual connections that allow reconstructing the input of each layer from its output, eliminating the need to store activations for backpropagation:</li>
+</ol>
+<div class="arithmatex">\[
+\mathbf{y}_1 = \mathbf{x}_1 + F(\mathbf{x}_2) \\
+\mathbf{y}_2 = \mathbf{x}_2 + G(\mathbf{y}_1)
+\]</div>
+<p>During backpropagation, the inputs can be recovered as:</p>
+<div class="arithmatex">\[
+\mathbf{x}_2 = \mathbf{y}_2 - G(\mathbf{y}_1) \\
+\mathbf{x}_1 = \mathbf{y}_1 - F(\mathbf{x}_2)
+\]</div>
+<p>This reduces memory requirements from <span class="arithmatex">\(O(L \cdot n \cdot d)\)</span> to <span class="arithmatex">\(O(n \cdot d)\)</span>, where <span class="arithmatex">\(L\)</span> is the number of layers.</p>
+<p><strong>Popularity:</strong> Medium; more influential for its ideas than direct implementation.</p>
+<p><strong>Models/Frameworks:</strong> Primarily research models, with concepts partially adopted in some production systems.</p>
+<h3 id="linformer">Linformer</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2006.04768">Linformer: Self-Attention with Linear Complexity</a>
+- GitHub: <a href="https://github.com/tatp22/linformer-pytorch">tatp22/linformer-pytorch</a></p>
+<p><strong>Motivation:</strong> Reduce the quadratic complexity of self-attention to linear complexity.</p>
+<p><strong>Problem:</strong> Standard self-attention requires O(n²) computation and memory with respect to sequence length.</p>
+<p><strong>Solution:</strong> Project the length dimension of keys and values to a lower-dimensional representation, reducing complexity from O(n²) to O(n).</p>
+<p>The key insight of Linformer is that the attention matrix is low-rank and can be approximated using low-dimensional projections. In standard self-attention, the attention matrix <span class="arithmatex">\(A\)</span> is computed as:</p>
+<div class="arithmatex">\[
+A = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]</div>
+<p>where <span class="arithmatex">\(Q, K, V \in \mathbb{R}^{n \times d}\)</span> are the query, key, and value matrices, and <span class="arithmatex">\(n\)</span> is the sequence length.</p>
+<p>Linformer introduces projection matrices <span class="arithmatex">\(E, F \in \mathbb{R}^{k \times n}\)</span> where <span class="arithmatex">\(k \ll n\)</span> to project the keys and values:</p>
+<div class="arithmatex">\[
+A_{\text{linear}} = \text{softmax}\left(\frac{Q(EK)^T}{\sqrt{d_k}}\right)(FV)
+\]</div>
+<p>This reduces the complexity from <span class="arithmatex">\(O(n^2d)\)</span> to <span class="arithmatex">\(O(nkd)\)</span>, where <span class="arithmatex">\(k\)</span> is a constant much smaller than <span class="arithmatex">\(n\)</span>. The projection matrices <span class="arithmatex">\(E\)</span> and <span class="arithmatex">\(F\)</span> are learned during training.</p>
+<p>The authors show that this approximation works well in practice because the attention matrix exhibits low-rank properties, especially for long sequences where many tokens have similar attention patterns.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Linformer implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">linformer_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+    <span class="c1"># q: [batch_size, seq_len, d_model]</span>
+    <span class="c1"># k, v: [batch_size, seq_len, d_model]</span>
+    <span class="c1"># E, F: [k, seq_len] where k &lt;&lt; seq_len</span>
+
+    <span class="c1"># Project keys and values</span>
+    <span class="n">k_projected</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># [batch_size, k, d_model]</span>
+    <span class="n">v_projected</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># [batch_size, k, d_model]</span>
+
+    <span class="c1"># Compute attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k_projected</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+    <span class="n">attention</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Apply attention to values</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attention</span><span class="p">,</span> <span class="n">v_projected</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p><strong>Popularity:</strong> Medium; primarily influential in research contexts.</p>
+<p><strong>Models/Frameworks:</strong> Research models and specialized applications requiring efficient attention.</p>
+<h3 id="performer">Performer</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2009.14794">Rethinking Attention with Performers</a>
+- GitHub: <a href="https://github.com/google-research/google-research/tree/master/performer">google-research/google-research/tree/master/performer</a></p>
+<p><strong>Motivation:</strong> Enable efficient attention computation for very long sequences.</p>
+<p><strong>Problem:</strong> Standard attention mechanisms scale quadratically with sequence length, limiting their applicability to long sequences.</p>
+<p><strong>Solution:</strong> Approximate standard attention using Fast Attention Via positive Orthogonal Random features (FAVOR+), reducing complexity to linear in sequence length.</p>
+<p>The Performer uses a kernel-based approximation of the attention mechanism. In standard attention, the softmax operation is applied to the dot product of queries and keys:</p>
+<div class="arithmatex">\[
+A = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+\]</div>
+<p>The key insight of Performer is to rewrite this using the kernel trick. The softmax function can be approximated using random features:</p>
+<div class="arithmatex">\[
+\text{softmax}(x) \approx \phi(x)\phi(y)^T
+\]</div>
+<p>where <span class="arithmatex">\(\phi(\cdot)\)</span> is a feature map. Using this approximation, the attention can be rewritten as:</p>
+<div class="arithmatex">\[
+A \approx \phi(Q)\phi(K)^TV
+\]</div>
+<p>This can be computed in linear time as:</p>
+<div class="arithmatex">\[
+A \approx \phi(Q)(\phi(K)^TV)
+\]</div>
+<p>The FAVOR+ algorithm uses a specific feature map based on orthogonal random features:</p>
+<div class="arithmatex">\[
+\phi(x) = \frac{h(x)}{\sqrt{m}}\exp\left(\frac{\|x\|^2}{2}\right)
+\]</div>
+<p>where <span class="arithmatex">\(h(x) = [\exp(w_1^Tx), \exp(w_2^Tx), ..., \exp(w_m^Tx)]\)</span> and <span class="arithmatex">\(w_i\)</span> are random vectors drawn from a specific distribution.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Performer implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">favor_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="c1"># q, k, v: [batch_size, seq_len, d_model]</span>
+    <span class="c1"># Generate random projections</span>
+    <span class="n">projection_matrix</span> <span class="o">=</span> <span class="n">generate_orthogonal_random_features</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+
+    <span class="c1"># Apply feature maps</span>
+    <span class="n">q_prime</span> <span class="o">=</span> <span class="n">apply_feature_map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">projection_matrix</span><span class="p">)</span>
+    <span class="n">k_prime</span> <span class="o">=</span> <span class="n">apply_feature_map</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">projection_matrix</span><span class="p">)</span>
+
+    <span class="c1"># Compute attention efficiently</span>
+    <span class="n">kv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bmd,bme-&gt;bde&#39;</span><span class="p">,</span> <span class="n">k_prime</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>  <span class="c1"># [batch_size, n_features, d_model]</span>
+    <span class="n">qkv</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bld,bde-&gt;ble&#39;</span><span class="p">,</span> <span class="n">q_prime</span><span class="p">,</span> <span class="n">kv</span><span class="p">)</span>  <span class="c1"># [batch_size, seq_len, d_model]</span>
+
+    <span class="c1"># Normalize</span>
+    <span class="n">normalizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;bld,bd-&gt;bl&#39;</span><span class="p">,</span> <span class="n">q_prime</span><span class="p">,</span> <span class="n">k_prime</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># [batch_size, seq_len]</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">qkv</span> <span class="o">/</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>This reduces the complexity from <span class="arithmatex">\(O(n^2d)\)</span> to <span class="arithmatex">\(O(nmd)\)</span>, where <span class="arithmatex">\(m\)</span> is the number of random features (typically much smaller than <span class="arithmatex">\(n\)</span>).</p>
+<p><strong>Popularity:</strong> Medium; influential in research and specialized applications.</p>
+<p><strong>Models/Frameworks:</strong> Research models and some production systems requiring efficient long-sequence processing.</p>
+<h3 id="fnet">FNet</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2105.03824">FNet: Mixing Tokens with Fourier Transforms</a>
+- GitHub: <a href="https://github.com/google-research/google-research/tree/master/f_net">google-research/google-research/tree/master/f_net</a></p>
+<p><strong>Motivation:</strong> Simplify the Transformer architecture while maintaining reasonable performance.</p>
+<p><strong>Problem:</strong> Self-attention is computationally expensive and complex to implement efficiently.</p>
+<p><strong>Solution:</strong> Replace self-attention layers with Fourier Transform operations, which are more efficient and simpler to implement.</p>
+<p>FNet takes a radical approach by completely replacing the self-attention mechanism with Fourier Transforms. In a standard Transformer, the self-attention operation is:</p>
+<div class="arithmatex">\[
+Attention(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\]</div>
+<p>FNet replaces this with a simple Fourier Transform operation:</p>
+<div class="arithmatex">\[
+F(X) = \text{FFT}_\text{real}(\text{FFT}_\text{imag}(X))
+\]</div>
+<p>where <span class="arithmatex">\(\text{FFT}_\text{real}\)</span> and <span class="arithmatex">\(\text{FFT}_\text{imag}\)</span> are the real and imaginary components of the Fast Fourier Transform applied along the sequence and hidden dimensions, respectively.</p>
+<p>The Fourier Transform provides a way to mix information across tokens without the quadratic complexity of attention. The computational complexity is reduced from <span class="arithmatex">\(O(n^2d)\)</span> to <span class="arithmatex">\(O(n \log n \cdot d)\)</span>, and the implementation is much simpler.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified FNet implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fnet_layer</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># x: [batch_size, seq_len, d_model]</span>
+    <span class="c1"># Apply FFT along sequence dimension (real part only)</span>
+    <span class="n">x_seq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="c1"># Apply FFT along hidden dimension (real part only)</span>
+    <span class="n">x_hidden</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x_seq</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="k">return</span> <span class="n">x_hidden</span>
+</code></pre></div>
+<p>Despite its simplicity, FNet achieves 92-97% of BERT's accuracy on GLUE tasks while being significantly faster and more memory-efficient. This demonstrates that the mixing of information across tokens, rather than the specific attention mechanism, is a key factor in Transformer performance.</p>
+<p><strong>Popularity:</strong> Low-medium; primarily of research interest.</p>
+<p><strong>Models/Frameworks:</strong> Research models and specialized applications prioritizing efficiency over maximum performance.</p>
+<h3 id="sparse-transformers">Sparse Transformers</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1904.10509">Generating Long Sequences with Sparse Transformers</a>
+- GitHub: <a href="https://github.com/openai/sparse_attention">openai/sparse_attention</a></p>
+<p><strong>Motivation:</strong> Enable efficient processing of very long sequences.</p>
+<p><strong>Problem:</strong> Standard attention mechanisms have quadratic complexity with respect to sequence length.</p>
+<p><strong>Solution:</strong> Introduce sparse attention patterns where each token attends only to a subset of other tokens, reducing complexity.</p>
+<p>Sparse Transformers introduce structured sparsity patterns in the attention mechanism. In standard attention, each token attends to all other tokens, resulting in a dense attention matrix:</p>
+<div class="arithmatex">\[
+A = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+\]</div>
+<p>Sparse Transformers replace this with a sparse attention pattern where each token attends only to a subset of other tokens. The paper introduces two main patterns:</p>
+<ol>
+<li>
+<p><strong>Fixed Sparse Patterns</strong>: Each token attends to a fixed subset of other tokens based on predefined patterns.</p>
+</li>
+<li>
+<p><strong>Factorized Sparse Patterns</strong>: The attention is factorized into multiple steps, each with a different sparse pattern.</p>
+</li>
+</ol>
+<p>Mathematically, this can be represented as:</p>
+<div class="arithmatex">\[
+A = \text{softmax}\left(\frac{QK^T \odot M}{\sqrt{d}}\right)V
+\]</div>
+<p>where <span class="arithmatex">\(M\)</span> is a binary mask that determines which tokens can attend to which other tokens, and <span class="arithmatex">\(\odot\)</span> represents element-wise multiplication.</p>
+<p>One common pattern is the "strided" pattern, where each token attends to tokens at fixed strides:</p>
+<div class="arithmatex">\[
+M_{ij} = \begin{cases}
+1 &amp; \text{if } (i - j) \mod c = 0 \\
+0 &amp; \text{otherwise}
+\end{cases}
+\]</div>
+<p>where <span class="arithmatex">\(c\)</span> is the stride length.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Sparse Transformer implementation with strided pattern</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sparse_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+    <span class="c1"># q, k, v: [batch_size, seq_len, d_model]</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Create attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+    <span class="c1"># Create sparse mask (strided pattern)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+        <span class="c1"># Each token attends to tokens at fixed strides</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
+            <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Apply mask</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Apply softmax and compute weighted sum</span>
+    <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_weights</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>This reduces the complexity from <span class="arithmatex">\(O(n^2d)\)</span> to <span class="arithmatex">\(O(ns \cdot d)\)</span>, where <span class="arithmatex">\(s\)</span> is the sparsity factor (the average number of tokens each token attends to).</p>
+<p><strong>Popularity:</strong> Medium-high; concepts widely adopted in various forms.</p>
+<p><strong>Models/Frameworks:</strong> Influenced many subsequent models, including Longformer, BigBird, and aspects of GPT-3 and beyond.</p>
+<h2 id="attention-mechanism-optimizations">Attention Mechanism Optimizations</h2>
+<h3 id="flashattention">FlashAttention</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2205.14135">FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness</a>
+- GitHub: <a href="https://github.com/Dao-AILab/flash-attention">Dao-AILab/flash-attention</a></p>
+<p><strong>Motivation:</strong> Optimize attention computation for better memory efficiency and speed.</p>
+<p><strong>Problem:</strong> Standard attention implementation requires storing the full attention matrix, leading to high memory usage and redundant memory accesses.</p>
+<p><strong>Solution:</strong> Reorganize attention computation to minimize memory access and maximize GPU utilization through tiled matrix operations.</p>
+<p>FlashAttention is an IO-aware implementation of attention that significantly improves both speed and memory efficiency. The standard attention computation is:</p>
+<div class="arithmatex">\[
+O = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
+\]</div>
+<p>The naive implementation computes and stores the full attention matrix <span class="arithmatex">\(S = QK^T\)</span>, which has size <span class="arithmatex">\(O(N^2)\)</span> for sequence length <span class="arithmatex">\(N\)</span>. This becomes a bottleneck for long sequences.</p>
+<p>FlashAttention uses a block-wise approach that computes attention for small blocks at a time, keeping the intermediate results in fast GPU SRAM rather than slower GPU HBM. The algorithm can be summarized as:</p>
+<ol>
+<li>Divide <span class="arithmatex">\(Q\)</span>, <span class="arithmatex">\(K\)</span>, and <span class="arithmatex">\(V\)</span> into blocks that fit in SRAM</li>
+<li>For each block of <span class="arithmatex">\(Q\)</span> (block <span class="arithmatex">\(i\)</span>):</li>
+<li>Load block <span class="arithmatex">\(Q_i\)</span> into SRAM</li>
+<li>Initialize output block <span class="arithmatex">\(O_i\)</span> and scaling factors in SRAM</li>
+<li>For each block of <span class="arithmatex">\(K, V\)</span> (block <span class="arithmatex">\(j\)</span>):<ul>
+<li>Load blocks <span class="arithmatex">\(K_j\)</span> and <span class="arithmatex">\(V_j\)</span> into SRAM</li>
+<li>Compute partial attention scores <span class="arithmatex">\(S_{ij} = Q_i K_j^T\)</span></li>
+<li>Update softmax normalization terms</li>
+<li>Compute partial outputs and accumulate to <span class="arithmatex">\(O_i\)</span></li>
+</ul>
+</li>
+<li>Store block <span class="arithmatex">\(O_i\)</span> back to HBM</li>
+</ol>
+<p>Mathematically, this implements the same operation but with better memory access patterns:</p>
+<div class="arithmatex">\[
+O_i = \frac{\sum_j \exp(S_{ij})V_j}{\sum_j \sum_k \exp(S_{ijk})}
+\]</div>
+<p>where <span class="arithmatex">\(S_{ij} = Q_i K_j^T / \sqrt{d}\)</span>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified FlashAttention implementation (conceptual)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">flash_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">1024</span><span class="p">):</span>
+    <span class="c1"># q, k, v: [batch_size, seq_len, d_model]</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+    <span class="c1"># Initialize output and softmax normalization factors</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">normalizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Process in blocks</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
+        <span class="c1"># Load Q block</span>
+        <span class="n">q_block</span> <span class="o">=</span> <span class="n">q</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">block_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="p">:]</span>
+
+        <span class="c1"># Initialize accumulators for this block</span>
+        <span class="n">o_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">q_block</span><span class="p">)</span>
+        <span class="n">m_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">q_block</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>
+        <span class="n">l_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">q_block</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
+            <span class="c1"># Load K, V blocks</span>
+            <span class="n">k_block</span> <span class="o">=</span> <span class="n">k</span><span class="p">[:,</span> <span class="n">j</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="n">block_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="p">:]</span>
+            <span class="n">v_block</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:,</span> <span class="n">j</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="n">block_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="p">:]</span>
+
+            <span class="c1"># Compute attention scores for this block pair</span>
+            <span class="n">s_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">q_block</span><span class="p">,</span> <span class="n">k_block</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">scale</span>
+
+            <span class="c1"># Update softmax statistics and output block (simplified)</span>
+            <span class="n">m_block_new</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">m_block</span><span class="p">,</span> <span class="n">s_block</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">exp_s_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">s_block</span> <span class="o">-</span> <span class="n">m_block_new</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="c1"># Update output block with scaled values</span>
+            <span class="n">o_block</span> <span class="o">=</span> <span class="n">o_block</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">m_block</span> <span class="o">-</span> <span class="n">m_block_new</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
+                      <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">exp_s_block</span><span class="p">,</span> <span class="n">v_block</span><span class="p">)</span>
+
+            <span class="c1"># Update normalization factors</span>
+            <span class="n">l_block</span> <span class="o">=</span> <span class="n">l_block</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">m_block</span> <span class="o">-</span> <span class="n">m_block_new</span><span class="p">)</span> <span class="o">+</span> <span class="n">exp_s_block</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">m_block</span> <span class="o">=</span> <span class="n">m_block_new</span>
+
+        <span class="c1"># Normalize and store output block</span>
+        <span class="n">output</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">block_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">o_block</span> <span class="o">/</span> <span class="n">l_block</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>FlashAttention-2 further improves on this with additional optimizations like parallel softmax reduction and improved work partitioning.</p>
+<p>The key benefits are:
+1. <strong>Memory Efficiency</strong>: Reduces memory usage from <span class="arithmatex">\(O(N^2)\)</span> to <span class="arithmatex">\(O(N)\)</span>
+2. <strong>Speed</strong>: Faster due to better memory access patterns and reduced HBM accesses
+3. <strong>Exact Computation</strong>: Unlike approximation methods, FlashAttention computes exact attention</p>
+<p><strong>Popularity:</strong> Very high; widely adopted in modern LLM implementations.</p>
+<p><strong>Models/Frameworks:</strong> Llama 3, DeepSeek, Qwen-2, and most state-of-the-art LLM inference systems.</p>
+<h3 id="multi-query-attention-mqa">Multi-Query Attention (MQA)</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1911.02150">Fast Transformer Decoding: One Write-Head is All You Need</a>
+- GitHub: <a href="https://github.com/huggingface/transformers">huggingface/transformers</a></p>
+<p><strong>Motivation:</strong> Reduce memory usage and computational cost during inference.</p>
+<p><strong>Problem:</strong> Standard multi-head attention requires storing separate key and value projections for each attention head, leading to large memory requirements for the KV cache.</p>
+<p><strong>Solution:</strong> Use a single key and value head shared across all query heads, significantly reducing memory requirements for the KV cache.</p>
+<p>In standard Multi-Head Attention (MHA), the queries, keys, and values are projected into <span class="arithmatex">\(h\)</span> different representation subspaces:</p>
+<div class="arithmatex">\[
+Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V
+\]</div>
+<p>where <span class="arithmatex">\(i \in \{1, 2, \ldots, h\}\)</span> represents the head index. The attention output for each head is:</p>
+<div class="arithmatex">\[
+O_i = \text{Attention}(Q_i, K_i, V_i) = \text{softmax}\left(\frac{Q_i K_i^T}{\sqrt{d_k}}\right)V_i
+\]</div>
+<p>The final output is the concatenation of all head outputs, projected back to the model dimension:</p>
+<div class="arithmatex">\[
+O = \text{Concat}(O_1, O_2, \ldots, O_h)W^O
+\]</div>
+<p>In Multi-Query Attention (MQA), the key and value projections are shared across all heads:</p>
+<div class="arithmatex">\[
+Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V
+\]</div>
+<p>The attention output for each head becomes:</p>
+<div class="arithmatex">\[
+O_i = \text{Attention}(Q_i, K, V) = \text{softmax}\left(\frac{Q_i K^T}{\sqrt{d_k}}\right)V
+\]</div>
+<p>This significantly reduces the memory requirements for the KV cache, as only one set of keys and values needs to be stored instead of <span class="arithmatex">\(h\)</span> sets. The memory savings are particularly important during inference, where the KV cache can be a major bottleneck.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Multi-Query Attention implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multi_query_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">head_dim</span> <span class="o">=</span> <span class="n">d_model</span> <span class="o">//</span> <span class="n">num_heads</span>
+
+    <span class="c1"># Project queries into multiple heads</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+
+    <span class="c1"># Project keys and values into a single head</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, 1, seq_len, head_dim]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, 1, seq_len, head_dim]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+
+    <span class="c1"># Compute attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Apply attention weights to values</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_weights</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Reshape and project back to model dimension</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_proj</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>The memory reduction is substantial: for a model with <span class="arithmatex">\(h\)</span> heads, MQA reduces the KV cache size by a factor of <span class="arithmatex">\(h\)</span> compared to MHA. For example, with 32 heads, the KV cache is 32 times smaller.</p>
+<p><strong>Popularity:</strong> High; widely adopted in modern LLMs.</p>
+<p><strong>Models/Frameworks:</strong> PaLM, Falcon, and many other recent models.</p>
+<h3 id="grouped-query-attention-gqa">Grouped-Query Attention (GQA)</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2305.13245">GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints</a>
+- GitHub: <a href="https://github.com/huggingface/transformers">huggingface/transformers</a></p>
+<p><strong>Motivation:</strong> Balance the efficiency benefits of MQA with the performance benefits of multi-head attention (MHA).</p>
+<p><strong>Problem:</strong> MQA reduces memory usage but can impact model quality, while MHA provides better quality but higher memory usage.</p>
+<p><strong>Solution:</strong> Group query heads to share key and value projections, providing a middle ground between MQA and MHA.</p>
+<p>Grouped-Query Attention (GQA) is a compromise between Multi-Head Attention (MHA) and Multi-Query Attention (MQA). It divides the query heads into <span class="arithmatex">\(g\)</span> groups, where each group shares a single key-value head.</p>
+<p>In MHA, we have <span class="arithmatex">\(h\)</span> query heads, <span class="arithmatex">\(h\)</span> key heads, and <span class="arithmatex">\(h\)</span> value heads:</p>
+<div class="arithmatex">\[
+Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V \quad \text{for } i \in \{1, 2, \ldots, h\}
+\]</div>
+<p>In MQA, we have <span class="arithmatex">\(h\)</span> query heads but only 1 key head and 1 value head:</p>
+<div class="arithmatex">\[
+Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V \quad \text{for } i \in \{1, 2, \ldots, h\}
+\]</div>
+<p>In GQA, we have <span class="arithmatex">\(h\)</span> query heads, <span class="arithmatex">\(g\)</span> key heads, and <span class="arithmatex">\(g\)</span> value heads, where <span class="arithmatex">\(g &lt; h\)</span> and typically <span class="arithmatex">\(g = h/n\)</span> for some integer <span class="arithmatex">\(n\)</span>. Each query head <span class="arithmatex">\(i\)</span> is assigned to a group <span class="arithmatex">\(G(i)\)</span>, and it uses the key and value projections for that group:</p>
+<div class="arithmatex">\[
+Q_i = XW_i^Q, \quad K_{G(i)} = XW_{G(i)}^K, \quad V_{G(i)} = XW_{G(i)}^V \quad \text{for } i \in \{1, 2, \ldots, h\}
+\]</div>
+<p>The attention output for each head is:</p>
+<div class="arithmatex">\[
+O_i = \text{Attention}(Q_i, K_{G(i)}, V_{G(i)}) = \text{softmax}\left(\frac{Q_i K_{G(i)}^T}{\sqrt{d_k}}\right)V_{G(i)}
+\]</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified Grouped-Query Attention implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">grouped_query_attention</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">num_kv_groups</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">head_dim</span> <span class="o">=</span> <span class="n">d_model</span> <span class="o">//</span> <span class="n">num_heads</span>
+    <span class="n">heads_per_group</span> <span class="o">=</span> <span class="n">num_heads</span> <span class="o">//</span> <span class="n">num_kv_groups</span>
+
+    <span class="c1"># Project queries into multiple heads</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+
+    <span class="c1"># Project keys and values into fewer heads (groups)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_kv_groups</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, num_kv_groups, seq_len, head_dim]</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_kv_groups</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># [batch_size, num_kv_groups, seq_len, head_dim]</span>
+
+    <span class="c1"># Expand k and v to match query groups</span>
+    <span class="n">k_expanded</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">v_expanded</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_kv_groups</span><span class="p">):</span>
+        <span class="c1"># Repeat each KV group for its assigned query heads</span>
+        <span class="n">k_expanded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">heads_per_group</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">v_expanded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">heads_per_group</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">k_expanded</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">v_expanded</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [batch_size, num_heads, seq_len, head_dim]</span>
+
+    <span class="c1"># Compute attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">head_dim</span><span class="p">)</span>
+    <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Apply attention weights to values</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_weights</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Reshape and project back to model dimension</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_proj</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>GQA provides a flexible trade-off between model quality and memory efficiency:
+- With <span class="arithmatex">\(g = h\)</span>, GQA becomes equivalent to MHA (maximum quality, maximum memory usage)
+- With <span class="arithmatex">\(g = 1\)</span>, GQA becomes equivalent to MQA (reduced quality, minimum memory usage)
+- With <span class="arithmatex">\(1 &lt; g &lt; h\)</span>, GQA provides a balance between quality and memory usage</p>
+<p>Typical configurations include <span class="arithmatex">\(g = h/2\)</span> (2 query heads per KV head) or <span class="arithmatex">\(g = h/4\)</span> (4 query heads per KV head).</p>
+<p><strong>Popularity:</strong> Very high; rapidly adopted in recent models.</p>
+<p><strong>Models/Frameworks:</strong> Llama 3, Gemma, Claude, and many other recent models.</p>
+<h3 id="multi-level-attention-mla">Multi-Level Attention (MLA)</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://ieeexplore.ieee.org/document/8237740">Multi-Level Attention Networks for Visual Recognition</a>
+- GitHub: [various implementations]</p>
+<p><strong>Motivation:</strong> Capture information at different levels of abstraction.</p>
+<p><strong>Problem:</strong> Standard attention mechanisms may not effectively capture hierarchical relationships in data.</p>
+<p><strong>Solution:</strong> Apply attention at multiple levels of representation and combine the results.</p>
+<p><strong>Popularity:</strong> Medium; more common in vision models than pure language models.</p>
+<p><strong>Models/Frameworks:</strong> Various vision-language models and some specialized language models.</p>
+<h3 id="sliding-window-attention">Sliding Window Attention</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2004.05150">Longformer: The Long-Document Transformer</a>
+- GitHub: <a href="https://github.com/allenai/longformer">allenai/longformer</a></p>
+<p><strong>Motivation:</strong> Enable efficient processing of very long documents.</p>
+<p><strong>Problem:</strong> Standard attention mechanisms scale quadratically with sequence length, making them impractical for very long documents.</p>
+<p><strong>Solution:</strong> Restrict attention to a sliding window around the current token, with additional global attention for specific tokens.</p>
+<p><strong>Popularity:</strong> High; widely adopted for long-context models.</p>
+<p><strong>Models/Frameworks:</strong> Longformer, BigBird, and influenced long-context versions of many models including Llama 3 32K.</p>
+<h3 id="xformers-memory-efficient-attention">Xformers Memory-Efficient Attention</h3>
+<p><strong>Reference Links:</strong>
+- GitHub: <a href="https://github.com/facebookresearch/xformers">facebookresearch/xformers</a></p>
+<p><strong>Motivation:</strong> Provide a flexible and efficient implementation of various attention mechanisms.</p>
+<p><strong>Problem:</strong> Standard attention implementations are often not optimized for memory efficiency and hardware utilization.</p>
+<p><strong>Solution:</strong> Implement a collection of memory-efficient attention mechanisms with hardware-aware optimizations.</p>
+<p><strong>Popularity:</strong> High; widely used in research and production.</p>
+<p><strong>Models/Frameworks:</strong> Used in many custom implementations and research projects.</p>
+<h2 id="training-and-scaling-innovations">Training and Scaling Innovations</h2>
+<h3 id="rotary-positional-encoding-rope">Rotary Positional Encoding (RoPE)</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2104.09864">RoFormer: Enhanced Transformer with Rotary Position Embedding</a>
+- GitHub: <a href="https://github.com/ZhuiyiTechnology/roformer">ZhuiyiTechnology/roformer</a></p>
+<p><strong>Motivation:</strong> Improve how Transformers handle positional information, especially for extrapolation to longer sequences.</p>
+<p><strong>Problem:</strong> Absolute positional encodings struggle with extrapolation beyond the training sequence length, and relative positional encodings can be complex to implement efficiently.</p>
+<p><strong>Solution:</strong> Encode relative positions through a rotation matrix applied to the query and key embeddings, enabling better generalization to unseen sequence lengths.</p>
+<p>Rotary Positional Encoding (RoPE) incorporates relative position information directly into the attention computation by applying a rotation to the query and key vectors. The key insight is to encode position information through rotation in the complex plane.</p>
+<p>In the complex domain, RoPE represents each token embedding as a complex vector, where each dimension is a complex number. For a <span class="arithmatex">\(d\)</span>-dimensional embedding, we can view it as a <span class="arithmatex">\(d/2\)</span>-dimensional complex vector. The position is encoded by rotating each complex number by an angle that depends on its position and dimension.</p>
+<p>Mathematically, for a token at position <span class="arithmatex">\(m\)</span> with embedding <span class="arithmatex">\(\mathbf{x}_m\)</span>, RoPE applies a rotation matrix <span class="arithmatex">\(R_{\Theta, m}\)</span> to get the position-encoded embedding <span class="arithmatex">\(\mathbf{x}_m^{\text{RoPE}}\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{x}_m^{\text{RoPE}} = R_{\Theta, m} \mathbf{x}_m
+\]</div>
+<p>The rotation matrix <span class="arithmatex">\(R_{\Theta, m}\)</span> is defined as:</p>
+<div class="arithmatex">\[
+R_{\Theta, m} = 
+\begin{pmatrix}
+\cos(m\theta_1) &amp; -\sin(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+\sin(m\theta_1) &amp; \cos(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \cos(m\theta_2) &amp; -\sin(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \sin(m\theta_2) &amp; \cos(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \cos(m\theta_{d/2}) &amp; -\sin(m\theta_{d/2}) \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \sin(m\theta_{d/2}) &amp; \cos(m\theta_{d/2})
+\end{pmatrix}
+\]</div>
+<p>where <span class="arithmatex">\(\theta_i = 10000^{-2(i-1)/d}\)</span> for <span class="arithmatex">\(i \in \{1, 2, \ldots, d/2\}\)</span>.</p>
+<p>When computing attention between tokens at positions <span class="arithmatex">\(m\)</span> and <span class="arithmatex">\(n\)</span>, the dot product of their embeddings naturally captures their relative position <span class="arithmatex">\(m - n\)</span>:</p>
+<div class="arithmatex">\[
+(R_{\Theta, m} \mathbf{q}_m)^T (R_{\Theta, n} \mathbf{k}_n) = \mathbf{q}_m^T R_{\Theta, m}^T R_{\Theta, n} \mathbf{k}_n = \mathbf{q}_m^T R_{\Theta, m-n} \mathbf{k}_n
+\]</div>
+<p>This property makes RoPE particularly effective for capturing relative positional information.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified RoPE implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_rotary_pos_emb</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="c1"># q, k: [batch_size, seq_len, num_heads, head_dim]</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">device</span>
+
+    <span class="c1"># Create position indices</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [seq_len, 1]</span>
+
+    <span class="c1"># Create dimension indices</span>
+    <span class="n">dim_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>  <span class="c1"># [dim/2]</span>
+
+    <span class="c1"># Calculate theta</span>
+    <span class="n">inv_freq</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">base</span> <span class="o">**</span> <span class="p">(</span><span class="n">dim_t</span> <span class="o">/</span> <span class="n">dim</span><span class="p">))</span>  <span class="c1"># [dim/2]</span>
+
+    <span class="c1"># Calculate sin and cos</span>
+    <span class="n">freqs</span> <span class="o">=</span> <span class="n">position</span> <span class="o">*</span> <span class="n">inv_freq</span>  <span class="c1"># [seq_len, dim/2]</span>
+    <span class="n">emb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">freqs</span><span class="p">,</span> <span class="n">freqs</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># [seq_len, dim]</span>
+    <span class="n">cos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">emb</span><span class="p">)</span>  <span class="c1"># [seq_len, dim]</span>
+    <span class="n">sin</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">emb</span><span class="p">)</span>  <span class="c1"># [seq_len, dim]</span>
+
+    <span class="c1"># Reshape for broadcasting</span>
+    <span class="n">cos</span> <span class="o">=</span> <span class="n">cos</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">seq_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>  <span class="c1"># [seq_len, 1, 1, dim]</span>
+    <span class="n">sin</span> <span class="o">=</span> <span class="n">sin</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">seq_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>  <span class="c1"># [seq_len, 1, 1, dim]</span>
+
+    <span class="c1"># Apply rotary embeddings</span>
+    <span class="n">q_embed</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">*</span> <span class="n">cos</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rotate_half</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">)</span>
+    <span class="n">k_embed</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="n">cos</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rotate_half</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">q_embed</span><span class="p">,</span> <span class="n">k_embed</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rotate_half</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Rotate half of the dimensions</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="o">-</span><span class="n">x2</span><span class="p">,</span> <span class="n">x1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>RoPE has several advantages over other positional encoding methods:</p>
+<ol>
+<li><strong>Relative Position Awareness</strong>: It naturally captures relative positions between tokens.</li>
+<li><strong>Extrapolation</strong>: It generalizes better to sequence lengths not seen during training.</li>
+<li><strong>Efficiency</strong>: It can be implemented efficiently without increasing the model's parameter count.</li>
+<li><strong>Compatibility</strong>: It works well with various attention mechanisms and model architectures.</li>
+</ol>
+<p>These properties have made RoPE the dominant positional encoding method in modern LLMs, especially those designed to handle long contexts.</p>
+<p><strong>Popularity:</strong> Very high; the dominant positional encoding method in modern LLMs.</p>
+<p><strong>Models/Frameworks:</strong> Llama, Mistral, Gemma, DeepSeek, Qwen-2, and most recent open-source LLMs.</p>
+<h3 id="alibi-attention-with-linear-biases">ALiBi (Attention with Linear Biases)</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2108.12409">Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation</a>
+- GitHub: <a href="https://github.com/ofirpress/attention_with_linear_biases">ofirpress/attention_with_linear_biases</a></p>
+<p><strong>Motivation:</strong> Enable Transformers to generalize to sequences longer than those seen during training.</p>
+<p><strong>Problem:</strong> Standard positional encodings often fail to extrapolate beyond the training sequence length.</p>
+<p><strong>Solution:</strong> Add a static, linear bias to attention scores based on the relative position between tokens, allowing for better extrapolation to longer sequences.</p>
+<p>ALiBi takes a fundamentally different approach to positional encoding by directly modifying the attention scores rather than the token embeddings. The key insight is to add a distance-based penalty to the attention scores that increases linearly with the distance between tokens.</p>
+<p>In standard attention, the attention scores are computed as:</p>
+<div class="arithmatex">\[
+A_{ij} = \frac{Q_i K_j^T}{\sqrt{d}}
+\]</div>
+<p>ALiBi modifies this by adding a negative bias that grows linearly with the distance between tokens:</p>
+<div class="arithmatex">\[
+A_{ij} = \frac{Q_i K_j^T}{\sqrt{d}} + m_h \cdot (j - i)
+\]</div>
+<p>where <span class="arithmatex">\(m_h\)</span> is a head-specific slope that is typically negative (to penalize attention to distant tokens). For a model with <span class="arithmatex">\(H\)</span> heads, the slopes are defined as:</p>
+<div class="arithmatex">\[
+m_h = 2^{-8} \cdot 2^{-(h-1)/H} \quad \text{for } h \in \{1, 2, \ldots, H\}
+\]</div>
+<p>This creates a geometric sequence of slopes across heads, allowing different heads to focus on different context windows.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified ALiBi implementation</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">alibi_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">num_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="c1"># q, k, v: [batch_size, seq_len, d_model]</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">head_dim</span> <span class="o">=</span> <span class="n">d_model</span> <span class="o">//</span> <span class="n">num_heads</span>
+
+    <span class="c1"># Project queries, keys, and values</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Compute attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">head_dim</span><span class="p">)</span>
+
+    <span class="c1"># Create ALiBi bias matrix</span>
+    <span class="n">alibi_bias</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_heads</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_heads</span><span class="p">):</span>
+        <span class="c1"># Calculate slope for this head</span>
+        <span class="n">m_h</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">h</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">num_heads</span><span class="p">)</span>
+
+        <span class="c1"># Create position indices</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Calculate distance-based bias</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+            <span class="n">alibi_bias</span><span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="n">m_h</span> <span class="o">*</span> <span class="p">(</span><span class="n">positions</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># Add ALiBi bias to attention scores</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">scores</span> <span class="o">+</span> <span class="n">alibi_bias</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Apply softmax and compute weighted sum</span>
+    <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attn_weights</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="c1"># Reshape output</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p>The key advantages of ALiBi are:</p>
+<ol>
+<li><strong>Extrapolation</strong>: It enables models to generalize to sequences much longer than those seen during training.</li>
+<li><strong>No Positional Embeddings</strong>: It eliminates the need for separate positional embeddings, simplifying the model architecture.</li>
+<li><strong>Inductive Bias</strong>: It introduces a strong inductive bias that tokens should attend more to nearby tokens than distant ones.</li>
+</ol>
+<p>ALiBi has been shown to enable models trained on sequences of length 1K to generalize to sequences of length 10K or more without significant performance degradation.</p>
+<p><strong>Popularity:</strong> Medium; used in some production models but less common than RoPE.</p>
+<p><strong>Models/Frameworks:</strong> Falcon, some versions of MPT, and research models.</p>
+<h3 id="decoupled-knowledge-and-position-encoding">Decoupled Knowledge and Position Encoding</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2305.16742">Decoupled Knowledge and Position Encoding for Efficient Transformer Training</a>
+- GitHub: [various implementations]</p>
+<p><strong>Motivation:</strong> Improve training efficiency and model generalization.</p>
+<p><strong>Problem:</strong> Standard positional encodings can interfere with the model's ability to learn semantic knowledge.</p>
+<p><strong>Solution:</strong> Separate the learning of positional information and semantic knowledge by using different mechanisms for each.</p>
+<p><strong>Popularity:</strong> Medium; growing in research contexts.</p>
+<p><strong>Models/Frameworks:</strong> Research models and some specialized applications.</p>
+<h2 id="mixture-of-experts-moe">Mixture of Experts (MoE)</h2>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1701.06538">Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer</a>
+- GitHub: <a href="https://github.com/google-research/google-research/tree/master/moe_models">google-research/google-research/tree/master/moe_models</a></p>
+<p><strong>Motivation:</strong> Scale model capacity without proportionally increasing computational cost.</p>
+<p><strong>Problem:</strong> Increasing model size traditionally requires proportionally more computation for every input.</p>
+<p><strong>Solution:</strong> Use a gating mechanism to selectively activate only a subset of "expert" networks for each token, allowing for much larger models with similar computational cost.</p>
+<p>Mixture of Experts (MoE) is a technique that dramatically increases model capacity while keeping computational costs manageable. In a standard Transformer, each token passes through the same feed-forward network (FFN). In an MoE model, there are multiple FFNs ("experts"), but each token is routed to only a small subset of these experts.</p>
+<p>The core components of an MoE layer are:</p>
+<ol>
+<li><strong>Experts</strong>: A set of <span class="arithmatex">\(E\)</span> identical feed-forward networks, each with its own parameters.</li>
+<li><strong>Router</strong>: A lightweight neural network that determines which experts should process each token.</li>
+<li><strong>Gating Mechanism</strong>: A function that assigns weights to the selected experts for each token.</li>
+</ol>
+<p>Mathematically, for an input token embedding <span class="arithmatex">\(x\)</span>, the output of an MoE layer is:</p>
+<div class="arithmatex">\[
+y = \sum_{i=1}^{E} G(x)_i \cdot E_i(x)
+\]</div>
+<p>where <span class="arithmatex">\(G(x)_i\)</span> is the gating weight for expert <span class="arithmatex">\(i\)</span>, and <span class="arithmatex">\(E_i(x)\)</span> is the output of expert <span class="arithmatex">\(i\)</span> for input <span class="arithmatex">\(x\)</span>.</p>
+<p>In practice, to reduce computational cost, only the top-<span class="arithmatex">\(k\)</span> experts with the highest gating weights are used for each token:</p>
+<div class="arithmatex">\[
+y = \sum_{i \in \text{top-k}(G(x))} G(x)_i \cdot E_i(x)
+\]</div>
+<p>The gating function <span class="arithmatex">\(G(x)\)</span> is typically implemented as:</p>
+<div class="arithmatex">\[
+G(x) = \text{softmax}(x \cdot W_g)
+\]</div>
+<p>where <span class="arithmatex">\(W_g\)</span> is a learnable weight matrix.</p>
+<p>To ensure balanced expert utilization, various load balancing techniques are employed. One common approach is to add an auxiliary loss that penalizes uneven expert assignment:</p>
+<div class="arithmatex">\[
+L_{\text{balance}} = \alpha \cdot E \cdot \sum_{i=1}^{E} f_i \cdot P_i
+\]</div>
+<p>where <span class="arithmatex">\(f_i\)</span> is the fraction of tokens routed to expert <span class="arithmatex">\(i\)</span>, <span class="arithmatex">\(P_i\)</span> is the fraction of router probability allocated to expert <span class="arithmatex">\(i\)</span>, and <span class="arithmatex">\(\alpha\)</span> is a hyperparameter.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Detailed Mixture of Experts implementation</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MoELayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">,</span> <span class="n">num_experts</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_model</span> <span class="o">=</span> <span class="n">d_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_experts</span> <span class="o">=</span> <span class="n">num_experts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">top_k</span>
+
+        <span class="c1"># Create experts (feed-forward networks)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">experts</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">),</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_ff</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_experts</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="c1"># Router network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">num_experts</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">x_flat</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>  <span class="c1"># [batch_size * seq_len, d_model]</span>
+
+        <span class="c1"># Get router logits and probabilities</span>
+        <span class="n">router_logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="p">(</span><span class="n">x_flat</span><span class="p">)</span>  <span class="c1"># [batch_size * seq_len, num_experts]</span>
+        <span class="n">router_probs</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">router_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Select top-k experts per token</span>
+        <span class="n">top_k_probs</span><span class="p">,</span> <span class="n">top_k_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">router_probs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">top_k_probs</span> <span class="o">=</span> <span class="n">top_k_probs</span> <span class="o">/</span> <span class="n">top_k_probs</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Normalize</span>
+
+        <span class="c1"># Initialize output tensor</span>
+        <span class="n">final_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x_flat</span><span class="p">)</span>
+
+        <span class="c1"># Compute expert outputs and combine with weights</span>
+        <span class="k">for</span> <span class="n">expert_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_experts</span><span class="p">):</span>
+            <span class="c1"># Find tokens that route to this expert</span>
+            <span class="n">expert_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">top_k_indices</span> <span class="o">==</span> <span class="n">expert_idx</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">expert_mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Get indices of tokens routed to this expert</span>
+            <span class="n">expert_inputs</span> <span class="o">=</span> <span class="n">x_flat</span><span class="p">[</span><span class="n">expert_mask</span><span class="p">]</span>
+
+            <span class="c1"># Get probabilities for this expert</span>
+            <span class="n">expert_probs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">expert_mask</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_k</span><span class="p">):</span>
+                <span class="n">k_mask</span> <span class="o">=</span> <span class="n">top_k_indices</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">expert_idx</span>
+                <span class="n">expert_probs</span><span class="p">[</span><span class="n">k_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_k_probs</span><span class="p">[</span><span class="n">k_mask</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+            <span class="n">expert_probs</span> <span class="o">=</span> <span class="n">expert_probs</span><span class="p">[</span><span class="n">expert_mask</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Compute expert output and scale by router probability</span>
+            <span class="n">expert_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experts</span><span class="p">[</span><span class="n">expert_idx</span><span class="p">](</span><span class="n">expert_inputs</span><span class="p">)</span>
+            <span class="n">final_output</span><span class="p">[</span><span class="n">expert_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="n">expert_output</span> <span class="o">*</span> <span class="n">expert_probs</span>
+
+        <span class="c1"># Calculate load balancing loss (auxiliary loss)</span>
+        <span class="c1"># Count how many tokens are routed to each expert</span>
+        <span class="n">expert_counts</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_experts</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">expert_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_experts</span><span class="p">):</span>
+            <span class="n">expert_counts</span><span class="p">[</span><span class="n">expert_idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">top_k_indices</span> <span class="o">==</span> <span class="n">expert_idx</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># Fraction of tokens routed to each expert</span>
+        <span class="n">router_prob_per_expert</span> <span class="o">=</span> <span class="n">router_probs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">fraction_per_expert</span> <span class="o">=</span> <span class="n">expert_counts</span> <span class="o">/</span> <span class="n">expert_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+        <span class="c1"># Compute auxiliary load balancing loss</span>
+        <span class="n">aux_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fraction_per_expert</span> <span class="o">*</span> <span class="n">router_prob_per_expert</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_experts</span>
+
+        <span class="k">return</span> <span class="n">final_output</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">d_model</span><span class="p">),</span> <span class="n">aux_loss</span>
+</code></pre></div>
+<p>MoE models offer several advantages:</p>
+<ol>
+<li><strong>Increased Capacity</strong>: They can have many more parameters without proportionally increasing computation.</li>
+<li><strong>Conditional Computation</strong>: Different parts of the model are activated for different inputs, allowing for specialization.</li>
+<li><strong>Efficiency</strong>: For the same computational budget, MoE models can achieve better performance than dense models.</li>
+</ol>
+<p>However, they also present challenges:</p>
+<ol>
+<li><strong>Load Balancing</strong>: Ensuring all experts are utilized effectively requires careful design.</li>
+<li><strong>Communication Overhead</strong>: In distributed settings, routing tokens to experts can introduce communication costs.</li>
+<li><strong>Implementation Complexity</strong>: MoE models are more complex to implement and train than standard Transformers.</li>
+</ol>
+<p><strong>Popularity:</strong> Very high; rapidly growing in recent models.</p>
+<p><strong>Models/Frameworks:</strong> Mixtral, Gemini, Claude 3, and likely GPT-4 (though unconfirmed).</p>
+<h2 id="normalization-techniques">Normalization Techniques</h2>
+<h3 id="rmsnorm">RMSNorm</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/1910.07467">Root Mean Square Layer Normalization</a>
+- GitHub: <a href="https://github.com/bzhangGo/rmsnorm">bzhangGo/rmsnorm</a></p>
+<p><strong>Motivation:</strong> Simplify and improve layer normalization for better training stability and efficiency.</p>
+<p><strong>Problem:</strong> Standard layer normalization requires computing both mean and variance, which can be computationally expensive.</p>
+<p><strong>Solution:</strong> Normalize using only the root mean square (RMS) of activations, eliminating the need to compute the mean.</p>
+<p>RMSNorm (Root Mean Square Layer Normalization) is a simplified variant of Layer Normalization that offers computational efficiency while maintaining or improving performance. The key difference is that RMSNorm eliminates the mean-centering step, focusing only on normalizing by the root mean square of the activations.</p>
+<p>In standard Layer Normalization, the normalization is performed as:</p>
+<div class="arithmatex">\[
+LayerNorm(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta
+\]</div>
+<p>where:
+- <span class="arithmatex">\(\mu\)</span> is the mean of the input <span class="arithmatex">\(x\)</span> along the normalization axis
+- <span class="arithmatex">\(\sigma^2\)</span> is the variance of the input <span class="arithmatex">\(x\)</span> along the normalization axis
+- <span class="arithmatex">\(\gamma\)</span> and <span class="arithmatex">\(\beta\)</span> are learnable scale and shift parameters
+- <span class="arithmatex">\(\epsilon\)</span> is a small constant for numerical stability
+- <span class="arithmatex">\(\odot\)</span> represents element-wise multiplication</p>
+<p>RMSNorm simplifies this by removing the mean-centering step and the bias term:</p>
+<div class="arithmatex">\[
+RMSNorm(x) = \gamma \odot \frac{x}{RMS(x) + \epsilon}
+\]</div>
+<p>where <span class="arithmatex">\(RMS(x)\)</span> is the root mean square of the input:</p>
+<div class="arithmatex">\[
+RMS(x) = \sqrt{\frac{1}{n} \sum_{i=1}^{n} x_i^2}
+\]</div>
+<p>This simplification offers several advantages:</p>
+<ol>
+<li><strong>Computational Efficiency</strong>: Eliminating the mean calculation reduces the computational cost.</li>
+<li><strong>Memory Efficiency</strong>: Fewer intermediate values need to be stored during computation.</li>
+<li><strong>Improved Training Dynamics</strong>: Some studies suggest that RMSNorm can lead to more stable training, especially in very deep networks.</li>
+<li><strong>Simplified Backward Pass</strong>: The gradient computation is simpler without the mean-centering step.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Detailed RMSNorm implementation</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RMSNorm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Calculate the root mean square</span>
+        <span class="c1"># Keep the dimension for broadcasting</span>
+        <span class="n">rms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+
+        <span class="c1"># Normalize by RMS</span>
+        <span class="n">x_normalized</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">rms</span>
+
+        <span class="c1"># Scale with learnable parameters</span>
+        <span class="c1"># The weight parameter is broadcast across the normalized dimension</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">*</span> <span class="n">x_normalized</span>
+
+<span class="c1"># Functional version for simpler use cases</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rmsnorm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="c1"># x: input tensor of shape [..., dim]</span>
+    <span class="c1"># weight: learnable scale parameter of shape [dim]</span>
+    <span class="c1"># Calculate RMS along the last dimension</span>
+    <span class="n">rms</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="c1"># Normalize and scale</span>
+    <span class="k">return</span> <span class="n">weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">rms</span><span class="p">)</span>
+</code></pre></div>
+<p>RMSNorm has become particularly popular in modern LLMs because:</p>
+<ol>
+<li>It reduces computational overhead during both training and inference.</li>
+<li>It helps maintain training stability in very deep transformer models.</li>
+<li>It simplifies the implementation without sacrificing model quality.</li>
+<li>It works well with the pre-normalization architecture used in most recent models.</li>
+</ol>
+<p><strong>Popularity:</strong> Very high; widely adopted in modern LLMs.</p>
+<p><strong>Models/Frameworks:</strong> Llama, Mistral, Gemma, DeepSeek, Qwen-2, and most recent open-source LLMs.</p>
+<h3 id="pre-normalization-vs-post-normalization">Pre-normalization vs. Post-normalization</h3>
+<p><strong>Reference Links:</strong>
+- Paper: <a href="https://arxiv.org/abs/2002.04745">On Layer Normalization in the Transformer Architecture</a>
+- GitHub: <a href="https://github.com/huggingface/transformers">huggingface/transformers</a></p>
+<p><strong>Motivation:</strong> Improve training stability, especially for deep Transformer models.</p>
+<p><strong>Problem:</strong> The original Transformer used post-normalization (applying normalization after the residual connection), which can lead to training instability in very deep networks.</p>
+<p><strong>Solution:</strong> Use pre-normalization (applying normalization before the sublayer and inside the residual connection), which improves training stability.</p>
+<p>The placement of normalization layers relative to residual connections has a significant impact on training dynamics and model performance. There are two main approaches:</p>
+<ol>
+<li><strong>Post-normalization</strong> (Original Transformer): Normalization is applied after the residual connection</li>
+<li><strong>Pre-normalization</strong> (Modern approach): Normalization is applied before the sublayer, inside the residual path</li>
+</ol>
+<p><strong>Post-normalization</strong> can be mathematically represented as:</p>
+<div class="arithmatex">\[
+z_{i+1} = \text{Norm}(z_i + \text{Sublayer}(z_i))
+\]</div>
+<p>where <span class="arithmatex">\(z_i\)</span> is the output of the previous layer, <span class="arithmatex">\(\text{Sublayer}()\)</span> is either self-attention or feed-forward network, and <span class="arithmatex">\(\text{Norm}()\)</span> is the normalization function (LayerNorm or RMSNorm).</p>
+<p><strong>Pre-normalization</strong> can be mathematically represented as:</p>
+<div class="arithmatex">\[
+z_{i+1} = z_i + \text{Sublayer}(\text{Norm}(z_i))
+\]</div>
+<p>The key differences and their implications are:</p>
+<ol>
+<li><strong>Gradient Flow</strong>:</li>
+<li>In post-normalization, gradients must flow through the normalization layer, which can scale them unpredictably.</li>
+<li>
+<p>In pre-normalization, there's a direct gradient path through the residual connection, which helps with training very deep networks.</p>
+</li>
+<li>
+<p><strong>Training Stability</strong>:</p>
+</li>
+<li>Post-normalization can lead to training instability in very deep networks, often requiring careful learning rate scheduling.</li>
+<li>
+<p>Pre-normalization allows for more stable training, even with relatively large learning rates and in very deep networks.</p>
+</li>
+<li>
+<p><strong>Initialization Sensitivity</strong>:</p>
+</li>
+<li>Post-normalization is more sensitive to initialization, as poor initialization can lead to unstable training.</li>
+<li>
+<p>Pre-normalization is more robust to initialization choices.</p>
+</li>
+<li>
+<p><strong>Theoretical Properties</strong>:</p>
+</li>
+<li>Post-normalization ensures that the output of each block is normalized, which can help with representation stability.</li>
+<li>Pre-normalization allows for more direct gradient flow, which helps with optimization.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Detailed implementation of both approaches</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PostNormBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Self-attention layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span> <span class="o">=</span> <span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">)</span>
+        <span class="c1"># Feed-forward network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feed_forward</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_ff</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Normalization layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>  <span class="c1"># or RMSNorm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>  <span class="c1"># or RMSNorm</span>
+        <span class="c1"># Dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Attention block with post-normalization</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">(</span><span class="n">attn_output</span><span class="p">))</span>
+
+        <span class="c1"># FFN block with post-normalization</span>
+        <span class="n">ff_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feed_forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">(</span><span class="n">ff_output</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PreNormBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Self-attention layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span> <span class="o">=</span> <span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">)</span>
+        <span class="c1"># Feed-forward network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feed_forward</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_ff</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_ff</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Normalization layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>  <span class="c1"># or RMSNorm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>  <span class="c1"># or RMSNorm</span>
+        <span class="c1"># Dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Attention block with pre-normalization</span>
+        <span class="n">attn_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">mask</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">(</span><span class="n">attn_output</span><span class="p">)</span>
+
+        <span class="c1"># FFN block with pre-normalization</span>
+        <span class="n">ff_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feed_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">(</span><span class="n">ff_output</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div>
+<p>The shift from post-normalization to pre-normalization has been a key architectural change that enabled training much deeper transformer models. GPT-2 used post-normalization, while GPT-3 and most subsequent models switched to pre-normalization. This change, combined with careful initialization strategies, has been crucial for scaling transformer models to hundreds of layers.</p>
+<p><strong>Popularity:</strong> Pre-normalization is now standard in most modern LLMs.</p>
+<p><strong>Models/Frameworks:</strong> GPT-3 and beyond, Llama, Mistral, and most recent models.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
