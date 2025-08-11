@@ -1,0 +1,11 @@
+faiss-cpu
+sentence-transformers
+open-clip-torch
+torch
+Pillow
+fastapi[all]
+uvicorn
+gradio
+requests
+openai
+litellm

@@ -1,0 +1,23 @@
+
+site_name: Multimodal Memory LLM and AI Agent
+theme:
+  name: material
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocs-jupyter
+
+nav:
+  - Home: index.md
+  - Modules:
+    - Tool Calling and Agents: modules/agents.md
+    - Multimodal Embeddings: modules/embeddings.md
+    - LLM Frameworks: modules/llm.md
+    - Memory Systems: modules/memory.md
+  - Notebooks:
+    - Memory Example: notebooks/memory_example.ipynb

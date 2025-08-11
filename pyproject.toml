@@ -1,0 +1,23 @@
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-multi-core"
+version = "0.1.0"
+description = "Multimodal Memory LLM Agent System"
+authors = [{ name = "Kaikai Liu" }]
+dependencies = [
+    "faiss-cpu",
+    "sentence-transformers",
+    "open-clip-torch",
+    "torch",
+    "Pillow",
+    "fastapi[all]",
+    "uvicorn",
+    "gradio",
+    "requests",
+    "openai",
+    "litellm"
+]

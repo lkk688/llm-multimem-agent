@@ -1,0 +1,32 @@
+# Core dependencies
+numpy>=1.20.0
+pillow>=9.0.0
+matplotlib>=3.5.0
+
+# Text embedding frameworks
+sentence-transformers>=2.2.0  # SentenceTransformers
+openai>=1.0.0  # OpenAI embeddings
+google-generativeai>=0.3.0  # Google Gemini
+jina>=3.15.0  # Jina AI embeddings
+cohere>=4.0.0  # Cohere embeddings
+transformers>=4.30.0  # HuggingFace models and ModernBERT
+
+# Optional text embedding frameworks
+# nvidia-nemo>=1.20.0  # NVIDIA NeMo (uncomment if needed)
+# stellaai>=0.1.0  # Stella AI (uncomment if available)
+
+# Image embedding frameworks
+torch>=2.0.0
+torchvision>=0.15.0
+ftfy>=6.1.0  # Required for CLIP
+regex>=2022.0.0  # Required for CLIP
+tqdm>=4.65.0  # Required for CLIP
+timm>=0.9.0  # PyTorch Image Models
+
+# Audio embedding frameworks
+torchaudio>=2.0.0  # Audio processing
+librosa>=0.10.0  # Audio feature extraction
+soundfile>=0.12.0  # Audio file reading
+
+# Optional: Install CLIP directly from GitHub
+# Run: pip install git+https://github.com/openai/CLIP.git
