@@ -9,7 +9,7 @@ This project provides a modular framework to build a **Multimodal Memory-Augment
 - 🤖 LLM backend support: OpenAI, vLLM, Ollama, litellm
 - 🧰 Tool Calling and Prompt Orchestration (MCP plugins)
 - 🌐 UI options: Gradio app, FastAPI endpoints, optional React frontend
-- 📘 Documentation: MkDocs + Jupyter notebook rendering
+- 📘 Documentation: MkDocs + Jupyter notebook rendering at: https://lkk688.github.io/llm-multimem-agent/
 
 ---
 
