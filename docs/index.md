@@ -4,14 +4,14 @@ Welcome to the comprehensive documentation for the Multimodal Memory LLM Agent p
 
 ## Core Modules
 
-### [Tool Calling and Agent Capabilities](agents.md)
+### [Transformer Fundamentals](transformers.md)
 
-Explore the implementation of LLM agents with tool-calling capabilities, including:
+Learn about the core concepts of Transformer architecture:
 
-- Function calling and ReAct approaches
-- Model Context Protocol (MCP) for standardized context injection
-- Multi-agent systems and agentic workflows
-- Framework implementations across OpenAI, LangChain, LlamaIndex, and more
+- Evolution from RNNs with attention to full Transformer models
+- Self-attention mechanisms and multi-head attention
+- Encoder-decoder architecture and positional encodings
+- Implementation details and code examples
 
 ### [Multimodal Embeddings](embeddings.md)
 
@@ -37,6 +37,37 @@ Understand how persistent memory enhances LLM capabilities:
 - Vector-based retrieval for semantic search
 - Structured knowledge storage and retrieval
 - Long-term memory implementations
+
+
+### [Tool Calling and Agent Capabilities](agents.md)
+
+Explore the implementation of LLM agents with tool-calling capabilities, including:
+
+- Function calling and ReAct approaches
+- Model Context Protocol (MCP) for standardized context injection
+- Multi-agent systems and agentic workflows
+- Framework implementations across OpenAI, LangChain, LlamaIndex, and more
+
+## Advanced Topics
+
+
+### [Advanced Transformer Techniques](transformers_advanced.md)
+
+Explore cutting-edge modifications and optimizations for Transformers:
+
+- Architectural innovations addressing limitations of original Transformers
+- Efficient attention mechanisms for reduced complexity
+- Position encoding improvements for longer sequences
+- Memory-efficient implementations and inference optimizations
+
+### [Inference Optimization](inference_optimization.md)
+
+Discover techniques to optimize LLM inference for production deployment:
+
+- Computational efficiency improvements (KV caching, Flash Attention)
+- Memory optimization strategies (quantization, pruning)
+- Model compression techniques (distillation, pruning)
+- Hardware acceleration and system-level optimizations
 
 ## Getting Started
 

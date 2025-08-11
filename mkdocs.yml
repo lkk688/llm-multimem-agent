@@ -20,10 +20,14 @@ plugins:
 
 nav:
   - Home: index.md
-  - Documents:
+  - Core Modules:
+    - Transformer Fundamentals: transformers.md
     - Tool Calling and Agents: agents.md
     - Multimodal Embeddings: embeddings.md
-    - LLM Frameworks: llm.md
+    - LLM Frameworks and Architectures: llm.md
     - Memory Systems: memory.md
+  - Advanced Topics:
+    - Advanced Transformer Techniques: transformers_advanced.md
+    - Inference Optimization: inference_optimization.md
   - Notebooks:
     - Memory Example: notebooks/memory_example.ipynb
