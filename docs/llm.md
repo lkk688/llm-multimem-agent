@@ -7,6 +7,7 @@ This document provides a comprehensive technical overview of Large Language Mode
 ### RNNs with Attention
 
 **Reference Links:**
+
 - Paper: [Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)
 
 **Motivation:** Traditional RNNs struggled with long-range dependencies due to the vanishing gradient problem.
@@ -28,9 +29,13 @@ def attention(query, key_values):
 
 **Mathematical Formulation:**
 
-\[ \text{score}(q, k_i) = q^T k_i \]
-\[ \alpha_i = \frac{\exp(\text{score}(q, k_i))}{\sum_j \exp(\text{score}(q, k_j))} \]
-\[ \text{context} = \sum_i \alpha_i v_i \]
+$$
+\begin{align}
+\text{score}(q, k_i) &= q^T k_i \\
+\alpha_i &= \frac{\exp(\text{score}(q, k_i))}{\sum_j \exp(\text{score}(q, k_j))} \\
+\text{context} &= \sum_i \alpha_i v_i
+\end{align}
+$$
 
 where $q$ is the query vector, $k_i$ are key vectors, $\alpha_i$ are attention weights, and $v_i$ are value vectors.
 
@@ -41,6 +46,7 @@ where $q$ is the query vector, $k_i$ are key vectors, $\alpha_i$ are attention w
 ### The Transformer Revolution
 
 **Reference Links:**
+
 - Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 
 **Motivation:** Eliminate sequential computation to enable more parallelization and better capture long-range dependencies.
@@ -49,19 +55,13 @@ where $q$ is the query vector, $k_i$ are key vectors, $\alpha_i$ are attention w
 
 **Solution:** Replace recurrence entirely with self-attention mechanisms that directly model relationships between all tokens in a sequence, regardless of their distance.
 
-#### Core Components
+**Self-attention:**
 
-##### Self-Attention
-
-**Reference Links:**
 - Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 - GitHub: [huggingface/transformers](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py)
-
-**Motivation:** Enable direct modeling of relationships between any two positions in a sequence.
-
-**Problem:** Traditional sequence models struggled to capture long-range dependencies efficiently.
-
-**Solution:** Self-attention computes attention weights between all pairs of tokens in a sequence, allowing each token to attend to all other tokens directly.
+- **Motivation:** Enable direct modeling of relationships between any two positions in a sequence.
+- **Problem:** Traditional sequence models struggled to capture long-range dependencies efficiently.
+- **Solution:** Self-attention computes attention weights between all pairs of tokens in a sequence, allowing each token to attend to all other tokens directly.
 
 ```python
 # Simplified Self-Attention
@@ -82,28 +82,31 @@ def self_attention(X, mask=None):
     return output
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ Q = XW^Q, K = XW^K, V = XW^V \]
-\[ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V \]
+$$
+\begin{align}
+Q &= XW^Q \\
+K &= XW^K \\
+V &= XW^V \\
+\text{Attention}(Q, K, V) &= \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\end{align}
+$$
 
 where $X$ is the input sequence, $W^Q$, $W^K$, and $W^V$ are learnable parameter matrices, and $d_k$ is the dimension of the key vectors.
 
-**Popularity:** Self-attention is the fundamental building block of all modern Transformer-based LLMs.
+- **Popularity:** Self-attention is the fundamental building block of all modern Transformer-based LLMs.
 
-**Models/Frameworks:** All modern LLMs (GPT, BERT, T5, Llama, etc.)
+- **Models/Frameworks:** All modern LLMs (GPT, BERT, T5, Llama, etc.)
 
-##### Multi-Head Attention
 
-**Reference Links:**
+**Multi-Head Attention:**
+
 - Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 - GitHub: [huggingface/transformers](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py)
-
-**Motivation:** Allow the model to jointly attend to information from different representation subspaces.
-
-**Problem:** A single attention mechanism might focus too narrowly on specific patterns.
-
-**Solution:** Run multiple attention operations in parallel with different learned projections, then concatenate and linearly transform the results.
+- **Motivation:** Allow the model to jointly attend to information from different representation subspaces.
+- **Problem:** A single attention mechanism might focus too narrowly on specific patterns.
+- **Solution:** Run multiple attention operations in parallel with different learned projections, then concatenate and linearly transform the results.
 
 ```python
 # Simplified Multi-Head Attention
@@ -134,28 +137,27 @@ def multi_head_attention(X, mask=None, num_heads=8):
     return output
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h)W^O \]
-\[ \text{where } \text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V) \]
-
+$$
+\begin{align}
+\text{MultiHead}(Q, K, V) &= \text{Concat}(\text{head}_1, \text{head}_2, \dots, \text{head}_h)W^O \\
+\text{where} \quad \text{head}_i &= \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\end{align}
+$$
 where $W_i^Q \in \mathbb{R}^{d_{model} \times d_k}$, $W_i^K \in \mathbb{R}^{d_{model} \times d_k}$, $W_i^V \in \mathbb{R}^{d_{model} \times d_v}$, and $W^O \in \mathbb{R}^{hd_v \times d_{model}}$ are learnable parameter matrices.
 
-**Popularity:** Multi-head attention is a standard component in all Transformer-based models.
+- **Popularity:** Multi-head attention is a standard component in all Transformer-based models.
 
-**Models/Frameworks:** All modern LLMs (GPT, BERT, T5, Llama, etc.)
+- **Models/Frameworks:** All modern LLMs (GPT, BERT, T5, Llama, etc.)
 
-##### Feed-Forward Networks (FFN)
+**Feed-Forward Networks (FFN):**
 
-**Reference Links:**
 - Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 - GitHub: [huggingface/transformers](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py)
-
-**Motivation:** Introduce non-linearity and increase the model's representational capacity.
-
-**Problem:** Attention mechanisms alone provide only linear transformations of the input.
-
-**Solution:** Apply a position-wise feed-forward network consisting of two linear transformations with a non-linear activation in between.
+- **Motivation:** Introduce non-linearity and increase the model's representational capacity.
+- **Problem:** Attention mechanisms alone provide only linear transformations of the input.
+- **Solution:** Apply a position-wise feed-forward network consisting of two linear transformations with a non-linear activation in between.
 
 ```python
 # Position-wise Feed-Forward Network
@@ -167,27 +169,23 @@ def feed_forward(X):
     return output
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ \text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2 \]
+$$ \text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2 $$
 
 where $W_1 \in \mathbb{R}^{d_{model} \times d_{ff}}$, $W_2 \in \mathbb{R}^{d_{ff} \times d_{model}}$, $b_1 \in \mathbb{R}^{d_{ff}}$, and $b_2 \in \mathbb{R}^{d_{model}}$ are learnable parameters.
 
-**Popularity:** Standard component in all Transformer architectures.
+- **Popularity:** Standard component in all Transformer architectures.
 
-**Models/Frameworks:** All modern LLMs
+- **Models/Frameworks:** All modern LLMs
 
-##### Layer Normalization
+**Layer Normalization:**
 
-**Reference Links:**
 - Paper: [Layer Normalization](https://arxiv.org/abs/1607.06450)
 - GitHub: [pytorch/pytorch](https://github.com/pytorch/pytorch/blob/master/torch/nn/modules/normalization.py)
-
-**Motivation:** Stabilize and accelerate training by normalizing activations.
-
-**Problem:** Deep neural networks suffer from internal covariate shift, making training unstable and slower.
-
-**Solution:** Normalize the activations of each layer for each training example independently, making training more stable and faster.
+- **Motivation:** Stabilize and accelerate training by normalizing activations.
+- **Problem:** Deep neural networks suffer from internal covariate shift, making training unstable and slower.
+- **Solution:** Normalize the activations of each layer for each training example independently, making training more stable and faster.
 
 ```python
 # Layer Normalization
@@ -199,28 +197,29 @@ def layer_norm(X, gamma, beta, eps=1e-5):
     return gamma * X_norm + beta  # Scale and shift with learnable parameters
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ \mu = \frac{1}{H} \sum_{i=1}^{H} x_i \]
-\[ \sigma^2 = \frac{1}{H} \sum_{i=1}^{H} (x_i - \mu)^2 \]
-\[ \text{LayerNorm}(x) = \gamma \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta \]
+$$
+\begin{align}
+\mu &= \frac{1}{H} \sum_{i=1}^{H} x_i \\
+\sigma^2 &= \frac{1}{H} \sum_{i=1}^{H} (x_i - \mu)^2 \\
+\text{LayerNorm}(x) &= \gamma \cdot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta
+\end{align}
+$$
 
 where $H$ is the hidden dimension size, $\gamma$ and $\beta$ are learnable scale and shift parameters, and $\epsilon$ is a small constant for numerical stability.
 
-**Popularity:** Layer normalization is used in virtually all modern Transformer architectures.
+- **Popularity:** Layer normalization is used in virtually all modern Transformer architectures.
 
 **Models/Frameworks:** All modern LLMs
 
-##### Residual Connections
 
-**Reference Links:**
+**Residual Connections:**
+
 - Paper: [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
-
-**Motivation:** Enable training of very deep networks by addressing the vanishing gradient problem.
-
-**Problem:** Deep networks become increasingly difficult to train due to vanishing gradients.
-
-**Solution:** Add skip connections that bypass certain layers, allowing gradients to flow more easily through the network.
+- **Motivation:** Enable training of very deep networks by addressing the vanishing gradient problem.
+- **Problem:** Deep networks become increasingly difficult to train due to vanishing gradients.
+- **Solution:** Add skip connections that bypass certain layers, allowing gradients to flow more easily through the network.
 
 ```python
 # Residual Connection
@@ -228,27 +227,23 @@ def residual_connection(X, sublayer):
     return X + sublayer(X)  # Add input to the output of sublayer
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ \text{ResidualConnection}(X, \text{sublayer}) = X + \text{sublayer}(X) \]
+$$ \text{ResidualConnection}(X, \text{sublayer}) = X + \text{sublayer}(X) $$
 
 where $\text{sublayer}$ is a function representing a transformer sublayer (attention or feed-forward network).
 
-**Popularity:** Residual connections are a standard component in all deep neural networks, including Transformers.
+- **Popularity:** Residual connections are a standard component in all deep neural networks, including Transformers.
 
-**Models/Frameworks:** All modern LLMs
+- **Models/Frameworks:** All modern LLMs
 
-##### Positional Encodings
+**Positional Encodings:**
 
-**Reference Links:**
 - Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 - GitHub: [huggingface/transformers](https://github.com/huggingface/transformers/blob/main/src/transformers/models/bert/modeling_bert.py)
-
-**Motivation:** Provide information about token positions in the sequence.
-
-**Problem:** Self-attention is permutation-invariant and doesn't inherently capture sequence order.
-
-**Solution:** Add positional encodings to token embeddings to inject information about token positions.
+- **Motivation:** Provide information about token positions in the sequence.
+- **Problem:** Self-attention is permutation-invariant and doesn't inherently capture sequence order.
+- **Solution:** Add positional encodings to token embeddings to inject information about token positions.
 
 ```python
 # Sinusoidal Positional Encoding
@@ -263,64 +258,133 @@ def positional_encoding(seq_len, d_model):
     return pos_enc  # [seq_len, d_model]
 ```
 
-**Mathematical Formulation:**
+- **Mathematical Formulation:**
 
-\[ \text{PE}_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right) \]
-\[ \text{PE}_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right) \]
-
+$$
+\begin{align}
+\text{PE}_{(pos, 2i)} &= \sin\left(\frac{pos}{10000^{2i / d_{\text{model}}}}\right) \\
+\text{PE}_{(pos, 2i + 1)} &= \cos\left(\frac{pos}{10000^{2i / d_{\text{model}}}}\right)
+\end{align}
+$$
 where $pos$ is the position index, $i$ is the dimension index, and $d_{model}$ is the embedding dimension.
 
-**Popularity:** While the original sinusoidal encodings have been largely replaced by learned positional embeddings or RoPE in modern LLMs, some form of positional encoding is essential in all Transformer models.
+- **Popularity:** While the original sinusoidal encodings have been largely replaced by learned positional embeddings or RoPE in modern LLMs, some form of positional encoding is essential in all Transformer models.
 
-**Models/Frameworks:** All Transformer-based models
+- **Models/Frameworks:** All Transformer-based models
 
-### Transformer Encoder-Decoder Architecture
 
-**Reference Links:**
-- Paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
-- GitHub: [huggingface/transformers](https://github.com/huggingface/transformers/blob/main/src/transformers/models/t5/modeling_t5.py)
 
-**Motivation:** Combine the strengths of self-attention for both encoding and decoding tasks while maintaining the ability to process sequences in parallel.
+### Transformer Architecture
 
-**Problem Solved:** Enables efficient sequence-to-sequence learning with a unified architecture that can be trained end-to-end.
+Transformers are flexible architectures that fall into three broad categories:
+
+- **Encoder-only models** — e.g., BERT, RoBERTa
+- **Decoder-only models** — e.g., GPT, LLaMA
+- **Encoder-Decoder (seq2seq) models** — e.g., T5, BART, Whisper
+
+Each architecture is optimized for different tasks: classification, generation, or both.
+
+#### 🧠 Encoder-Only Models
+
+These models use only the encoder stack of the Transformer.
+
+**Use Cases:** Text classification, QA, sentence embeddings, token classification.
+
+**Key Models and Variants:**
+- **BERT** — bidirectional masked language model
+- **RoBERTa** — BERT with dynamic masking and more data
+- **DistilBERT** — lighter BERT via distillation
+- **ELECTRA** — replaces MLM with replaced-token detection
+
+**Architectural Modifications:**
+- Positional embeddings (learned vs. sinusoidal)
+- Token masking (MLM-style)
+- Output from `[CLS]` token
+
+
+#### 🧠 Decoder-Only Models
+
+These use only the decoder stack with **causal masking** to prevent access to future tokens.
+
+**Use Cases:** Text generation, code completion, chatbots, LLMs.
+
+**Key Models and Variants:**
+- **GPT-2/3/4** — autoregressive causal decoder
+- **LLaMA** — efficient decoder for LLM research
+- **Mistral** — sliding-window attention
+- **Phi-2** — small LLM trained with curriculum
+
+**Architectural Modifications:**
+- No encoder
+- Causal self-attention only
+- LayerNorm placement varies across versions
+
+
+#### 🧠 Encoder-Decoder Models
+
+These use both an encoder and a decoder, with **cross-attention** from decoder to encoder output.
+
+**Use Cases:** Translation, summarization, speech-to-text.
+
+**Key Models and Variants:**
+- **T5** — unified text-to-text transformer
+- **BART** — denoising autoencoder for seq2seq
+- **Whisper** — speech-to-text with audio encoder
+
+**Motivation:** Combine parallel processing (encoder) with autoregressive generation (decoder).
+
+**Problem Solved:** Unified, end-to-end trainable architecture for sequence transduction.
+
+
+#### 🔁 Architectural Comparison
+
+| Architecture     | Self-Attention Type | Cross-Attention | Typical Tasks              |
+|------------------|---------------------|------------------|----------------------------|
+| Encoder-only     | Bidirectional       | ❌               | Classification, QA        |
+| Decoder-only     | Causal              | ❌               | Text generation            |
+| Encoder-Decoder  | Encoder: Bi / Decoder: Causal | ✅     | Translation, Summarization |
+
+
+#### 📐 Mathematical Formulation
+
+**Encoder Layer:**
+
+$$
+\hat{X} = \text{LayerNorm}(X + \text{MultiHeadAttention}(X, X, X))
+$$
+$$
+\text{EncoderOutput} = \text{LayerNorm}(\hat{X} + \text{FFN}(\hat{X}))
+$$
+
+**Decoder Layer:**
+
+$$
+\hat{Y} = \text{LayerNorm}(Y + \text{MultiHeadAttention}(Y, Y, Y, \text{mask}))
+$$
+$$
+\hat{Y}' = \text{LayerNorm}(\hat{Y} + \text{MultiHeadAttention}(\hat{Y}, Z, Z))
+$$
+$$
+\text{DecoderOutput} = \text{LayerNorm}(\hat{Y}' + \text{FFN}(\hat{Y}'))
+$$
+
+where $X$ is encoder input, $Y$ is decoder input, $Z$ is encoder output, and `mask` is the causal mask.
+
+#### 💻 Simplified Python Pseudocode
 
 ```python
-# Simplified Transformer Encoder Layer
+# Encoder Layer
 def encoder_layer(X, mask=None):
-    # Multi-head attention with residual connection and layer norm
     attn_output = layer_norm(X + multi_head_attention(X, mask=mask))
-    # Feed-forward with residual connection and layer norm
-    output = layer_norm(attn_output + feed_forward(attn_output))
-    return output
+    return layer_norm(attn_output + feed_forward(attn_output))
 
-# Simplified Transformer Decoder Layer
+# Decoder Layer
 def decoder_layer(X, encoder_output, src_mask=None, tgt_mask=None):
-    # Self-attention with residual connection and layer norm
     self_attn = layer_norm(X + multi_head_attention(X, mask=tgt_mask))
-    # Cross-attention with residual connection and layer norm
     cross_attn = layer_norm(self_attn + multi_head_attention(
         self_attn, encoder_output, encoder_output, mask=src_mask))
-    # Feed-forward with residual connection and layer norm
-    output = layer_norm(cross_attn + feed_forward(cross_attn))
-    return output
+    return layer_norm(cross_attn + feed_forward(cross_attn))
 ```
-
-**Mathematical Formulation:**
-
-*Encoder Layer:*
-\[ \hat{X} = \text{LayerNorm}(X + \text{MultiHeadAttention}(X, X, X)) \]
-\[ \text{EncoderOutput} = \text{LayerNorm}(\hat{X} + \text{FFN}(\hat{X})) \]
-
-*Decoder Layer:*
-\[ \hat{Y} = \text{LayerNorm}(Y + \text{MultiHeadAttention}(Y, Y, Y, \text{mask})) \]
-\[ \hat{Y}' = \text{LayerNorm}(\hat{Y} + \text{MultiHeadAttention}(\hat{Y}, Z, Z)) \]
-\[ \text{DecoderOutput} = \text{LayerNorm}(\hat{Y}' + \text{FFN}(\hat{Y}')) \]
-
-where $X$ is the encoder input, $Y$ is the decoder input, $Z$ is the encoder output, and $\text{mask}$ is the causal mask that prevents attending to future tokens.
-
-**Popularity:** The encoder-decoder architecture is fundamental to sequence-to-sequence tasks and is widely used in translation, summarization, and other text generation tasks.
-
-**Models/Frameworks:** T5, BART, Whisper, and many other sequence-to-sequence models.
 
 ## Modern Transformer Modifications and Optimizations
 
@@ -340,17 +404,17 @@ where $X$ is the encoder input, $Y$ is the decoder input, $Z$ is the encoder out
 
 The key innovation in Transformer-XL is the recurrence mechanism that allows information to flow across segments. For the $\tau$-th segment, the hidden states are computed as:
 
-\[
+$$
 \mathbf{h}_\tau^{(n)} = \text{Transformer-Layer}\left(\mathbf{h}_\tau^{(n-1)}, \mathbf{h}_{\tau-1}^{(n-1)}\right)
-\]
+$$
 
 where $\mathbf{h}_\tau^{(n)}$ represents the hidden state for the $\tau$-th segment at the $n$-th layer, and $\mathbf{h}_{\tau-1}^{(n-1)}$ represents the hidden state from the previous segment.
 
 Transformer-XL also introduces relative positional encoding, which replaces the absolute positional encoding with a relative version. The attention score is computed as:
 
-\[
+$$
 A_{i,j} = \mathbf{q}_i^\top \mathbf{k}_j + \mathbf{q}_i^\top \mathbf{W}_{k,R} \mathbf{R}_{i-j} + \mathbf{u}^\top \mathbf{k}_j + \mathbf{v}^\top \mathbf{W}_{k,R} \mathbf{R}_{i-j}
-\]
+$$
 
 where $\mathbf{R}_{i-j}$ is the relative positional encoding, and $\mathbf{W}_{k,R}$, $\mathbf{u}$, and $\mathbf{v}$ are learnable parameters.
 
@@ -376,25 +440,25 @@ The Reformer introduces two key innovations:
 
 The LSH function maps similar vectors to the same hash bucket with high probability:
 
-\[
+$$
 h(\mathbf{x}) = \arg\max_i (\mathbf{x}^\top \mathbf{r}_i)
-\]
+$$
 
 where $\mathbf{r}_i$ are random vectors. Tokens are then sorted by their hash values, and attention is computed only within a local neighborhood of each token.
 
 2. **Reversible Layers**: Inspired by RevNets, Reformer uses reversible residual connections that allow reconstructing the input of each layer from its output, eliminating the need to store activations for backpropagation:
 
-\[
+$$
 \mathbf{y}_1 = \mathbf{x}_1 + F(\mathbf{x}_2) \\
 \mathbf{y}_2 = \mathbf{x}_2 + G(\mathbf{y}_1)
-\]
+$$
 
 During backpropagation, the inputs can be recovered as:
 
-\[
+$$
 \mathbf{x}_2 = \mathbf{y}_2 - G(\mathbf{y}_1) \\
 \mathbf{x}_1 = \mathbf{y}_1 - F(\mathbf{x}_2)
-\]
+$$
 
 This reduces memory requirements from $O(L \cdot n \cdot d)$ to $O(n \cdot d)$, where $L$ is the number of layers.
 
@@ -416,17 +480,17 @@ This reduces memory requirements from $O(L \cdot n \cdot d)$ to $O(n \cdot d)$, 
 
 The key insight of Linformer is that the attention matrix is low-rank and can be approximated using low-dimensional projections. In standard self-attention, the attention matrix $A$ is computed as:
 
-\[
+$$
 A = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-\]
+$$
 
 where $Q, K, V \in \mathbb{R}^{n \times d}$ are the query, key, and value matrices, and $n$ is the sequence length.
 
 Linformer introduces projection matrices $E, F \in \mathbb{R}^{k \times n}$ where $k \ll n$ to project the keys and values:
 
-\[
+$$
 A_{\text{linear}} = \text{softmax}\left(\frac{Q(EK)^T}{\sqrt{d_k}}\right)(FV)
-\]
+$$
 
 This reduces the complexity from $O(n^2d)$ to $O(nkd)$, where $k$ is a constant much smaller than $n$. The projection matrices $E$ and $F$ are learned during training.
 
@@ -471,33 +535,33 @@ def linformer_attention(q, k, v, E, F):
 
 The Performer uses a kernel-based approximation of the attention mechanism. In standard attention, the softmax operation is applied to the dot product of queries and keys:
 
-\[
+$$
 A = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-\]
+$$
 
 The key insight of Performer is to rewrite this using the kernel trick. The softmax function can be approximated using random features:
 
-\[
+$$
 \text{softmax}(x) \approx \phi(x)\phi(y)^T
-\]
+$$
 
 where $\phi(\cdot)$ is a feature map. Using this approximation, the attention can be rewritten as:
 
-\[
+$$
 A \approx \phi(Q)\phi(K)^TV
-\]
+$$
 
 This can be computed in linear time as:
 
-\[
+$$
 A \approx \phi(Q)(\phi(K)^TV)
-\]
+$$
 
 The FAVOR+ algorithm uses a specific feature map based on orthogonal random features:
 
-\[
+$$
 \phi(x) = \frac{h(x)}{\sqrt{m}}\exp\left(\frac{\|x\|^2}{2}\right)
-\]
+$$
 
 where $h(x) = [\exp(w_1^Tx), \exp(w_2^Tx), ..., \exp(w_m^Tx)]$ and $w_i$ are random vectors drawn from a specific distribution.
 
@@ -543,15 +607,15 @@ This reduces the complexity from $O(n^2d)$ to $O(nmd)$, where $m$ is the number 
 
 FNet takes a radical approach by completely replacing the self-attention mechanism with Fourier Transforms. In a standard Transformer, the self-attention operation is:
 
-\[
+$$
 Attention(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
-\]
+$$
 
 FNet replaces this with a simple Fourier Transform operation:
 
-\[
+$$
 F(X) = \text{FFT}_\text{real}(\text{FFT}_\text{imag}(X))
-\]
+$$
 
 where $\text{FFT}_\text{real}$ and $\text{FFT}_\text{imag}$ are the real and imaginary components of the Fast Fourier Transform applied along the sequence and hidden dimensions, respectively.
 
@@ -590,9 +654,9 @@ Despite its simplicity, FNet achieves 92-97% of BERT's accuracy on GLUE tasks wh
 
 Sparse Transformers introduce structured sparsity patterns in the attention mechanism. In standard attention, each token attends to all other tokens, resulting in a dense attention matrix:
 
-\[
+$$
 A = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-\]
+$$
 
 Sparse Transformers replace this with a sparse attention pattern where each token attends only to a subset of other tokens. The paper introduces two main patterns:
 
@@ -602,20 +666,20 @@ Sparse Transformers replace this with a sparse attention pattern where each toke
 
 Mathematically, this can be represented as:
 
-\[
+$$
 A = \text{softmax}\left(\frac{QK^T \odot M}{\sqrt{d}}\right)V
-\]
+$$
 
 where $M$ is a binary mask that determines which tokens can attend to which other tokens, and $\odot$ represents element-wise multiplication.
 
 One common pattern is the "strided" pattern, where each token attends to tokens at fixed strides:
 
-\[
+$$
 M_{ij} = \begin{cases}
 1 & \text{if } (i - j) \mod c = 0 \\
 0 & \text{otherwise}
 \end{cases}
-\]
+$$
 
 where $c$ is the stride length.
 
@@ -667,9 +731,10 @@ This reduces the complexity from $O(n^2d)$ to $O(ns \cdot d)$, where $s$ is the 
 
 FlashAttention is an IO-aware implementation of attention that significantly improves both speed and memory efficiency. The standard attention computation is:
 
-\[
+
+$$
 O = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V
-\]
+$$
 
 The naive implementation computes and stores the full attention matrix $S = QK^T$, which has size $O(N^2)$ for sequence length $N$. This becomes a bottleneck for long sequences.
 
@@ -688,9 +753,9 @@ FlashAttention uses a block-wise approach that computes attention for small bloc
 
 Mathematically, this implements the same operation but with better memory access patterns:
 
-\[
+$$
 O_i = \frac{\sum_j \exp(S_{ij})V_j}{\sum_j \sum_k \exp(S_{ijk})}
-\]
+$$
 
 where $S_{ij} = Q_i K_j^T / \sqrt{d}$.
 
@@ -766,33 +831,33 @@ The key benefits are:
 
 In standard Multi-Head Attention (MHA), the queries, keys, and values are projected into $h$ different representation subspaces:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V
-\]
+$$
 
 where $i \in \{1, 2, \ldots, h\}$ represents the head index. The attention output for each head is:
 
-\[
+$$
 O_i = \text{Attention}(Q_i, K_i, V_i) = \text{softmax}\left(\frac{Q_i K_i^T}{\sqrt{d_k}}\right)V_i
-\]
+$$
 
 The final output is the concatenation of all head outputs, projected back to the model dimension:
 
-\[
+$$
 O = \text{Concat}(O_1, O_2, \ldots, O_h)W^O
-\]
+$$
 
 In Multi-Query Attention (MQA), the key and value projections are shared across all heads:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V
-\]
+$$
 
 The attention output for each head becomes:
 
-\[
+$$
 O_i = \text{Attention}(Q_i, K, V) = \text{softmax}\left(\frac{Q_i K^T}{\sqrt{d_k}}\right)V
-\]
+$$
 
 This significantly reduces the memory requirements for the KV cache, as only one set of keys and values needs to be stored instead of $h$ sets. The memory savings are particularly important during inference, where the KV cache can be a major bottleneck.
 
@@ -851,27 +916,27 @@ Grouped-Query Attention (GQA) is a compromise between Multi-Head Attention (MHA)
 
 In MHA, we have $h$ query heads, $h$ key heads, and $h$ value heads:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K_i = XW_i^K, \quad V_i = XW_i^V \quad \text{for } i \in \{1, 2, \ldots, h\}
-\]
+$$
 
 In MQA, we have $h$ query heads but only 1 key head and 1 value head:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K = XW^K, \quad V = XW^V \quad \text{for } i \in \{1, 2, \ldots, h\}
-\]
+$$
 
 In GQA, we have $h$ query heads, $g$ key heads, and $g$ value heads, where $g < h$ and typically $g = h/n$ for some integer $n$. Each query head $i$ is assigned to a group $G(i)$, and it uses the key and value projections for that group:
 
-\[
+$$
 Q_i = XW_i^Q, \quad K_{G(i)} = XW_{G(i)}^K, \quad V_{G(i)} = XW_{G(i)}^V \quad \text{for } i \in \{1, 2, \ldots, h\}
-\]
+$$
 
 The attention output for each head is:
 
-\[
+$$
 O_i = \text{Attention}(Q_i, K_{G(i)}, V_{G(i)}) = \text{softmax}\left(\frac{Q_i K_{G(i)}^T}{\sqrt{d_k}}\right)V_{G(i)}
-\]
+$$
 
 ```python
 # Simplified Grouped-Query Attention implementation
@@ -995,13 +1060,13 @@ In the complex domain, RoPE represents each token embedding as a complex vector,
 
 Mathematically, for a token at position $m$ with embedding $\mathbf{x}_m$, RoPE applies a rotation matrix $R_{\Theta, m}$ to get the position-encoded embedding $\mathbf{x}_m^{\text{RoPE}}$:
 
-\[
+$$
 \mathbf{x}_m^{\text{RoPE}} = R_{\Theta, m} \mathbf{x}_m
-\]
+$$
 
 The rotation matrix $R_{\Theta, m}$ is defined as:
 
-\[
+$$
 R_{\Theta, m} = 
 \begin{pmatrix}
 \cos(m\theta_1) & -\sin(m\theta_1) & 0 & 0 & \cdots & 0 & 0 \\
@@ -1012,15 +1077,15 @@ R_{\Theta, m} =
 0 & 0 & 0 & 0 & \cdots & \cos(m\theta_{d/2}) & -\sin(m\theta_{d/2}) \\
 0 & 0 & 0 & 0 & \cdots & \sin(m\theta_{d/2}) & \cos(m\theta_{d/2})
 \end{pmatrix}
-\]
+$$
 
 where $\theta_i = 10000^{-2(i-1)/d}$ for $i \in \{1, 2, \ldots, d/2\}$.
 
 When computing attention between tokens at positions $m$ and $n$, the dot product of their embeddings naturally captures their relative position $m - n$:
 
-\[
+$$
 (R_{\Theta, m} \mathbf{q}_m)^T (R_{\Theta, n} \mathbf{k}_n) = \mathbf{q}_m^T R_{\Theta, m}^T R_{\Theta, n} \mathbf{k}_n = \mathbf{q}_m^T R_{\Theta, m-n} \mathbf{k}_n
-\]
+$$
 
 This property makes RoPE particularly effective for capturing relative positional information.
 
@@ -1090,21 +1155,21 @@ ALiBi takes a fundamentally different approach to positional encoding by directl
 
 In standard attention, the attention scores are computed as:
 
-\[
+$$
 A_{ij} = \frac{Q_i K_j^T}{\sqrt{d}}
-\]
+$$
 
 ALiBi modifies this by adding a negative bias that grows linearly with the distance between tokens:
 
-\[
+$$
 A_{ij} = \frac{Q_i K_j^T}{\sqrt{d}} + m_h \cdot (j - i)
-\]
+$$
 
 where $m_h$ is a head-specific slope that is typically negative (to penalize attention to distant tokens). For a model with $H$ heads, the slopes are defined as:
 
-\[
+$$
 m_h = 2^{-8} \cdot 2^{-(h-1)/H} \quad \text{for } h \in \{1, 2, \ldots, H\}
-\]
+$$
 
 This creates a geometric sequence of slopes across heads, allowing different heads to focus on different context windows.
 
@@ -1199,31 +1264,31 @@ The core components of an MoE layer are:
 
 Mathematically, for an input token embedding $x$, the output of an MoE layer is:
 
-\[
+$$
 y = \sum_{i=1}^{E} G(x)_i \cdot E_i(x)
-\]
+$$
 
 where $G(x)_i$ is the gating weight for expert $i$, and $E_i(x)$ is the output of expert $i$ for input $x$.
 
 In practice, to reduce computational cost, only the top-$k$ experts with the highest gating weights are used for each token:
 
-\[
+$$
 y = \sum_{i \in \text{top-k}(G(x))} G(x)_i \cdot E_i(x)
-\]
+$$
 
 The gating function $G(x)$ is typically implemented as:
 
-\[
+$$
 G(x) = \text{softmax}(x \cdot W_g)
-\]
+$$
 
 where $W_g$ is a learnable weight matrix.
 
 To ensure balanced expert utilization, various load balancing techniques are employed. One common approach is to add an auxiliary loss that penalizes uneven expert assignment:
 
-\[
+$$
 L_{\text{balance}} = \alpha \cdot E \cdot \sum_{i=1}^{E} f_i \cdot P_i
-\]
+$$
 
 where $f_i$ is the fraction of tokens routed to expert $i$, $P_i$ is the fraction of router probability allocated to expert $i$, and $\alpha$ is a hyperparameter.
 
@@ -1334,9 +1399,9 @@ RMSNorm (Root Mean Square Layer Normalization) is a simplified variant of Layer 
 
 In standard Layer Normalization, the normalization is performed as:
 
-\[
+$$
 LayerNorm(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta
-\]
+$$
 
 where:
 - $\mu$ is the mean of the input $x$ along the normalization axis
@@ -1347,15 +1412,15 @@ where:
 
 RMSNorm simplifies this by removing the mean-centering step and the bias term:
 
-\[
+$$
 RMSNorm(x) = \gamma \odot \frac{x}{RMS(x) + \epsilon}
-\]
+$$
 
 where $RMS(x)$ is the root mean square of the input:
 
-\[
+$$
 RMS(x) = \sqrt{\frac{1}{n} \sum_{i=1}^{n} x_i^2}
-\]
+$$
 
 This simplification offers several advantages:
 
@@ -1425,17 +1490,17 @@ The placement of normalization layers relative to residual connections has a sig
 
 **Post-normalization** can be mathematically represented as:
 
-\[
+$$
 z_{i+1} = \text{Norm}(z_i + \text{Sublayer}(z_i))
-\]
+$$
 
 where $z_i$ is the output of the previous layer, $\text{Sublayer}()$ is either self-attention or feed-forward network, and $\text{Norm}()$ is the normalization function (LayerNorm or RMSNorm).
 
 **Pre-normalization** can be mathematically represented as:
 
-\[
+$$
 z_{i+1} = z_i + \text{Sublayer}(\text{Norm}(z_i))
-\]
+$$
 
 The key differences and their implications are:
 

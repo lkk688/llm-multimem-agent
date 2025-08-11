@@ -7,17 +7,23 @@ markdown_extensions:
   - admonition
   - codehilite
   - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true  # Enables \[ \] and \( \)
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
   - search
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
+      enable_default_markdown: false
 
 nav:
   - Home: index.md
-  - Modules:
-    - Tool Calling and Agents: modules/agents.md
-    - Multimodal Embeddings: modules/embeddings.md
-    - LLM Frameworks: modules/llm.md
-    - Memory Systems: modules/memory.md
+  - Documents:
+    - Tool Calling and Agents: agents.md
+    - Multimodal Embeddings: embeddings.md
+    - LLM Frameworks: llm.md
+    - Memory Systems: memory.md
   - Notebooks:
     - Memory Example: notebooks/memory_example.ipynb
