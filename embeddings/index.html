@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../agents/">
+        <link rel="prev" href="../transformers/">
       
       
         <link rel="next" href="../llm/">
@@ -250,11 +250,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../transformers/" class="md-nav__link">
+      <a href="../deep_learning/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Transformer Fundamentals
+    Deep Learning Foundations
     
   </span>
   
@@ -272,11 +272,33 @@
   
   
     <li class="md-nav__item">
-      <a href="../agents/" class="md-nav__link">
+      <a href="../self-supervised/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Tool Calling and Agents
+    Self-Supervised Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transformer Fundamentals
     
   </span>
   
@@ -587,6 +609,51 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sentencetransformers-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceTransformers Framework
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-minilm-l6-v2-deep-dive-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      all-MiniLM-L6-v2: Deep Dive Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#siamese-and-triplet-network-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Siamese and Triplet Network Architectures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loss-functions-for-sentence-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loss Functions for Sentence Embeddings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-training-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Training Techniques
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -660,6 +727,147 @@
   <a href="#challenges-and-limitations" class="md-nav__link">
     <span class="md-ellipsis">
       Challenges and Limitations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embedding-extraction-from-decoder-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Embedding Extraction from Decoder Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-text-embeddings-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Text Embeddings API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Embeddings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vision-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vision-Language Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vision-Language Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clip-contrastive-language-image-pre-training-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIP: Contrastive Language-Image Pre-training (2021)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vision-transformer-vit-for-image-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vision Transformer (ViT) for Image Embeddings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audio-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audio Embeddings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Audio Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wav2vec-20-self-supervised-audio-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wav2Vec 2.0: Self-Supervised Audio Representations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-whisper-for-audio-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Whisper for Audio Understanding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-fusion-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Fusion Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal Fusion Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#early-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Early Fusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#late-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Late Fusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-attention-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-Attention Fusion
     </span>
   </a>
   
@@ -925,7 +1133,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#audio-embeddings" class="md-nav__link">
+  <a href="#audio-embeddings_1" class="md-nav__link">
     <span class="md-ellipsis">
       Audio Embeddings
     </span>
@@ -967,7 +1175,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#multimodal-embeddings" class="md-nav__link">
+  <a href="#multimodal-embeddings_1" class="md-nav__link">
     <span class="md-ellipsis">
       Multimodal Embeddings
     </span>
@@ -1423,6 +1631,50 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agents/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tool Calling and Agent Capabilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multi_modal_LM/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-Modal Language Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1500,6 +1752,28 @@
   
   <span class="md-ellipsis">
     Inference Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpt_architecture_evolution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPT Architecture Evolution
     
   </span>
   
@@ -1854,6 +2128,51 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sentencetransformers-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      SentenceTransformers Framework
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-minilm-l6-v2-deep-dive-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      all-MiniLM-L6-v2: Deep Dive Analysis
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#siamese-and-triplet-network-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Siamese and Triplet Network Architectures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loss-functions-for-sentence-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Loss Functions for Sentence Embeddings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-training-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Training Techniques
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1927,6 +2246,147 @@
   <a href="#challenges-and-limitations" class="md-nav__link">
     <span class="md-ellipsis">
       Challenges and Limitations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embedding-extraction-from-decoder-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Embedding Extraction from Decoder Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-text-embeddings-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Text Embeddings API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Embeddings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vision-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vision-Language Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vision-Language Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clip-contrastive-language-image-pre-training-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLIP: Contrastive Language-Image Pre-training (2021)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vision-transformer-vit-for-image-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vision Transformer (ViT) for Image Embeddings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audio-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Audio Embeddings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Audio Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wav2vec-20-self-supervised-audio-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wav2Vec 2.0: Self-Supervised Audio Representations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-whisper-for-audio-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenAI Whisper for Audio Understanding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multimodal-fusion-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal Fusion Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal Fusion Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#early-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Early Fusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#late-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Late Fusion
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross-attention-fusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cross-Attention Fusion
     </span>
   </a>
   
@@ -2192,7 +2652,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#audio-embeddings" class="md-nav__link">
+  <a href="#audio-embeddings_1" class="md-nav__link">
     <span class="md-ellipsis">
       Audio Embeddings
     </span>
@@ -2234,7 +2694,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#multimodal-embeddings" class="md-nav__link">
+  <a href="#multimodal-embeddings_1" class="md-nav__link">
     <span class="md-ellipsis">
       Multimodal Embeddings
     </span>
@@ -3015,12 +3475,282 @@
 <li>Finding challenging negative examples improves model performance</li>
 <li>Techniques include in-batch negatives, cross-batch negatives, and iterative mining</li>
 </ol>
+<h5 id="sentencetransformers-framework">SentenceTransformers Framework</h5>
+<p><strong>SentenceTransformers</strong> is the most widely adopted framework for sentence embeddings, providing a unified interface for training and using sentence embedding models. Developed by Nils Reimers, it has become the de facto standard for sentence embedding applications.</p>
+<p><strong>Architecture and Design</strong>:
+- <strong>Modular Design</strong>: Supports various transformer models (BERT, RoBERTa, DistilBERT, etc.) as backbone encoders
+- <strong>Flexible Pooling</strong>: Multiple pooling strategies (mean, max, CLS token, weighted mean)
+- <strong>Training Pipeline</strong>: Streamlined training with various loss functions and evaluation metrics
+- <strong>Model Hub Integration</strong>: Seamless integration with Hugging Face Model Hub</p>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/UKPLab/sentence-transformers">SentenceTransformers GitHub</a></p>
+<p><strong>Key Components</strong>:</p>
+<ol>
+<li>
+<p><strong>SentenceTransformer Class</strong>:
+   <div class="highlight"><pre><span></span><code><span class="c1"># Core implementation in sentence_transformers/SentenceTransformer.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SentenceTransformer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name_or_path</span><span class="p">,</span> <span class="n">modules</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Initialize transformer model and pooling layer</span>
+</code></pre></div>
+   <a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py#L89">Implementation</a></p>
+</li>
+<li>
+<p><strong>Pooling Strategies</strong>:
+   <div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/models/Pooling.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pooling</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word_embedding_dimension</span><span class="p">,</span> <span class="n">pooling_mode</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">):</span>
+        <span class="c1"># Implements mean, max, cls pooling strategies</span>
+</code></pre></div>
+   <a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/models/Pooling.py">Implementation</a></p>
+</li>
+</ol>
+<h5 id="all-minilm-l6-v2-deep-dive-analysis">all-MiniLM-L6-v2: Deep Dive Analysis</h5>
+<p><strong>all-MiniLM-L6-v2</strong> is one of the most popular sentence embedding models, offering an excellent balance between performance and efficiency. It's based on the MiniLM architecture with specific optimizations for sentence-level tasks.</p>
+<p><strong>Architecture Details</strong>:
+- <strong>Base Model</strong>: DistilBERT-like architecture with 6 layers
+- <strong>Hidden Size</strong>: 384 dimensions
+- <strong>Attention Heads</strong>: 12
+- <strong>Parameters</strong>: ~23M (significantly smaller than BERT-base's 110M)
+- <strong>Max Sequence Length</strong>: 512 tokens
+- <strong>Output Dimensions</strong>: 384-dimensional sentence embeddings</p>
+<p><strong>Training Process</strong>:</p>
+<ol>
+<li><strong>Knowledge Distillation</strong>: Trained using knowledge distillation from larger teacher models</li>
+<li>Teacher models: Multiple large sentence embedding models</li>
+<li>Student model: 6-layer MiniLM architecture</li>
+<li>
+<p>Distillation loss combines multiple objectives</p>
+</li>
+<li>
+<p><strong>Multi-Task Training</strong>: Trained on diverse datasets:</p>
+</li>
+<li><strong>Natural Language Inference</strong>: SNLI, MultiNLI, XNLI</li>
+<li><strong>Semantic Textual Similarity</strong>: STS benchmark datasets</li>
+<li><strong>Question-Answer Pairs</strong>: Quora, Stack Exchange, MS MARCO</li>
+<li>
+<p><strong>Paraphrase Detection</strong>: Various paraphrase datasets</p>
+</li>
+<li>
+<p><strong>Training Objective</strong>:
+   <div class="highlight"><pre><span></span><code><span class="c1"># Simplified training objective combining multiple losses</span>
+<span class="n">total_loss</span> <span class="o">=</span> <span class="n">λ</span><span class="err">₁</span> <span class="o">*</span> <span class="n">nli_loss</span> <span class="o">+</span> <span class="n">λ</span><span class="err">₂</span> <span class="o">*</span> <span class="n">sts_loss</span> <span class="o">+</span> <span class="n">λ</span><span class="err">₃</span> <span class="o">*</span> <span class="n">qa_loss</span> <span class="o">+</span> <span class="n">λ</span><span class="err">₄</span> <span class="o">*</span> <span class="n">distillation_loss</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p><strong>Performance Characteristics</strong>:
+- <strong>Speed</strong>: ~5x faster than BERT-base for inference
+- <strong>Memory</strong>: ~4x less memory usage
+- <strong>Quality</strong>: Retains ~95% of larger model performance on most tasks
+- <strong>Versatility</strong>: Excellent performance across multiple domains and languages</p>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2">all-MiniLM-L6-v2 on Hugging Face</a></p>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+
+<span class="c1"># Load the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="s1">&#39;all-MiniLM-L6-v2&#39;</span><span class="p">)</span>
+
+<span class="c1"># Generate embeddings</span>
+<span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;This is an example sentence&#39;</span><span class="p">,</span> <span class="s1">&#39;Each sentence is converted&#39;</span><span class="p">]</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+</code></pre></div></p>
+<h5 id="siamese-and-triplet-network-architectures">Siamese and Triplet Network Architectures</h5>
+<p><strong>Siamese Networks</strong> and <strong>Triplet Networks</strong> are fundamental architectures for learning similarity-based embeddings, particularly effective for sentence embeddings.</p>
+<p><strong>Siamese Network Architecture</strong>:</p>
+<p>A Siamese network consists of two identical neural networks (sharing weights) that process two inputs simultaneously:</p>
+<div class="highlight"><pre><span></span><code>Input A ──→ [Encoder] ──→ Embedding A
+                │
+                │ (shared weights)
+                │
+Input B ──→ [Encoder] ──→ Embedding B
+                │
+                ▼
+        [Similarity Function]
+                │
+                ▼
+            Similarity Score
+</code></pre></div>
+<p><strong>Implementation Steps</strong>:</p>
+<ol>
+<li>
+<p><strong>Shared Encoder</strong>: Both inputs pass through the same transformer encoder
+   <div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/models/Transformer.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Transformer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+        <span class="c1"># Process input through transformer layers</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_model</span><span class="p">(</span><span class="o">**</span><span class="n">features</span><span class="p">)</span>
+</code></pre></div>
+   <a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/models/Transformer.py">Implementation</a></p>
+</li>
+<li>
+<p><strong>Pooling Layer</strong>: Convert token embeddings to sentence embeddings</p>
+</li>
+<li><strong>Similarity Computation</strong>: Calculate cosine similarity or Euclidean distance</li>
+</ol>
+<p><strong>Triplet Network Architecture</strong>:</p>
+<p>Triplet networks extend Siamese networks to work with three inputs: anchor, positive, and negative examples:</p>
+<div class="highlight"><pre><span></span><code>Anchor ────→ [Encoder] ──→ Embedding A
+Positive ──→ [Encoder] ──→ Embedding P  
+Negative ──→ [Encoder] ──→ Embedding N
+                │
+                ▼
+        [Triplet Loss Function]
+</code></pre></div>
+<p><strong>Training Process</strong>:
+1. <strong>Triplet Mining</strong>: Select challenging triplets (hard negatives)
+2. <strong>Forward Pass</strong>: Generate embeddings for all three inputs
+3. <strong>Loss Calculation</strong>: Apply triplet loss function
+4. <strong>Backpropagation</strong>: Update shared encoder weights</p>
+<h5 id="loss-functions-for-sentence-embeddings">Loss Functions for Sentence Embeddings</h5>
+<p><strong>1. Triplet Loss</strong></p>
+<p>Triplet loss ensures that the distance between anchor and positive is smaller than the distance between anchor and negative by a margin:</p>
+<div class="arithmatex">\[L_{\text{triplet}}(a, p, n) = \max(0, d(a, p) - d(a, n) + \text{margin})\]</div>
+<p>where:
+- <span class="arithmatex">\(a\)</span>, <span class="arithmatex">\(p\)</span>, <span class="arithmatex">\(n\)</span> are anchor, positive, and negative embeddings
+- <span class="arithmatex">\(d(\cdot, \cdot)\)</span> is the distance function (usually Euclidean or cosine)
+- <span class="arithmatex">\(\text{margin}\)</span> is a hyperparameter (typically 0.5)</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/losses/TripletLoss.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TripletLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">distance_metric</span><span class="o">=</span><span class="n">SiameseDistanceMetric</span><span class="o">.</span><span class="n">COSINE</span><span class="p">,</span> <span class="n">triplet_margin</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="c1"># Initialize triplet loss with specified distance metric and margin</span>
+</code></pre></div>
+<a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/TripletLoss.py">Implementation</a></p>
+<p><strong>Triplet Mining Strategies</strong>:
+- <strong>Random Triplets</strong>: Randomly sample triplets from the dataset
+- <strong>Hard Triplets</strong>: Select triplets where the negative is closer to anchor than positive
+- <strong>Semi-Hard Triplets</strong>: Negatives that are farther than positive but within the margin
+- <strong>Online Mining</strong>: Mine triplets during training based on current model state</p>
+<p><strong>2. Contrastive Loss</strong></p>
+<p>Contrastive loss works with pairs of examples, pulling similar pairs together and pushing dissimilar pairs apart:</p>
+<div class="arithmatex">\[L_{\text{contrastive}}(x_1, x_2, y) = y \cdot d(x_1, x_2)^2 + (1-y) \cdot \max(0, \text{margin} - d(x_1, x_2))^2\]</div>
+<p>where:
+- <span class="arithmatex">\(y = 1\)</span> for similar pairs, <span class="arithmatex">\(y = 0\)</span> for dissimilar pairs
+- <span class="arithmatex">\(d(x_1, x_2)\)</span> is the Euclidean distance between embeddings
+- <span class="arithmatex">\(\text{margin}\)</span> defines the minimum distance for dissimilar pairs</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/losses/ContrastiveLoss.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ContrastiveLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">distance_metric</span><span class="o">=</span><span class="n">SiameseDistanceMetric</span><span class="o">.</span><span class="n">EUCLIDEAN</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="c1"># Initialize contrastive loss with distance metric and margin</span>
+</code></pre></div>
+<a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/ContrastiveLoss.py">Implementation</a></p>
+<p><strong>3. Multiple Negatives Ranking Loss (MNRL)</strong></p>
+<p>MNRL is a more efficient alternative to triplet loss, using in-batch negatives to create multiple negative examples:</p>
+<div class="arithmatex">\[L_{\text{MNRL}} = -\log \frac{e^{\text{sim}(a, p)/\tau}}{e^{\text{sim}(a, p)/\tau} + \sum_{i=1}^{N} e^{\text{sim}(a, n_i)/\tau}}\]</div>
+<p>where:
+- <span class="arithmatex">\(a\)</span> is the anchor (query)
+- <span class="arithmatex">\(p\)</span> is the positive example
+- <span class="arithmatex">\(n_i\)</span> are negative examples (other examples in the batch)
+- <span class="arithmatex">\(\tau\)</span> is the temperature parameter
+- <span class="arithmatex">\(\text{sim}(\cdot, \cdot)\)</span> is the similarity function (usually cosine similarity)</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/losses/MultipleNegativesRankingLoss.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MultipleNegativesRankingLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">similarity_fct</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">cos_sim</span><span class="p">):</span>
+        <span class="c1"># Initialize MNRL with scaling factor and similarity function</span>
+</code></pre></div>
+<a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/MultipleNegativesRankingLoss.py">Implementation</a></p>
+<p><strong>Advantages of MNRL</strong>:
+- <strong>Efficiency</strong>: Uses all examples in a batch as negatives
+- <strong>Scalability</strong>: No need for explicit negative sampling
+- <strong>Performance</strong>: Often outperforms triplet loss with proper batch size
+- <strong>Simplicity</strong>: Easier to implement and tune than triplet mining strategies</p>
+<p><strong>4. CoSENT Loss</strong></p>
+<p>CoSENT (Cosine Sentence) loss is designed specifically for sentence similarity tasks:</p>
+<div class="arithmatex">\[L_{\text{CoSENT}} = \log(1 + \sum_{i=1}^{N} \sum_{j=1}^{N} \mathbb{1}_{y_i &lt; y_j} e^{\lambda(\cos(u_i, v_i) - \cos(u_j, v_j))})\]</div>
+<p>where:
+- <span class="arithmatex">\((u_i, v_i)\)</span> and <span class="arithmatex">\((u_j, v_j)\)</span> are sentence pairs
+- <span class="arithmatex">\(y_i\)</span> and <span class="arithmatex">\(y_j\)</span> are their similarity labels
+- <span class="arithmatex">\(\lambda\)</span> is a scaling factor
+- <span class="arithmatex">\(\cos(\cdot, \cdot)\)</span> is cosine similarity</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># sentence_transformers/losses/CoSENTLoss.py</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CoSENTLoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">20.0</span><span class="p">):</span>
+        <span class="c1"># Initialize CoSENT loss with scaling parameter</span>
+</code></pre></div>
+<a href="https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/CoSENTLoss.py">Implementation</a></p>
+<h5 id="advanced-training-techniques">Advanced Training Techniques</h5>
+<p><strong>1. Hard Negative Mining</strong></p>
+<p>Hard negative mining improves model performance by focusing on challenging examples:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example implementation of hard negative mining</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mine_hard_negatives</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">anchors</span><span class="p">,</span> <span class="n">candidates</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="c1"># Encode all sentences</span>
+    <span class="n">anchor_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">anchors</span><span class="p">)</span>
+    <span class="n">candidate_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+
+    <span class="c1"># Compute similarities</span>
+    <span class="n">similarities</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">cos_sim</span><span class="p">(</span><span class="n">anchor_embeddings</span><span class="p">,</span> <span class="n">candidate_embeddings</span><span class="p">)</span>
+
+    <span class="c1"># Select top-k most similar negatives (hardest negatives)</span>
+    <span class="n">hard_negatives</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">similarities</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">top_k</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">indices</span>
+    <span class="k">return</span> <span class="n">hard_negatives</span>
+</code></pre></div>
+<p><strong>2. Curriculum Learning</strong></p>
+<p>Gradually increase training difficulty by starting with easy examples and progressing to harder ones:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Curriculum learning implementation</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CurriculumSampler</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">difficulty_scores</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difficulty_scores</span> <span class="o">=</span> <span class="n">difficulty_scores</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_threshold</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Start with easiest 10%</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+        <span class="c1"># Gradually increase difficulty threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_threshold</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="n">epoch</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="c1"># Sample examples below difficulty threshold</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_by_difficulty</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>3. Data Augmentation for Sentence Embeddings</strong></p>
+<ul>
+<li><strong>Back-translation</strong>: Translate to another language and back</li>
+<li><strong>Paraphrasing</strong>: Use paraphrase generation models</li>
+<li><strong>Token-level augmentation</strong>: Random insertion, deletion, substitution</li>
+<li><strong>Dropout augmentation</strong>: Different dropout masks for the same sentence</li>
+</ul>
+<p><strong>Research Directions and Future Work</strong>:</p>
+<ol>
+<li><strong>Multilingual Sentence Embeddings</strong>:</li>
+<li>Cross-lingual alignment techniques</li>
+<li>Language-agnostic representation learning</li>
+<li>Zero-shot cross-lingual transfer</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/2007.01852">LaBSE</a>, <a href="https://arxiv.org/abs/1812.10464">LASER</a></p>
+</li>
+<li>
+<p><strong>Domain Adaptation</strong>:</p>
+</li>
+<li>Unsupervised domain adaptation for embeddings</li>
+<li>Few-shot learning for new domains</li>
+<li>Domain-adversarial training</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/2004.02349">Domain Adaptation</a></p>
+</li>
+<li>
+<p><strong>Efficient Training Methods</strong>:</p>
+</li>
+<li>Knowledge distillation for smaller models</li>
+<li>Progressive training strategies</li>
+<li>Mixed precision training</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/1910.01108">DistilBERT</a>, <a href="https://arxiv.org/abs/1909.10351">TinyBERT</a></p>
+</li>
+<li>
+<p><strong>Evaluation and Benchmarking</strong>:</p>
+</li>
+<li>Comprehensive evaluation frameworks</li>
+<li>Bias detection in sentence embeddings</li>
+<li>Robustness testing</li>
+<li>Papers: <a href="https://arxiv.org/abs/1803.05449">SentEval</a>, <a href="https://arxiv.org/abs/2210.07316">MTEB</a></li>
+</ol>
 <p><strong>Key Papers</strong>:
 - <a href="https://arxiv.org/abs/1908.10084">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks</a> (Reimers &amp; Gurevych, 2019)
 - <a href="https://arxiv.org/abs/2104.08821">SimCSE: Simple Contrastive Learning of Sentence Embeddings</a> (Gao et al., 2021)
 - <a href="https://arxiv.org/abs/2006.03659">DeCLUTR: Deep Contrastive Learning for Unsupervised Textual Representations</a> (Giorgi et al., 2021)
 - <a href="https://arxiv.org/abs/2212.03533">E5: Text Embeddings by Weakly-Supervised Contrastive Pre-training</a> (Wang et al., 2022)
-- <a href="https://arxiv.org/abs/2201.10005">Text and Code Embeddings by Contrastive Pre-Training</a> (Neelakantan et al., 2022)</p>
+- <a href="https://arxiv.org/abs/2201.10005">Text and Code Embeddings by Contrastive Pre-Training</a> (Neelakantan et al., 2022)
+- <a href="https://arxiv.org/abs/2004.09813">Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation</a> (Reimers &amp; Gurevych, 2020)
+- <a href="https://arxiv.org/abs/2210.07316">MTEB: Massive Text Embedding Benchmark</a> (Muennighoff et al., 2022)</p>
 <h4 id="decoder-based-embeddings-gpt-and-beyond-2018-present">Decoder-Based Embeddings: GPT and Beyond (2018-present)</h4>
 <p>While encoder models like BERT excel at understanding, decoder models like GPT (Generative Pre-trained Transformer) excel at generation. Interestingly, these decoder-based models can also produce high-quality embeddings, despite their architectural differences from traditional embedding models.</p>
 <h5 id="architecture-of-decoder-based-models">Architecture of Decoder-Based Models</h5>
@@ -3177,12 +3907,325 @@
 <p><strong>Black-box Nature</strong>: Commercial embeddings like those from OpenAI have limited transparency</p>
 </li>
 </ol>
+<h5 id="embedding-extraction-from-decoder-models">Embedding Extraction from Decoder Models</h5>
+<p><strong>Last Token Embeddings</strong>:
+For decoder models, embeddings are typically extracted from the last token's hidden state:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example with Hugging Face Transformers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">GPT2Model</span><span class="p">,</span> <span class="n">GPT2Tokenizer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GPT2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add padding token</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_gpt_embeddings</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+
+    <span class="c1"># Extract last token embeddings</span>
+    <span class="n">last_token_embeddings</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">last_token_embeddings</span>
+</code></pre></div>
+<p><strong>Mean Pooling for Decoder Models</strong>:
+Alternatively, mean pooling can be applied to all token embeddings:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_gpt_embeddings_mean_pooled</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;attention_mask&#39;</span><span class="p">]</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+
+    <span class="c1"># Apply attention mask and mean pool</span>
+    <span class="n">embeddings</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span>
+    <span class="n">masked_embeddings</span> <span class="o">=</span> <span class="n">embeddings</span> <span class="o">*</span> <span class="n">attention_mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mean_embeddings</span> <span class="o">=</span> <span class="n">masked_embeddings</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">attention_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mean_embeddings</span>
+</code></pre></div>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/huggingface/transformers/tree/main/src/transformers/models/gpt2">Hugging Face Transformers GPT Models</a></p>
+<h5 id="openai-text-embeddings-api">OpenAI Text Embeddings API</h5>
+<p>OpenAI provides specialized embedding models optimized for various tasks:</p>
+<p><strong>text-embedding-ada-002</strong>:
+- 1536-dimensional embeddings
+- Optimized for semantic search and similarity tasks
+- Cost-effective and high-performance</p>
+<p><strong>text-embedding-3-small</strong> and <strong>text-embedding-3-large</strong>:
+- Newer models with improved performance
+- Configurable output dimensions
+- Better multilingual support</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># OpenAI Embeddings API usage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">openai</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_openai_embeddings</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;text-embedding-3-small&quot;</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">openai</span><span class="o">.</span><span class="n">Embedding</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="nb">input</span><span class="o">=</span><span class="n">texts</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;embedding&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]]</span>
+</code></pre></div>
+<p><strong>API Documentation</strong>: <a href="https://platform.openai.com/docs/guides/embeddings">OpenAI Embeddings API</a></p>
 <p><strong>Key Papers and Resources</strong>:
 - <a href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf">Improving Language Understanding by Generative Pre-Training</a> (Radford et al., 2018)
 - <a href="https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language Models are Unsupervised Multitask Learners</a> (Radford et al., 2019)
 - <a href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners</a> (Brown et al., 2020)
 - <a href="https://arxiv.org/abs/2401.00368">Improving Text Embeddings with Large Language Models</a> (Neelakantan et al., 2024)
 - <a href="https://platform.openai.com/docs/guides/embeddings">OpenAI Embeddings Documentation</a></p>
+<h3 id="multimodal-embeddings">Multimodal Embeddings</h3>
+<p>Multimodal embeddings extend beyond text to incorporate visual, audio, and other modalities, enabling cross-modal understanding and retrieval.</p>
+<h4 id="vision-language-models">Vision-Language Models</h4>
+<h5 id="clip-contrastive-language-image-pre-training-2021">CLIP: Contrastive Language-Image Pre-training (2021)</h5>
+<p><strong>CLIP</strong> revolutionized multimodal understanding by learning joint representations of images and text through contrastive learning.</p>
+<p><strong>Architecture</strong>:
+- <strong>Text Encoder</strong>: Transformer-based (similar to GPT-2)
+- <strong>Image Encoder</strong>: Vision Transformer (ViT) or ResNet
+- <strong>Joint Embedding Space</strong>: Both modalities mapped to the same dimensional space</p>
+<p><strong>Training Objective</strong>:
+CLIP uses contrastive learning on image-text pairs:</p>
+<div class="arithmatex">\[L = -\frac{1}{N} \sum_{i=1}^{N} \log \frac{\exp(\text{sim}(I_i, T_i) / \tau)}{\sum_{j=1}^{N} \exp(\text{sim}(I_i, T_j) / \tau)}\]</div>
+<p>where:
+- <span class="arithmatex">\(I_i\)</span> and <span class="arithmatex">\(T_i\)</span> are image and text embeddings for the <span class="arithmatex">\(i\)</span>-th pair
+- <span class="arithmatex">\(\text{sim}(\cdot, \cdot)\)</span> is cosine similarity
+- <span class="arithmatex">\(\tau\)</span> is a learnable temperature parameter
+- <span class="arithmatex">\(N\)</span> is the batch size</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Using OpenAI&#39;s CLIP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">clip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="c1"># Load model</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+<span class="n">model</span><span class="p">,</span> <span class="n">preprocess</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;ViT-B/32&quot;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># Process image and text</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;image.jpg&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="n">tokenize</span><span class="p">([</span><span class="s2">&quot;a photo of a cat&quot;</span><span class="p">,</span> <span class="s2">&quot;a photo of a dog&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># Generate embeddings</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">image_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode_image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">text_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encode_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Normalize features</span>
+    <span class="n">image_features</span> <span class="o">/=</span> <span class="n">image_features</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">text_features</span> <span class="o">/=</span> <span class="n">text_features</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Calculate similarity</span>
+    <span class="n">similarity</span> <span class="o">=</span> <span class="p">(</span><span class="mf">100.0</span> <span class="o">*</span> <span class="n">image_features</span> <span class="o">@</span> <span class="n">text_features</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></p>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/openai/CLIP">OpenAI CLIP GitHub</a></p>
+<p><strong>Key Features</strong>:
+- <strong>Zero-shot Classification</strong>: Can classify images without task-specific training
+- <strong>Cross-modal Retrieval</strong>: Find images using text queries and vice versa
+- <strong>Robust Representations</strong>: Learned from 400M image-text pairs from the internet</p>
+<h5 id="vision-transformer-vit-for-image-embeddings">Vision Transformer (ViT) for Image Embeddings</h5>
+<p><strong>Vision Transformer</strong> applies the transformer architecture directly to image patches, treating them as sequences.</p>
+<p><strong>Architecture</strong>:
+1. <strong>Patch Embedding</strong>: Divide image into fixed-size patches and linearly embed them
+2. <strong>Position Embedding</strong>: Add learnable position embeddings to patch embeddings
+3. <strong>Transformer Encoder</strong>: Standard transformer layers with self-attention
+4. <strong>Classification Head</strong>: MLP head for classification or embedding extraction</p>
+<p><strong>Patch Embedding Process</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Simplified ViT patch embedding</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_patch_embeddings</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+    <span class="c1"># image shape: (batch_size, channels, height, width)</span>
+    <span class="n">batch_size</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Calculate number of patches</span>
+    <span class="n">num_patches_h</span> <span class="o">=</span> <span class="n">height</span> <span class="o">//</span> <span class="n">patch_size</span>
+    <span class="n">num_patches_w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">//</span> <span class="n">patch_size</span>
+
+    <span class="c1"># Reshape to patches</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">unfold</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">)</span><span class="o">.</span><span class="n">unfold</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">)</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">,</span> <span class="n">patch_size</span><span class="p">)</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">channels</span> <span class="o">*</span> <span class="n">patch_size</span> <span class="o">*</span> <span class="n">patch_size</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">patches</span>
+</code></pre></div></p>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/huggingface/transformers/tree/main/src/transformers/models/vit">Hugging Face ViT</a></p>
+<p><strong>Usage Example</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ViTModel</span><span class="p">,</span> <span class="n">ViTFeatureExtractor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="c1"># Load model and feature extractor</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ViTModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/vit-base-patch16-224&#39;</span><span class="p">)</span>
+<span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">ViTFeatureExtractor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;google/vit-base-patch16-224&#39;</span><span class="p">)</span>
+
+<span class="c1"># Process image</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;image.jpg&#39;</span><span class="p">)</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">feature_extractor</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+
+<span class="c1"># Generate embeddings</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="c1"># Use CLS token embedding</span>
+    <span class="n">image_embedding</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+</code></pre></div></p>
+<h4 id="audio-embeddings">Audio Embeddings</h4>
+<h5 id="wav2vec-20-self-supervised-audio-representations">Wav2Vec 2.0: Self-Supervised Audio Representations</h5>
+<p><strong>Wav2Vec 2.0</strong> learns powerful audio representations through self-supervised learning on raw audio waveforms.</p>
+<p><strong>Architecture</strong>:
+1. <strong>Feature Encoder</strong>: CNN layers that process raw audio
+2. <strong>Contextualized Representations</strong>: Transformer layers for sequence modeling
+3. <strong>Quantization Module</strong>: Discretizes latent representations</p>
+<p><strong>Training Objective</strong>:
+Contrastive learning with masked prediction:</p>
+<div class="arithmatex">\[L = -\log \frac{\exp(\text{sim}(c_t, q_t) / \tau)}{\sum_{\tilde{q} \in Q_t} \exp(\text{sim}(c_t, \tilde{q}) / \tau)}\]</div>
+<p>where:
+- <span class="arithmatex">\(c_t\)</span> is the contextualized representation at time step <span class="arithmatex">\(t\)</span>
+- <span class="arithmatex">\(q_t\)</span> is the quantized target representation
+- <span class="arithmatex">\(Q_t\)</span> is the set of distractors</p>
+<p><strong>Implementation</strong>:
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Wav2Vec2Model</span><span class="p">,</span> <span class="n">Wav2Vec2Processor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+
+<span class="c1"># Load model and processor</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Wav2Vec2Model</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/wav2vec2-base&quot;</span><span class="p">)</span>
+<span class="n">processor</span> <span class="o">=</span> <span class="n">Wav2Vec2Processor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;facebook/wav2vec2-base&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_audio_embeddings</span><span class="p">(</span><span class="n">audio_path</span><span class="p">):</span>
+    <span class="c1"># Load audio</span>
+    <span class="n">audio</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio_path</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+
+    <span class="c1"># Process audio</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Generate embeddings</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="c1"># Mean pool over time dimension</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">embeddings</span>
+</code></pre></div></p>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/huggingface/transformers/tree/main/src/transformers/models/wav2vec2">Hugging Face Wav2Vec2</a></p>
+<h5 id="openai-whisper-for-audio-understanding">OpenAI Whisper for Audio Understanding</h5>
+<p><strong>Whisper</strong> is a robust speech recognition model that can also provide audio embeddings:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">whisper</span>
+
+<span class="c1"># Load model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">whisper</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;base&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_whisper_embeddings</span><span class="p">(</span><span class="n">audio_path</span><span class="p">):</span>
+    <span class="c1"># Load and process audio</span>
+    <span class="n">audio</span> <span class="o">=</span> <span class="n">whisper</span><span class="o">.</span><span class="n">load_audio</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)</span>
+    <span class="n">audio</span> <span class="o">=</span> <span class="n">whisper</span><span class="o">.</span><span class="n">pad_or_trim</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span>
+
+    <span class="c1"># Generate mel spectrogram</span>
+    <span class="n">mel</span> <span class="o">=</span> <span class="n">whisper</span><span class="o">.</span><span class="n">log_mel_spectrogram</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Encode audio</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">audio_features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">mel</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">audio_features</span>
+</code></pre></div>
+<p><strong>Implementation Reference</strong>: <a href="https://github.com/openai/whisper">OpenAI Whisper GitHub</a></p>
+<h4 id="multimodal-fusion-techniques">Multimodal Fusion Techniques</h4>
+<h5 id="early-fusion">Early Fusion</h5>
+<p>Combine features from different modalities at the input level:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EarlyFusionModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_dim</span><span class="p">,</span> <span class="n">image_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">text_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">image_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fusion_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_features</span><span class="p">,</span> <span class="n">image_features</span><span class="p">):</span>
+        <span class="n">text_proj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_proj</span><span class="p">(</span><span class="n">text_features</span><span class="p">)</span>
+        <span class="n">image_proj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_proj</span><span class="p">(</span><span class="n">image_features</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate and fuse</span>
+        <span class="n">fused</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">text_proj</span><span class="p">,</span> <span class="n">image_proj</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fusion_layer</span><span class="p">(</span><span class="n">fused</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<h5 id="late-fusion">Late Fusion</h5>
+<p>Combine predictions from separate modality-specific models:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LateFusionModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_model</span><span class="p">,</span> <span class="n">image_model</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_model</span> <span class="o">=</span> <span class="n">text_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_model</span> <span class="o">=</span> <span class="n">image_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fusion_weights</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_input</span><span class="p">,</span> <span class="n">image_input</span><span class="p">):</span>
+        <span class="n">text_logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_model</span><span class="p">(</span><span class="n">text_input</span><span class="p">)</span>
+        <span class="n">image_logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_model</span><span class="p">(</span><span class="n">image_input</span><span class="p">)</span>
+
+        <span class="c1"># Weighted combination</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fusion_weights</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">fused_logits</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">text_logits</span> <span class="o">+</span> <span class="n">weights</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">image_logits</span>
+
+        <span class="k">return</span> <span class="n">fused_logits</span>
+</code></pre></div>
+<h5 id="cross-attention-fusion">Cross-Attention Fusion</h5>
+<p>Use attention mechanisms to model cross-modal interactions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CrossAttentionFusion</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cross_attention</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MultiheadAttention</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_features</span><span class="p">,</span> <span class="n">image_features</span><span class="p">):</span>
+        <span class="c1"># text_features: (seq_len, batch, embed_dim)</span>
+        <span class="c1"># image_features: (num_patches, batch, embed_dim)</span>
+
+        <span class="c1"># Cross-attention: text attends to image</span>
+        <span class="n">attended_text</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_attention</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="n">text_features</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">image_features</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">image_features</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Residual connection and layer norm</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">text_features</span> <span class="o">+</span> <span class="n">attended_text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span>
+</code></pre></div>
+<p><strong>Research Directions in Multimodal Embeddings</strong>:</p>
+<ol>
+<li><strong>Large-Scale Multimodal Models</strong>:</li>
+<li>DALL-E, DALL-E 2, Stable Diffusion</li>
+<li>GPT-4V (Vision), LLaVA, BLIP-2</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/2102.12092">DALL-E</a>, <a href="https://arxiv.org/abs/2304.08485">LLaVA</a></p>
+</li>
+<li>
+<p><strong>Video Understanding</strong>:</p>
+</li>
+<li>Temporal modeling in video embeddings</li>
+<li>Action recognition and video retrieval</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/1904.01766">VideoBERT</a>, <a href="https://arxiv.org/abs/2306.05424">Video-ChatGPT</a></p>
+</li>
+<li>
+<p><strong>3D and Spatial Embeddings</strong>:</p>
+</li>
+<li>Point cloud representations</li>
+<li>3D scene understanding</li>
+<li>
+<p>Papers: <a href="https://arxiv.org/abs/1612.00593">PointNet</a>, <a href="https://arxiv.org/abs/2003.08934">NeRF</a></p>
+</li>
+<li>
+<p><strong>Efficient Multimodal Training</strong>:</p>
+</li>
+<li>Parameter-efficient fine-tuning</li>
+<li>Modality-specific adapters</li>
+<li>Papers: <a href="https://arxiv.org/abs/2005.00247">AdapterFusion</a>, <a href="https://arxiv.org/abs/2106.09685">LoRA</a></li>
+</ol>
+<p><strong>Key Papers</strong>:
+- <a href="https://arxiv.org/abs/2103.00020">Learning Transferable Visual Models From Natural Language Supervision (CLIP)</a> (Radford et al., 2021)
+- <a href="https://arxiv.org/abs/2010.11929">An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (ViT)</a> (Dosovitskiy et al., 2021)
+- <a href="https://arxiv.org/abs/2006.11477">wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations</a> (Baevski et al., 2020)
+- <a href="https://arxiv.org/abs/2212.04356">Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)</a> (Radford et al., 2022)
+- <a href="https://arxiv.org/abs/2201.12086">BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a> (Li et al., 2022)</p>
 <h3 id="image-embeddings">Image Embeddings</h3>
 <h4 id="convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</h4>
 <p>CNNs revolutionized computer vision by learning hierarchical features from images. The convolutional operation is defined as:</p>
@@ -3824,7 +4867,7 @@
 - <a href="https://arxiv.org/abs/2111.07991">LiT: Zero-Shot Transfer with Locked-image Text Tuning</a> (Zhai et al., 2022)
 - <a href="https://arxiv.org/abs/2112.04482">FLAVA: A Foundational Language And Vision Alignment Model</a> (Singh et al., 2022)
 - <a href="https://arxiv.org/abs/2303.15389">EVA-CLIP: Improved Training Techniques for CLIP at Scale</a> (Sun et al., 2023)</p>
-<h3 id="audio-embeddings">Audio Embeddings</h3>
+<h3 id="audio-embeddings_1">Audio Embeddings</h3>
 <h4 id="wav2vec-and-wav2vec-20">Wav2Vec and Wav2Vec 2.0</h4>
 <p>Wav2Vec learns representations from raw audio by solving a contrastive task that requires distinguishing true future audio samples from distractors. Wav2Vec 2.0 extends this with a masked prediction task similar to BERT's MLM.</p>
 <p>The contrastive loss in Wav2Vec 2.0 is:</p>
@@ -3852,7 +4895,7 @@
 <p><strong>Key Papers</strong>:
 - <a href="https://arxiv.org/abs/2106.07447">HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units</a> (Hsu et al., 2021)
 - <a href="https://arxiv.org/abs/2110.13900">WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing</a> (Chen et al., 2021)</p>
-<h3 id="multimodal-embeddings">Multimodal Embeddings</h3>
+<h3 id="multimodal-embeddings_1">Multimodal Embeddings</h3>
 <p>Multimodal embeddings aim to create unified representations across different modalities (text, image, audio). The key challenge is aligning these diverse modalities in a shared semantic space.</p>
 <h4 id="joint-embedding-space-models">Joint Embedding Space Models</h4>
 <p>These models project different modalities into a common embedding space where semantically similar content is positioned closely regardless of modality.</p>
