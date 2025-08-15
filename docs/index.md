@@ -4,6 +4,27 @@ Welcome to the comprehensive documentation for the Multimodal Memory LLM Agent p
 
 ## Core Modules
 
+### [Deep Learning Foundations](deep_learning.md)
+
+Comprehensive tutorial on deep learning from fundamentals to modern architectures:
+
+- History of neural networks from perceptrons to deep learning revolution
+- Convolutional Neural Networks (CNNs) and major architectures
+- Optimization techniques, regularization methods, and advanced training
+- Modern architectures, semi-supervised and self-supervised learning
+- Mathematical foundations and implementation guides
+
+
+### [Self-Supervised Learning](self-supervised.md)
+
+Understand the principles and evolution of self-supervised learning:
+
+- Foundations of SSL from word embeddings to modern vision-language models
+- Evolution of language models and modality-specific SSL approaches
+- Multimodal self-supervised learning and contrastive methods
+- Training strategies, scaling laws, and theoretical foundations
+- Practical implementation guides and current research directions
+
 ### [Transformer Fundamentals](transformers.md)
 
 Learn about the core concepts of Transformer architecture:
@@ -15,11 +36,13 @@ Learn about the core concepts of Transformer architecture:
 
 ### [Multimodal Embeddings](embeddings.md)
 
-Learn about our unified interface for generating embeddings across different modalities:
+Comprehensive guide to generating embeddings across different modalities:
 
-- Text embeddings evolution from Word2Vec to modern approaches
-- Image, audio, and multimodal embedding techniques
-- Support for multiple embedding frameworks and models
+- Text embeddings from Word2Vec to modern transformer-based approaches
+- SentenceTransformers framework and popular models like all-MiniLM-L6-v2
+- Siamese/Triplet architectures with various loss functions (triplet, contrastive, MNRL)
+- Vision-language models (CLIP, ViT), audio embeddings (Wav2Vec 2.0, Whisper)
+- Multimodal fusion techniques and cross-modal understanding
 
 ### [LLM Frameworks and Architectures](llm.md)
 
@@ -36,20 +59,32 @@ Understand how persistent memory enhances LLM capabilities:
 - Context window management and conversation history
 - Vector-based retrieval for semantic search
 - Structured knowledge storage and retrieval
-- Long-term memory implementations
-
+- LangChain and LangGraph memory architectures
+- Model Context Protocol (MCP) for standardized memory systems
 
 ### [Tool Calling and Agent Capabilities](agents.md)
 
-Explore the implementation of LLM agents with tool-calling capabilities, including:
+Explore the implementation of LLM agents with tool-calling capabilities:
 
-- Function calling and ReAct approaches
+- Function calling and ReAct (Reasoning and Acting) approaches
 - Model Context Protocol (MCP) for standardized context injection
 - Multi-agent systems and agentic workflows
-- Framework implementations across OpenAI, LangChain, LlamaIndex, and more
+- Framework implementations across OpenAI, LangChain, LlamaIndex, AutoGen, and CrewAI
+- Tool learning and evaluation benchmarks
+
+
+
+### [Multi-Modal Language Models](multi_modal_LM.md)
+
+Explore the evolution and capabilities of multi-modal language models:
+
+- Historical evolution from visual-semantic embeddings to transformer era
+- Vision-Language Models (VLMs) including CLIP, BLIP, LLaVA, and Flamingo
+- Cross-modal attention mechanisms and mathematical foundations
+- Large-scale pre-training approaches and modern architectures
+
 
 ## Advanced Topics
-
 
 ### [Advanced Transformer Techniques](transformers_advanced.md)
 
@@ -59,6 +94,16 @@ Explore cutting-edge modifications and optimizations for Transformers:
 - Efficient attention mechanisms for reduced complexity
 - Position encoding improvements for longer sequences
 - Memory-efficient implementations and inference optimizations
+
+### [GPT Architecture Evolution](gpt_architecture_evolution.md)
+
+Comprehensive analysis of architectural advances from GPT-2 to modern models:
+
+- Evolution from GPT-2 baseline to GPT-oss and GPT-5 architectures
+- Key innovations: RoPE, SwiGLU, MoE, GQA, sliding window attention
+- MXFP4 quantization and efficiency optimizations
+- Practical implementation examples with official OpenAI code
+- Comparison with Qwen3 and other modern architectures
 
 ### [Inference Optimization](inference_optimization.md)
 

@@ -359,12 +359,323 @@ Sentence embeddings aim to represent entire sentences or paragraphs as fixed-len
    - Finding challenging negative examples improves model performance
    - Techniques include in-batch negatives, cross-batch negatives, and iterative mining
 
+##### SentenceTransformers Framework
+
+**SentenceTransformers** is the most widely adopted framework for sentence embeddings, providing a unified interface for training and using sentence embedding models. Developed by Nils Reimers, it has become the de facto standard for sentence embedding applications.
+
+**Architecture and Design**:
+- **Modular Design**: Supports various transformer models (BERT, RoBERTa, DistilBERT, etc.) as backbone encoders
+- **Flexible Pooling**: Multiple pooling strategies (mean, max, CLS token, weighted mean)
+- **Training Pipeline**: Streamlined training with various loss functions and evaluation metrics
+- **Model Hub Integration**: Seamless integration with Hugging Face Model Hub
+
+**Implementation Reference**: [SentenceTransformers GitHub](https://github.com/UKPLab/sentence-transformers)
+
+**Key Components**:
+
+1. **SentenceTransformer Class**:
+   ```python
+   # Core implementation in sentence_transformers/SentenceTransformer.py
+   class SentenceTransformer(nn.Module):
+       def __init__(self, model_name_or_path, modules=None, device=None):
+           # Initialize transformer model and pooling layer
+   ```
+   [Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py#L89)
+
+2. **Pooling Strategies**:
+   ```python
+   # sentence_transformers/models/Pooling.py
+   class Pooling(nn.Module):
+       def __init__(self, word_embedding_dimension, pooling_mode='mean'):
+           # Implements mean, max, cls pooling strategies
+   ```
+   [Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/models/Pooling.py)
+
+##### all-MiniLM-L6-v2: Deep Dive Analysis
+
+**all-MiniLM-L6-v2** is one of the most popular sentence embedding models, offering an excellent balance between performance and efficiency. It's based on the MiniLM architecture with specific optimizations for sentence-level tasks.
+
+**Architecture Details**:
+- **Base Model**: DistilBERT-like architecture with 6 layers
+- **Hidden Size**: 384 dimensions
+- **Attention Heads**: 12
+- **Parameters**: ~23M (significantly smaller than BERT-base's 110M)
+- **Max Sequence Length**: 512 tokens
+- **Output Dimensions**: 384-dimensional sentence embeddings
+
+**Training Process**:
+
+1. **Knowledge Distillation**: Trained using knowledge distillation from larger teacher models
+   - Teacher models: Multiple large sentence embedding models
+   - Student model: 6-layer MiniLM architecture
+   - Distillation loss combines multiple objectives
+
+2. **Multi-Task Training**: Trained on diverse datasets:
+   - **Natural Language Inference**: SNLI, MultiNLI, XNLI
+   - **Semantic Textual Similarity**: STS benchmark datasets
+   - **Question-Answer Pairs**: Quora, Stack Exchange, MS MARCO
+   - **Paraphrase Detection**: Various paraphrase datasets
+
+3. **Training Objective**:
+   ```python
+   # Simplified training objective combining multiple losses
+   total_loss = λ₁ * nli_loss + λ₂ * sts_loss + λ₃ * qa_loss + λ₄ * distillation_loss
+   ```
+
+**Performance Characteristics**:
+- **Speed**: ~5x faster than BERT-base for inference
+- **Memory**: ~4x less memory usage
+- **Quality**: Retains ~95% of larger model performance on most tasks
+- **Versatility**: Excellent performance across multiple domains and languages
+
+**Model Card**: [all-MiniLM-L6-v2 on Hugging Face](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
+
+**Usage Example**:
+```python
+from sentence_transformers import SentenceTransformer
+
+# Load the model
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+# Generate embeddings
+sentences = ['This is an example sentence', 'Each sentence is converted']
+embeddings = model.encode(sentences)
+```
+
+##### Siamese and Triplet Network Architectures
+
+**Siamese Networks** and **Triplet Networks** are fundamental architectures for learning similarity-based embeddings, particularly effective for sentence embeddings.
+
+**Siamese Network Architecture**:
+
+A Siamese network consists of two identical neural networks (sharing weights) that process two inputs simultaneously:
+
+```
+Input A ──→ [Encoder] ──→ Embedding A
+                │
+                │ (shared weights)
+                │
+Input B ──→ [Encoder] ──→ Embedding B
+                │
+                ▼
+        [Similarity Function]
+                │
+                ▼
+            Similarity Score
+```
+
+**Implementation Steps**:
+
+1. **Shared Encoder**: Both inputs pass through the same transformer encoder
+   ```python
+   # sentence_transformers/models/Transformer.py
+   class Transformer(nn.Module):
+       def forward(self, features):
+           # Process input through transformer layers
+           return self.auto_model(**features)
+   ```
+   [Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/models/Transformer.py)
+
+2. **Pooling Layer**: Convert token embeddings to sentence embeddings
+3. **Similarity Computation**: Calculate cosine similarity or Euclidean distance
+
+**Triplet Network Architecture**:
+
+Triplet networks extend Siamese networks to work with three inputs: anchor, positive, and negative examples:
+
+```
+Anchor ────→ [Encoder] ──→ Embedding A
+Positive ──→ [Encoder] ──→ Embedding P  
+Negative ──→ [Encoder] ──→ Embedding N
+                │
+                ▼
+        [Triplet Loss Function]
+```
+
+**Training Process**:
+1. **Triplet Mining**: Select challenging triplets (hard negatives)
+2. **Forward Pass**: Generate embeddings for all three inputs
+3. **Loss Calculation**: Apply triplet loss function
+4. **Backpropagation**: Update shared encoder weights
+
+##### Loss Functions for Sentence Embeddings
+
+**1. Triplet Loss**
+
+Triplet loss ensures that the distance between anchor and positive is smaller than the distance between anchor and negative by a margin:
+
+$$L_{\text{triplet}}(a, p, n) = \max(0, d(a, p) - d(a, n) + \text{margin})$$
+
+where:
+- $a$, $p$, $n$ are anchor, positive, and negative embeddings
+- $d(\cdot, \cdot)$ is the distance function (usually Euclidean or cosine)
+- $\text{margin}$ is a hyperparameter (typically 0.5)
+
+**Implementation**:
+```python
+# sentence_transformers/losses/TripletLoss.py
+class TripletLoss(nn.Module):
+    def __init__(self, model, distance_metric=SiameseDistanceMetric.COSINE, triplet_margin=0.5):
+        # Initialize triplet loss with specified distance metric and margin
+```
+[Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/TripletLoss.py)
+
+**Triplet Mining Strategies**:
+- **Random Triplets**: Randomly sample triplets from the dataset
+- **Hard Triplets**: Select triplets where the negative is closer to anchor than positive
+- **Semi-Hard Triplets**: Negatives that are farther than positive but within the margin
+- **Online Mining**: Mine triplets during training based on current model state
+
+**2. Contrastive Loss**
+
+Contrastive loss works with pairs of examples, pulling similar pairs together and pushing dissimilar pairs apart:
+
+$$L_{\text{contrastive}}(x_1, x_2, y) = y \cdot d(x_1, x_2)^2 + (1-y) \cdot \max(0, \text{margin} - d(x_1, x_2))^2$$
+
+where:
+- $y = 1$ for similar pairs, $y = 0$ for dissimilar pairs
+- $d(x_1, x_2)$ is the Euclidean distance between embeddings
+- $\text{margin}$ defines the minimum distance for dissimilar pairs
+
+**Implementation**:
+```python
+# sentence_transformers/losses/ContrastiveLoss.py
+class ContrastiveLoss(nn.Module):
+    def __init__(self, model, distance_metric=SiameseDistanceMetric.EUCLIDEAN, margin=0.5):
+        # Initialize contrastive loss with distance metric and margin
+```
+[Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/ContrastiveLoss.py)
+
+**3. Multiple Negatives Ranking Loss (MNRL)**
+
+MNRL is a more efficient alternative to triplet loss, using in-batch negatives to create multiple negative examples:
+
+$$L_{\text{MNRL}} = -\log \frac{e^{\text{sim}(a, p)/\tau}}{e^{\text{sim}(a, p)/\tau} + \sum_{i=1}^{N} e^{\text{sim}(a, n_i)/\tau}}$$
+
+where:
+- $a$ is the anchor (query)
+- $p$ is the positive example
+- $n_i$ are negative examples (other examples in the batch)
+- $\tau$ is the temperature parameter
+- $\text{sim}(\cdot, \cdot)$ is the similarity function (usually cosine similarity)
+
+**Implementation**:
+```python
+# sentence_transformers/losses/MultipleNegativesRankingLoss.py
+class MultipleNegativesRankingLoss(nn.Module):
+    def __init__(self, model, scale=20.0, similarity_fct=util.cos_sim):
+        # Initialize MNRL with scaling factor and similarity function
+```
+[Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/MultipleNegativesRankingLoss.py)
+
+**Advantages of MNRL**:
+- **Efficiency**: Uses all examples in a batch as negatives
+- **Scalability**: No need for explicit negative sampling
+- **Performance**: Often outperforms triplet loss with proper batch size
+- **Simplicity**: Easier to implement and tune than triplet mining strategies
+
+**4. CoSENT Loss**
+
+CoSENT (Cosine Sentence) loss is designed specifically for sentence similarity tasks:
+
+$$L_{\text{CoSENT}} = \log(1 + \sum_{i=1}^{N} \sum_{j=1}^{N} \mathbb{1}_{y_i < y_j} e^{\lambda(\cos(u_i, v_i) - \cos(u_j, v_j))})$$
+
+where:
+- $(u_i, v_i)$ and $(u_j, v_j)$ are sentence pairs
+- $y_i$ and $y_j$ are their similarity labels
+- $\lambda$ is a scaling factor
+- $\cos(\cdot, \cdot)$ is cosine similarity
+
+**Implementation**:
+```python
+# sentence_transformers/losses/CoSENTLoss.py
+class CoSENTLoss(nn.Module):
+    def __init__(self, model, scale=20.0):
+        # Initialize CoSENT loss with scaling parameter
+```
+[Implementation](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/CoSENTLoss.py)
+
+##### Advanced Training Techniques
+
+**1. Hard Negative Mining**
+
+Hard negative mining improves model performance by focusing on challenging examples:
+
+```python
+# Example implementation of hard negative mining
+def mine_hard_negatives(model, anchors, candidates, top_k=5):
+    # Encode all sentences
+    anchor_embeddings = model.encode(anchors)
+    candidate_embeddings = model.encode(candidates)
+    
+    # Compute similarities
+    similarities = util.cos_sim(anchor_embeddings, candidate_embeddings)
+    
+    # Select top-k most similar negatives (hardest negatives)
+    hard_negatives = torch.topk(similarities, k=top_k, dim=1).indices
+    return hard_negatives
+```
+
+**2. Curriculum Learning**
+
+Gradually increase training difficulty by starting with easy examples and progressing to harder ones:
+
+```python
+# Curriculum learning implementation
+class CurriculumSampler:
+    def __init__(self, dataset, difficulty_scores):
+        self.dataset = dataset
+        self.difficulty_scores = difficulty_scores
+        self.current_threshold = 0.1  # Start with easiest 10%
+    
+    def get_batch(self, epoch):
+        # Gradually increase difficulty threshold
+        self.current_threshold = min(1.0, 0.1 + epoch * 0.1)
+        # Sample examples below difficulty threshold
+        return self.sample_by_difficulty()
+```
+
+**3. Data Augmentation for Sentence Embeddings**
+
+- **Back-translation**: Translate to another language and back
+- **Paraphrasing**: Use paraphrase generation models
+- **Token-level augmentation**: Random insertion, deletion, substitution
+- **Dropout augmentation**: Different dropout masks for the same sentence
+
+**Research Directions and Future Work**:
+
+1. **Multilingual Sentence Embeddings**:
+   - Cross-lingual alignment techniques
+   - Language-agnostic representation learning
+   - Zero-shot cross-lingual transfer
+   - Papers: [LaBSE](https://arxiv.org/abs/2007.01852), [LASER](https://arxiv.org/abs/1812.10464)
+
+2. **Domain Adaptation**:
+   - Unsupervised domain adaptation for embeddings
+   - Few-shot learning for new domains
+   - Domain-adversarial training
+   - Papers: [Domain Adaptation](https://arxiv.org/abs/2004.02349)
+
+3. **Efficient Training Methods**:
+   - Knowledge distillation for smaller models
+   - Progressive training strategies
+   - Mixed precision training
+   - Papers: [DistilBERT](https://arxiv.org/abs/1910.01108), [TinyBERT](https://arxiv.org/abs/1909.10351)
+
+4. **Evaluation and Benchmarking**:
+   - Comprehensive evaluation frameworks
+   - Bias detection in sentence embeddings
+   - Robustness testing
+   - Papers: [SentEval](https://arxiv.org/abs/1803.05449), [MTEB](https://arxiv.org/abs/2210.07316)
+
 **Key Papers**:
 - [Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks](https://arxiv.org/abs/1908.10084) (Reimers & Gurevych, 2019)
 - [SimCSE: Simple Contrastive Learning of Sentence Embeddings](https://arxiv.org/abs/2104.08821) (Gao et al., 2021)
 - [DeCLUTR: Deep Contrastive Learning for Unsupervised Textual Representations](https://arxiv.org/abs/2006.03659) (Giorgi et al., 2021)
 - [E5: Text Embeddings by Weakly-Supervised Contrastive Pre-training](https://arxiv.org/abs/2212.03533) (Wang et al., 2022)
 - [Text and Code Embeddings by Contrastive Pre-Training](https://arxiv.org/abs/2201.10005) (Neelakantan et al., 2022)
+- [Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation](https://arxiv.org/abs/2004.09813) (Reimers & Gurevych, 2020)
+- [MTEB: Massive Text Embedding Benchmark](https://arxiv.org/abs/2210.07316) (Muennighoff et al., 2022)
 
 #### Decoder-Based Embeddings: GPT and Beyond (2018-present)
 
@@ -481,12 +792,378 @@ GPT and similar decoder-based models use a unidirectional (autoregressive) archi
 
 4. **Black-box Nature**: Commercial embeddings like those from OpenAI have limited transparency
 
+##### Embedding Extraction from Decoder Models
+
+**Last Token Embeddings**:
+For decoder models, embeddings are typically extracted from the last token's hidden state:
+
+```python
+# Example with Hugging Face Transformers
+from transformers import GPT2Model, GPT2Tokenizer
+import torch
+
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+model = GPT2Model.from_pretrained('gpt2')
+
+# Add padding token
+tokenizer.pad_token = tokenizer.eos_token
+
+def get_gpt_embeddings(texts):
+    inputs = tokenizer(texts, return_tensors='pt', padding=True, truncation=True)
+    with torch.no_grad():
+        outputs = model(**inputs)
+    
+    # Extract last token embeddings
+    last_token_embeddings = outputs.last_hidden_state[:, -1, :]
+    return last_token_embeddings
+```
+
+**Mean Pooling for Decoder Models**:
+Alternatively, mean pooling can be applied to all token embeddings:
+
+```python
+def get_gpt_embeddings_mean_pooled(texts):
+    inputs = tokenizer(texts, return_tensors='pt', padding=True, truncation=True)
+    attention_mask = inputs['attention_mask']
+    
+    with torch.no_grad():
+        outputs = model(**inputs)
+    
+    # Apply attention mask and mean pool
+    embeddings = outputs.last_hidden_state
+    masked_embeddings = embeddings * attention_mask.unsqueeze(-1)
+    mean_embeddings = masked_embeddings.sum(dim=1) / attention_mask.sum(dim=1, keepdim=True)
+    
+    return mean_embeddings
+```
+
+**Implementation Reference**: [Hugging Face Transformers GPT Models](https://github.com/huggingface/transformers/tree/main/src/transformers/models/gpt2)
+
+##### OpenAI Text Embeddings API
+
+OpenAI provides specialized embedding models optimized for various tasks:
+
+**text-embedding-ada-002**:
+- 1536-dimensional embeddings
+- Optimized for semantic search and similarity tasks
+- Cost-effective and high-performance
+
+**text-embedding-3-small** and **text-embedding-3-large**:
+- Newer models with improved performance
+- Configurable output dimensions
+- Better multilingual support
+
+```python
+# OpenAI Embeddings API usage
+import openai
+
+def get_openai_embeddings(texts, model="text-embedding-3-small"):
+    response = openai.Embedding.create(
+        input=texts,
+        model=model
+    )
+    return [data['embedding'] for data in response['data']]
+```
+
+**API Documentation**: [OpenAI Embeddings API](https://platform.openai.com/docs/guides/embeddings)
+
 **Key Papers and Resources**:
 - [Improving Language Understanding by Generative Pre-Training](https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf) (Radford et al., 2018)
 - [Language Models are Unsupervised Multitask Learners](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) (Radford et al., 2019)
 - [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165) (Brown et al., 2020)
 - [Improving Text Embeddings with Large Language Models](https://arxiv.org/abs/2401.00368) (Neelakantan et al., 2024)
 - [OpenAI Embeddings Documentation](https://platform.openai.com/docs/guides/embeddings)
+
+### Multimodal Embeddings
+
+Multimodal embeddings extend beyond text to incorporate visual, audio, and other modalities, enabling cross-modal understanding and retrieval.
+
+#### Vision-Language Models
+
+##### CLIP: Contrastive Language-Image Pre-training (2021)
+
+**CLIP** revolutionized multimodal understanding by learning joint representations of images and text through contrastive learning.
+
+**Architecture**:
+- **Text Encoder**: Transformer-based (similar to GPT-2)
+- **Image Encoder**: Vision Transformer (ViT) or ResNet
+- **Joint Embedding Space**: Both modalities mapped to the same dimensional space
+
+**Training Objective**:
+CLIP uses contrastive learning on image-text pairs:
+
+$$L = -\frac{1}{N} \sum_{i=1}^{N} \log \frac{\exp(\text{sim}(I_i, T_i) / \tau)}{\sum_{j=1}^{N} \exp(\text{sim}(I_i, T_j) / \tau)}$$
+
+where:
+- $I_i$ and $T_i$ are image and text embeddings for the $i$-th pair
+- $\text{sim}(\cdot, \cdot)$ is cosine similarity
+- $\tau$ is a learnable temperature parameter
+- $N$ is the batch size
+
+**Implementation**:
+```python
+# Using OpenAI's CLIP
+import clip
+import torch
+from PIL import Image
+
+# Load model
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model, preprocess = clip.load("ViT-B/32", device=device)
+
+# Process image and text
+image = preprocess(Image.open("image.jpg")).unsqueeze(0).to(device)
+text = clip.tokenize(["a photo of a cat", "a photo of a dog"]).to(device)
+
+# Generate embeddings
+with torch.no_grad():
+    image_features = model.encode_image(image)
+    text_features = model.encode_text(text)
+    
+    # Normalize features
+    image_features /= image_features.norm(dim=-1, keepdim=True)
+    text_features /= text_features.norm(dim=-1, keepdim=True)
+    
+    # Calculate similarity
+    similarity = (100.0 * image_features @ text_features.T).softmax(dim=-1)
+```
+
+**Implementation Reference**: [OpenAI CLIP GitHub](https://github.com/openai/CLIP)
+
+**Key Features**:
+- **Zero-shot Classification**: Can classify images without task-specific training
+- **Cross-modal Retrieval**: Find images using text queries and vice versa
+- **Robust Representations**: Learned from 400M image-text pairs from the internet
+
+##### Vision Transformer (ViT) for Image Embeddings
+
+**Vision Transformer** applies the transformer architecture directly to image patches, treating them as sequences.
+
+**Architecture**:
+1. **Patch Embedding**: Divide image into fixed-size patches and linearly embed them
+2. **Position Embedding**: Add learnable position embeddings to patch embeddings
+3. **Transformer Encoder**: Standard transformer layers with self-attention
+4. **Classification Head**: MLP head for classification or embedding extraction
+
+**Patch Embedding Process**:
+```python
+# Simplified ViT patch embedding
+def create_patch_embeddings(image, patch_size=16):
+    # image shape: (batch_size, channels, height, width)
+    batch_size, channels, height, width = image.shape
+    
+    # Calculate number of patches
+    num_patches_h = height // patch_size
+    num_patches_w = width // patch_size
+    
+    # Reshape to patches
+    patches = image.unfold(2, patch_size, patch_size).unfold(3, patch_size, patch_size)
+    patches = patches.contiguous().view(batch_size, channels, -1, patch_size, patch_size)
+    patches = patches.permute(0, 2, 1, 3, 4).contiguous()
+    patches = patches.view(batch_size, -1, channels * patch_size * patch_size)
+    
+    return patches
+```
+
+**Implementation Reference**: [Hugging Face ViT](https://github.com/huggingface/transformers/tree/main/src/transformers/models/vit)
+
+**Usage Example**:
+```python
+from transformers import ViTModel, ViTFeatureExtractor
+from PIL import Image
+
+# Load model and feature extractor
+model = ViTModel.from_pretrained('google/vit-base-patch16-224')
+feature_extractor = ViTFeatureExtractor.from_pretrained('google/vit-base-patch16-224')
+
+# Process image
+image = Image.open('image.jpg')
+inputs = feature_extractor(images=image, return_tensors="pt")
+
+# Generate embeddings
+with torch.no_grad():
+    outputs = model(**inputs)
+    # Use CLS token embedding
+    image_embedding = outputs.last_hidden_state[:, 0, :]
+```
+
+#### Audio Embeddings
+
+##### Wav2Vec 2.0: Self-Supervised Audio Representations
+
+**Wav2Vec 2.0** learns powerful audio representations through self-supervised learning on raw audio waveforms.
+
+**Architecture**:
+1. **Feature Encoder**: CNN layers that process raw audio
+2. **Contextualized Representations**: Transformer layers for sequence modeling
+3. **Quantization Module**: Discretizes latent representations
+
+**Training Objective**:
+Contrastive learning with masked prediction:
+
+$$L = -\log \frac{\exp(\text{sim}(c_t, q_t) / \tau)}{\sum_{\tilde{q} \in Q_t} \exp(\text{sim}(c_t, \tilde{q}) / \tau)}$$
+
+where:
+- $c_t$ is the contextualized representation at time step $t$
+- $q_t$ is the quantized target representation
+- $Q_t$ is the set of distractors
+
+**Implementation**:
+```python
+from transformers import Wav2Vec2Model, Wav2Vec2Processor
+import torch
+import librosa
+
+# Load model and processor
+model = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-base")
+processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-base")
+
+def get_audio_embeddings(audio_path):
+    # Load audio
+    audio, sr = librosa.load(audio_path, sr=16000)
+    
+    # Process audio
+    inputs = processor(audio, sampling_rate=16000, return_tensors="pt")
+    
+    # Generate embeddings
+    with torch.no_grad():
+        outputs = model(**inputs)
+        # Mean pool over time dimension
+        embeddings = outputs.last_hidden_state.mean(dim=1)
+    
+    return embeddings
+```
+
+**Implementation Reference**: [Hugging Face Wav2Vec2](https://github.com/huggingface/transformers/tree/main/src/transformers/models/wav2vec2)
+
+##### OpenAI Whisper for Audio Understanding
+
+**Whisper** is a robust speech recognition model that can also provide audio embeddings:
+
+```python
+import whisper
+
+# Load model
+model = whisper.load_model("base")
+
+def get_whisper_embeddings(audio_path):
+    # Load and process audio
+    audio = whisper.load_audio(audio_path)
+    audio = whisper.pad_or_trim(audio)
+    
+    # Generate mel spectrogram
+    mel = whisper.log_mel_spectrogram(audio).to(model.device)
+    
+    # Encode audio
+    with torch.no_grad():
+        audio_features = model.encoder(mel.unsqueeze(0))
+    
+    return audio_features
+```
+
+**Implementation Reference**: [OpenAI Whisper GitHub](https://github.com/openai/whisper)
+
+#### Multimodal Fusion Techniques
+
+##### Early Fusion
+Combine features from different modalities at the input level:
+
+```python
+class EarlyFusionModel(nn.Module):
+    def __init__(self, text_dim, image_dim, hidden_dim):
+        super().__init__()
+        self.text_proj = nn.Linear(text_dim, hidden_dim)
+        self.image_proj = nn.Linear(image_dim, hidden_dim)
+        self.fusion_layer = nn.Linear(hidden_dim * 2, hidden_dim)
+        
+    def forward(self, text_features, image_features):
+        text_proj = self.text_proj(text_features)
+        image_proj = self.image_proj(image_features)
+        
+        # Concatenate and fuse
+        fused = torch.cat([text_proj, image_proj], dim=-1)
+        output = self.fusion_layer(fused)
+        
+        return output
+```
+
+##### Late Fusion
+Combine predictions from separate modality-specific models:
+
+```python
+class LateFusionModel(nn.Module):
+    def __init__(self, text_model, image_model, num_classes):
+        super().__init__()
+        self.text_model = text_model
+        self.image_model = image_model
+        self.fusion_weights = nn.Parameter(torch.ones(2))
+        
+    def forward(self, text_input, image_input):
+        text_logits = self.text_model(text_input)
+        image_logits = self.image_model(image_input)
+        
+        # Weighted combination
+        weights = F.softmax(self.fusion_weights, dim=0)
+        fused_logits = weights[0] * text_logits + weights[1] * image_logits
+        
+        return fused_logits
+```
+
+##### Cross-Attention Fusion
+Use attention mechanisms to model cross-modal interactions:
+
+```python
+class CrossAttentionFusion(nn.Module):
+    def __init__(self, embed_dim, num_heads):
+        super().__init__()
+        self.cross_attention = nn.MultiheadAttention(embed_dim, num_heads)
+        self.layer_norm = nn.LayerNorm(embed_dim)
+        
+    def forward(self, text_features, image_features):
+        # text_features: (seq_len, batch, embed_dim)
+        # image_features: (num_patches, batch, embed_dim)
+        
+        # Cross-attention: text attends to image
+        attended_text, _ = self.cross_attention(
+            query=text_features,
+            key=image_features,
+            value=image_features
+        )
+        
+        # Residual connection and layer norm
+        output = self.layer_norm(text_features + attended_text)
+        
+        return output
+```
+
+**Research Directions in Multimodal Embeddings**:
+
+1. **Large-Scale Multimodal Models**:
+   - DALL-E, DALL-E 2, Stable Diffusion
+   - GPT-4V (Vision), LLaVA, BLIP-2
+   - Papers: [DALL-E](https://arxiv.org/abs/2102.12092), [LLaVA](https://arxiv.org/abs/2304.08485)
+
+2. **Video Understanding**:
+   - Temporal modeling in video embeddings
+   - Action recognition and video retrieval
+   - Papers: [VideoBERT](https://arxiv.org/abs/1904.01766), [Video-ChatGPT](https://arxiv.org/abs/2306.05424)
+
+3. **3D and Spatial Embeddings**:
+   - Point cloud representations
+   - 3D scene understanding
+   - Papers: [PointNet](https://arxiv.org/abs/1612.00593), [NeRF](https://arxiv.org/abs/2003.08934)
+
+4. **Efficient Multimodal Training**:
+   - Parameter-efficient fine-tuning
+   - Modality-specific adapters
+   - Papers: [AdapterFusion](https://arxiv.org/abs/2005.00247), [LoRA](https://arxiv.org/abs/2106.09685)
+
+**Key Papers**:
+- [Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020) (Radford et al., 2021)
+- [An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (ViT)](https://arxiv.org/abs/2010.11929) (Dosovitskiy et al., 2021)
+- [wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations](https://arxiv.org/abs/2006.11477) (Baevski et al., 2020)
+- [Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)](https://arxiv.org/abs/2212.04356) (Radford et al., 2022)
+- [BLIP: Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation](https://arxiv.org/abs/2201.12086) (Li et al., 2022)
 
 ### Image Embeddings
 

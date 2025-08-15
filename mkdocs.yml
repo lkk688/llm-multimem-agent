@@ -21,13 +21,17 @@ plugins:
 nav:
   - Home: index.md
   - Core Modules:
+    - Deep Learning Foundations: deep_learning.md
+    - Self-Supervised Learning: self-supervised.md
     - Transformer Fundamentals: transformers.md
-    - Tool Calling and Agents: agents.md
     - Multimodal Embeddings: embeddings.md
     - LLM Frameworks and Architectures: llm.md
     - Memory Systems: memory.md
+    - Tool Calling and Agent Capabilities: agents.md
+    - Multi-Modal Language Models: multi_modal_LM.md
   - Advanced Topics:
     - Advanced Transformer Techniques: transformers_advanced.md
     - Inference Optimization: inference_optimization.md
+    - GPT Architecture Evolution: gpt_architecture_evolution.md
   - Notebooks:
     - Memory Example: notebooks/memory_example.ipynb
