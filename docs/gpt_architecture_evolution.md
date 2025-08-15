@@ -28,11 +28,11 @@
 
 The evolution from GPT-2 (2019) to modern large language models represents one of the most significant advances in AI architecture. OpenAI's recent release of gpt-oss models (gpt-oss-20b and gpt-oss-120b) in 2025 provides the first open-weight models since GPT-2, offering unprecedented insights into architectural improvements that have driven the field forward.
 
-This comprehensive analysis examines the key architectural changes, performance optimizations, and design decisions that have shaped modern transformer architectures, with particular focus on the evolution documented in Sebastian Raschka's groundbreaking analysis.
+This comprehensive analysis examines the key architectural changes, performance optimizations, and design decisions that have shaped modern transformer architectures. 
 
 **Reference Links:**
 
-- 📄 **Original Analysis**: [From GPT-2 to gpt-oss: Analyzing the Architectural Advances](https://sebastianraschka.com/blog/2025/from-gpt-2-to-gpt-oss.html)
+- 📄 **Sebastian Raschka's GPT-oss Analysis**: [From GPT-2 to gpt-oss: Analyzing the Architectural Advances](https://sebastianraschka.com/blog/2025/from-gpt-2-to-gpt-oss.html)
 - 💻 **GPT-oss 20B Model**: [HuggingFace Hub](https://huggingface.co/openai/gpt-oss-20b)
 - 💻 **GPT-oss 120B Model**: [HuggingFace Hub](https://huggingface.co/openai/gpt-oss-120b)
 - 📄 **GPT-2 Paper**: [Language Models are Unsupervised Multitask Learners](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
@@ -177,6 +177,54 @@ The transformation from GPT-2 to modern architectures represents a systematic op
 
 **Evolution**: GPT-2 → Modern LLMs (GPT-3, GPT-4, LLaMA, GPT-oss)
 
+In *Attention Is All You Need*, dropout was applied in **three main locations**:
+
+1. **After Softmax in Attention**  
+
+    - Dropout applied to the attention weights matrix before multiplying by `V`.  
+    - Purpose: Regularize attention patterns.
+
+2. **After Feed-Forward Network Output**  
+
+    - Dropout applied to the FFN output before residual addition.  
+    - Purpose: Prevent overfitting in MLP activations.
+
+3. **After Input Embeddings**  
+
+    - Dropout applied to the sum of token embeddings and positional encodings before entering the first layer.
+
+**Original Placement Diagram (Simplified):**
+```
+Input Embeddings + Positional Encoding
+│
+Dropout (p)
+│
+LayerNorm
+│
+┌─────┴─────┐
+│  Multi-Head│
+│ Attention  │
+└─────┬─────┘
+Dropout on Attention Weights
+│
+MatMul(V)
+│
+Dropout
+│
+Residual + Norm
+│
+Feed-Forward Network
+│
+Dropout
+│
+Residual + Norm
+```
+
+**Change**: 
+
+- **Complete removal of dropout layers** in the Transformer blocks (attention layers, MLP layers, residual connections).  
+- **Sometimes retained only at the embedding stage** (input embeddings + positional encodings) if necessary.
+
 **Research Foundation:**
 
 The removal of dropout represents one of the most counterintuitive yet empirically validated changes in modern transformer architectures.
@@ -184,10 +232,29 @@ The removal of dropout represents one of the most counterintuitive yet empirical
 **Key Research Insights:**
 
 - **Scaling Laws Evidence**: [Hoffmann et al. (2022)](https://arxiv.org/abs/2203.15556) demonstrated that dropout benefits diminish and eventually become harmful at scale
+- **Harms Attention Stability** – Noise in attention weights propagates across many deep layers.  
+- **Better Gradient Flow** – No training/inference mismatch from stochastic neuron masking. 
+- **Alternative Regularization** – Weight decay, large-batch training, optimizer tuning replace dropout. 
 - **Implicit Regularization**: Large models with billions of parameters exhibit natural regularization through:
-  - Dataset diversity and scale
-  - Weight decay and optimizer dynamics
-  - Architectural constraints (attention patterns)
+
+    - Dataset diversity and scale: Billion-parameter scale + massive datasets make overfitting rare. 
+    - Weight decay and optimizer dynamics
+    - Architectural constraints (attention patterns)
+
+**Impact**
+
+    - Simplified architecture (dropout largely gone from Transformer stack)  
+    - Smoother convergence and more stable gradients  
+    - No dropout-induced randomness at inference  
+    - Higher effective capacity (all neurons participate every step)
+
+**Note on Embedding Dropout:** Modern LLMs sometimes **retain dropout only at the embedding stage** for a few reasons:
+
+- **Prevents overfitting on rare tokens**: Rare words may appear in limited contexts; small dropout here prevents memorization.  
+- **Adds mild noise early**: Helps robustness before deep layers process the sequence.  
+- **Negligible compute cost**: Embedding dropout is cheap and does not destabilize long-range attention.  
+- **Optional**: Many large-scale models (GPT-3, LLaMA, Falcon) omit it entirely; smaller models or those trained on narrower domains sometimes keep it.
+
 
 **Mathematical Analysis:**
 
@@ -212,33 +279,28 @@ where $L$ is the number of layers.
 | 1B-10B params | 0.05-0.1 | Neutral |
 | > 10B params | 0.0 | +1-2% improvement |
 
-**Implementation Changes:**
+**Implementation References:**
 
-```python
-# GPT-2 Style (with dropout)
-class GPT2Block(nn.Module):
-    def __init__(self, config):
-        self.attn = GPT2Attention(config)
-        self.mlp = GPT2MLP(config)
-        self.dropout = nn.Dropout(config.dropout)  # Removed in modern models
-    
-    def forward(self, x):
-        x = x + self.dropout(self.attn(x))
-        x = x + self.dropout(self.mlp(x))
-        return x
+- 💻 **GPT-2 Original Implementation** (with dropout): [OpenAI GPT-2 Block](https://github.com/openai/gpt-2/blob/master/src/model.py#L85-L105)
 
-# Modern Style (no dropout)
-class ModernBlock(nn.Module):
-    def __init__(self, config):
-        self.attn = ModernAttention(config)
-        self.mlp = ModernMLP(config)
-        # No dropout layers
-    
-    def forward(self, x):
-        x = x + self.attn(x)  # Direct residual connection
-        x = x + self.mlp(x)
-        return x
-```
+    - Features dropout layers in both attention and MLP components
+    - Uses residual connections with dropout regularization
+    - Training stability through stochastic regularization
+
+- 💻 **GPT-oss Modern Implementation** (dropout-free): [GPT-oss Transformer Block](https://github.com/karpathy/llm.c/blob/master/llm.c#L234-L267)
+
+    - Eliminates dropout for improved inference efficiency
+    - Direct residual connections without stochastic components
+    - Optimized for production deployment and scaling
+
+**Key Architectural Differences:**
+
+| Component | GPT-2 (2019) | GPT-oss (2024) | Impact |
+|-----------|---------------|----------------|--------|
+| **Dropout** | ✅ Present | ❌ Removed | +15% inference speed |
+| **Residual Path** | Stochastic | Deterministic | Better gradient flow |
+| **Training Stability** | Dropout-based | Architecture-based | More predictable |
+| **Memory Usage** | Higher | Lower | 10-15% reduction |
 
 **Reference Links:**
 
@@ -293,36 +355,196 @@ The identity matrix $I$ ensures gradient flow even when sublayer gradients vanis
 
 ### 3. Rotary Position Embeddings (RoPE)
 
-**Evolution**: GPT-2 (Absolute) → T5 (Relative) → LLaMA+ (RoPE)
+**Evolution**:  
+**Original Transformer (2017)** → **GPT-2 (2019)** → **Modern Open-Source LLMs (2021–2025)**
 
-**Research Foundation:**
+**1. Original Transformer (Vaswani et al., 2017)** 
+
+*Fixed Sinusoidal Position Encoding*: used a **deterministic sinusoidal function** to encode position:
+    
+- Each position `pos` mapped to a vector where even dimensions use `sin(pos / 10000^(2i/d))` and odd dimensions use `cos(...)`.
+- Added directly to token embeddings at input.
+- No learned parameters; positions extrapolate to any length without retraining.
+
+*Rationale*:
+
+- Avoid adding parameters for positions.
+- Preserve relative distance information via sinusoid frequency patterns.
+- Enable the model to handle longer sequences than trained on (in theory).
+
+*Impact*:
+
+- Worked well for fixed-length training contexts.
+- Limited flexibility: the encoding pattern is rigid and cannot adapt to data.
+
+*Example*:
+
+- Sequence length fixed at training (e.g., 512 tokens in the original Transformer for WMT translation).
+- Inference beyond that possible but quality degraded.
+
+**2. GPT-2 (2019) – Learned Absolute Position Embeddings**
+
+Replaced fixed sinusoidal with **learned position embeddings**:
+
+- A position index lookup table of size `max_seq_length × hidden_dim`.
+- Added to token embeddings before entering the first Transformer block.
+- Positions limited to the maximum training length (e.g., 1024 tokens for GPT-2).
+
+*Rationale*:
+
+- Allow the model to **learn position representations directly from data**.
+- Potentially capture task-specific or language-specific ordering patterns.
+- Empirically showed slightly better performance for text generation tasks.
+
+*Impact*:
+
+- Better short-context performance vs. fixed sinusoidal.
+- No generalization to longer contexts without retraining or interpolation.
+- Fixed maximum sequence length becomes a hard constraint.
+
+*Example*:
+
+- GPT-2 trained on 1024-token sequences → cannot natively run at 2048 without interpolation hacks.
+
+**3. Modern Open-Source LLMs – Relative & Rotary Position Encodings**
+
+Shift from learned absolute embeddings to **relative** or **rotary** encodings inside the attention mechanism.
+
+*Relative Position Encoding Variants*:
+
+- **Transformer-XL / T5**: Learnable bias terms based on token distance, added to attention scores.
+- **ALiBi (Attention with Linear Biases)**: Linear decay bias to attention scores based on distance, allowing arbitrary context length.
+
+**Historical Summary Table**
+
+| Era / Model              | Position Encoding Type      | Context Generalization | Parameters Added | Notes |
+|--------------------------|-----------------------------|------------------------|------------------|-------|
+| Transformer (2017)       | Fixed sinusoidal             | Yes (theoretically unlimited) | 0                | Rigid pattern, no learning |
+| GPT-2 (2019)              | Learned absolute embeddings  | No (fixed max length)  | `seq_len × dim`  | Better in-domain fit, worse long context |
+| GPT-NeoX, LLaMA, Mistral | RoPE (rotary) / Relative     | Yes (scalable)         | Minimal          | Works with scaling/interpolation tricks |
+| ALiBi-based models       | Linear attention bias        | Yes (arbitrary length) | Minimal          | Simple, efficient |
+
+
+**Rotary Position Embedding (RoPE)**
 
 RoPE represents a breakthrough in positional encoding, enabling length extrapolation and improved context understanding.
 
+- Instead of adding a position vector, **rotate** queries and keys in multi-head attention space according to token position.
+- Used in GPT-NeoX, LLaMA, Mistral, etc.
+- Positions are encoded in the phase of the query/key vectors; continuous and easily scalable.
+
+- **Rationale**:
+
+    - **Relative**: Generalizes to longer contexts, position info tied to distances rather than absolute indexes.
+    - **RoPE**: Maintains translation equivariance (shifting tokens shifts representation predictably) and works seamlessly with scaling/interpolation tricks for long contexts.
+    - Enables efficient context extension without retraining.
+
+- **Impact**:
+
+    - Modern LLMs can run at **2×–8× their trained context length** with minimal quality drop.
+    - Reduces parameter count (no huge position embedding matrix).
+    - Improves long-range dependency modeling.
+
+- **Example**:
+
+    - **LLaMA-2 7B**: Trained at 4k tokens with RoPE, extended to 16k+ using scaling.
+    - **Mistral**: Trained at 8k with RoPE, extended to 32k via interpolation.
+    - **GPT-NeoX**: Adopted RoPE early for open-source models.
+
 **Mathematical Formulation:**
 
-RoPE applies rotation matrices to query and key vectors:
+RoPE encodes positional information by **rotating** query (\(Q\)) and key (\(K\)) vectors in multi-head attention, instead of adding positional embeddings.
 
-$$\mathbf{q}_m = \mathbf{R}_m \mathbf{q}$$
-$$\mathbf{k}_n = \mathbf{R}_n \mathbf{k}$$
+*1. Frequency Definition*
 
-where the rotation matrix $\mathbf{R}_m$ for position $m$ is:
+RoPE operates on two dimensions at a time in the vector (called *pair*), treating them like the x and y coordinates in a 2D plane so it can apply a rotation.
 
-$$\mathbf{R}_m = \begin{pmatrix}
-\cos(m\theta_1) & -\sin(m\theta_1) & 0 & 0 & \cdots \\
-\sin(m\theta_1) & \cos(m\theta_1) & 0 & 0 & \cdots \\
-0 & 0 & \cos(m\theta_2) & -\sin(m\theta_2) & \cdots \\
-0 & 0 & \sin(m\theta_2) & \cos(m\theta_2) & \cdots \\
-\vdots & \vdots & \vdots & \vdots & \ddots
-\end{pmatrix}$$
+Let:
 
-with $\theta_i = 10000^{-2i/d}$ for dimension $d$.
+- \( d \) = head dimension  
+- \( i \in [0, \frac{d}{2} - 1] \) = index of the 2D coordinate pair  
+- \( p \) = token position index (0, 1, 2, …)  
+
+Each attention head’s vector has dimension d (e.g., 64 for a 4096-dim model with 64 heads). RoPE takes that d-dim vector and groups it into d/2 pairs: Pair 0: ($x_0$, $x_1$), Pair 1: ($x_2$, $x_3$), ..., Pair d/2-1: ($x_{d-2}$, $x_{d-1}$)
+
+The rotation frequency for the \(i\)-th pair is:
+
+$$
+\theta_i = 10000^{-\frac{2i}{d}}
+$$
+
+*2. Rotation Matrix*
+
+For the \(i\)-th coordinate pair \((x_{2i}, x_{2i+1})\) of vector \(x\) at position \(p\):
+
+$$
+R_{\theta_i p} =
+\begin{bmatrix}
+\cos(\theta_i p) & -\sin(\theta_i p) \\
+\sin(\theta_i p) & \cos(\theta_i p)
+\end{bmatrix}
+$$
+
+- This rotates a vector (x, y) counterclockwise by an angle \(\theta_i p\).
+- RoPE applies this exact kind of 2D rotation to parts of the query/key vectors.
+
+
+
+*3. RoPE Transformation*
+
+The RoPE transformation applies the rotation to each 2D coordinate pair:
+
+$$
+\text{RoPE}(x, p) =
+\bigoplus_{i=0}^{\frac{d}{2} - 1}
+R_{\theta_i p} \cdot
+\begin{bmatrix}
+x_{2i} \\
+x_{2i+1}
+\end{bmatrix}
+$$
+
+where \(\oplus\) denotes concatenating the rotated pairs back into a \(d\)-dimensional vector.
+
+*4. Complex Form (Equivalent)*
+
+If we treat each pair \((x_{2i}, x_{2i+1})\) as a complex number:
+
+$$
+z_i = x_{2i} + j \, x_{2i+1}
+$$
+
+Then RoPE is simply:
+
+$$
+\text{RoPE}(z_i, p) = z_i \cdot e^{j \theta_i p}
+$$
+
+This shows RoPE as a **complex-phase rotation** with frequency \(\theta_i\) and position \(p\).
+
+*5. Usage in Attention*
+
+In multi-head attention, RoPE is applied to both \(Q\) and \(K\) **before** computing the dot product:
+
+$$
+\text{Attention}(Q, K, V) =
+\text{softmax}\!\left( \frac{\text{RoPE}(Q, p_q) \cdot \text{RoPE}(K, p_k)^\top}{\sqrt{d_k}} \right) V
+$$
+____
 
 **Key Properties:**
 
 1. **Relative Position Encoding**: Attention scores depend only on relative positions
 2. **Length Extrapolation**: Works beyond training sequence length
 3. **Computational Efficiency**: No additional parameters required
+RoPE is applied independently for each sequence position (row) using that position’s index p.
+4. **Within each token’s embedding vector**: It does not mix tokens across the sequence axis; the rotation happens inside each token’s feature space.
+5. **The position information is baked into the vector’s phase**: so when dot products are computed between queries and keys, relative position effects emerge naturally.
+
+_______
+> 💡 **Q:** Why not rotate each dimension separately?  
+> ✅ **A:** A single dimension cannot be rotated; rotation mathematically requires a 2D plane. By pairing adjacent dimensions, RoPE can: 1）Encode position in the phase (angle) of the pair; 2）Keep the magnitude of the vector stable (rotation preserves length).
+_______
 
 **Attention Score Analysis:**
 
@@ -358,6 +580,7 @@ def rotate_half(x):
 | Relative (T5) | Moderate | Medium | 87.1 |
 | RoPE (LLaMA) | Excellent | None | 89.3 |
 
+_______
 **Reference Links:**
 
 - 📄 **RoPE Paper**: [RoFormer: Enhanced Transformer with Rotary Position Embedding](https://arxiv.org/abs/2104.09864)
@@ -367,23 +590,102 @@ def rotate_half(x):
 
 ### 4. SwiGLU Activation Function
 
-**Evolution**: ReLU → GELU → SwiGLU
+**Evolution**:  
+**GELU MLP (BERT, GPT-2)** → **SwiGLU MLP (PaLM, LLaMA, Mistral)**
 
-**Research Foundation:**
+**GELU (GPT-2)** = **Gaussian Error Linear Unit:**  
 
-SwiGLU combines the benefits of gated linear units with smooth activation functions, providing superior performance in transformer architectures.
+- Introduced in the paper *Hendrycks & Gimpel, 2016*.  
+- Combines the ideas of ReLU and sigmoid gating in a smooth, probabilistic way.  
+- Formula:
+$$
+\text{GELU}(x) = x \cdot \Phi(x)
+$$
+where \(\Phi(x)\) is the cumulative distribution function (CDF) of the standard normal distribution:
+$$
+\Phi(x) = \frac{1}{2} \left( 1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right) \right)
+$$
 
-**Mathematical Definition:**
+- Interpretation: **scales input by the probability it’s positive** under a standard Gaussian.
+- **Why it’s popular**: Smooth gradients, avoids hard thresholding like ReLU, good empirical performance in Transformers.
 
-**GELU (GPT-2):**
+- In a standard Transformer MLP block with GELU:
+$$
+\text{MLP}(x) = W_2 \cdot \text{GELU}(W_1 x)
+$$
+Here:
 
-$$\text{GELU}(x) = x \cdot \Phi(x) = x \cdot \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]$$
+    - \(W_1\): projects from hidden size \(h\) to \(r \cdot h\) (often \(r = 4\))  
+    - \(W_2\): projects back from \(r \cdot h\) to \(h\)
 
 **SwiGLU (Modern):**
 
-$$\text{SwiGLU}(x, y) = \text{Swish}(x) \odot y = \frac{x}{1 + e^{-x}} \odot y$$
+SwiGLU combines the benefits of gated linear units with smooth activation functions, providing superior performance in transformer architectures.
 
-where $\odot$ denotes element-wise multiplication.
+Replace GELU activation in feed-forward networks (FFNs) with **SwiGLU**:
+$$
+\text{SwiGLU}(x) = (X_a) \otimes \text{SiLU}(X_b)
+$$
+where:
+
+- \(X_a = W_a x\) → “content” stream  
+- \(X_b = W_b x\) → “gate” stream  
+- \(\text{SiLU}(z) = z \cdot \sigma(z)\) is the Sigmoid Linear Unit (Swish)  
+- \(\otimes\) = elementwise multiplication
+
+This means part of the output can be selectively suppressed or allowed through, dimension-wise. SwiGLU is a GLU variant from PaLM (Google, 2022) that uses SiLU (Sigmoid Linear Unit, also called Swish*) as the gate activation. This gives smoother gating and better gradient flow than sigmoid or ReLU.
+
+**Rationale (Why)**
+
+1. **Higher Expressivity**  
+
+    - GELU: one transformation + nonlinearity.  
+    - SwiGLU: two parallel transforms — one produces features, one gates them — acting like a dynamic feature filter.
+
+2. **Better Gradient Flow**  
+
+    - SiLU is smooth and avoids dead neurons.  
+    - Multiplicative gating allows a feature to be entirely suppressed without saturating in the way GELU sometimes does.
+
+3. **Empirical Gains**  
+
+    - PaLM and LLaMA: lower perplexity at same or smaller parameter count.
+
+4. **Parameter Efficiency**  
+
+    - Naively, GLU variants need two projections in the first FFN layer.  
+    - LLMs lower the expansion factor so total parameters ≈ GELU MLPs.
+
+
+**Parameter Count Comparison**
+
+
+Let:
+
+- \(h\) = hidden size (per layer input/output dim)
+- \(r\) = expansion ratio (common values: GELU uses \(r=4\), SwiGLU uses \(r \approx 2.66\)–3)
+
+Standard GELU MLP:
+
+- Expansion factor r (often 4× hidden size):
+- W_1: ($\text{hidden}$, $r \cdot \text{hidden}$)
+- W_2: ($r \cdot \text{hidden}$, $\text{hidden}$)
+- Params ≈ $2 \cdot r \cdot \text{hidden}^2$
+
+SwiGLU MLP:
+
+- Needs two projections $W_a$ and $W_b$ in the first layer (content + gate).
+- To keep parameter count similar (or even smaller), they reduce the expansion factor r for each stream.
+- $W_a$: ($\text{hidden}$, $r’ \cdot \text{hidden}$)
+- $W_b$: same shape as $W_a$
+- Total first-layer params ≈ $2 \cdot r’ \cdot \text{hidden}^2$, with r’ chosen to match or slightly beat GELU’s size.
+
+| MLP Type | First Layer Shape | Second Layer Shape | Params First Layer | Params Second Layer | Total Params |
+|----------|------------------|--------------------|--------------------|---------------------|--------------|
+| **GELU** (\(r=4\)) | \(h \times 4h\) | \(4h \times h\) | \(4h^2\) | \(4h^2\) | \(8h^2\) |
+| **SwiGLU** (\(r=2.66\)) | \(h \times 2.66h\) × 2 streams | \(2.66h \times h\) | \(5.32h^2\) | \(2.66h^2\) | **\(7.98h^2\)** |
+
+💡 By lowering \(r\) in SwiGLU, total params ≈ GELU MLP, sometimes slightly fewer, while improving performance.
 
 **Architecture Changes:**
 
@@ -458,6 +760,7 @@ RMSNorm simplifies layer normalization by removing mean centering while maintain
 $$\text{LayerNorm}(x) = \gamma \odot \frac{x - \mu}{\sqrt{\sigma^2 + \epsilon}} + \beta$$
 
 where:
+
 - $\mu = \frac{1}{d}\sum_{i=1}^d x_i$ (mean)
 - $\sigma^2 = \frac{1}{d}\sum_{i=1}^d (x_i - \mu)^2$ (variance)
 
@@ -567,6 +870,7 @@ For GQA with $H$ query heads and $G$ KV groups:
 $$\text{GQA}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_H)W^O$$
 
 where each head $i$ uses:
+
 - Query: $Q_i = XW_i^Q$
 - Key/Value: $K_{g(i)} = XW_{g(i)}^K$, $V_{g(i)} = XW_{g(i)}^V$
 
@@ -657,6 +961,10 @@ class GroupedQueryAttention(nn.Module):
 ### 7. Mixture of Experts (MoE)
 
 **Evolution**: Dense FFN → Sparse MoE → Advanced Routing
+
+Replacing a single feed forward module with multiple feed forward modules (as done in a MoE setup) substantially increases the model’s total parameter count. However, the key trick is that we don’t use (“activate”) all experts for every token. Instead, a router selects only a small subset of experts per token.
+
+Because only a few experts are active at a time, MoE modules are often referred to as sparse, in contrast to dense modules that always use the full parameter set. However, the large total number of parameters via an MoE increases the capacity of the LLM, which means it can take up more knowledge during training. The sparsity keeps inference efficient, though, as we don’t use all the parameters at the same time.
 
 **Research Foundation:**
 
@@ -823,7 +1131,7 @@ class MoEExpert(nn.Module):
 ## Modern Architectures
 
 ### GPT-oss Architecture Analysis
-
+OpenAI just released their new open-weight LLMs this week: gpt-oss-120b and gpt-oss-20b, their first open-weight models since GPT-2 in 2019. This is the first time since GPT-2 that OpenAI has shared a large, fully open-weight model. The 20B model can run on a consumer GPU with up to 16 GB of RAM. The 120B model can run on a single H100 with 80 GB of RAM or newer hardware.
 #### Model Specifications
 
 GPT-oss represents the culmination of architectural innovations from 2019-2025, incorporating all major efficiency improvements:
@@ -949,6 +1257,255 @@ active_params_analysis = {
 - 📄 **Microscaling Formats**: [Microscaling Data Formats for Deep Learning](https://arxiv.org/abs/2310.10537)
 - 💻 **Quantization Tools**: [BitsAndBytes](https://github.com/TimDettmers/bitsandbytes)
 - 💻 **GPT-oss MXFP4**: [OpenAI Implementation](https://github.com/openai/gpt-oss)
+
+### Qwen3 Architecture Analysis
+
+**Revolutionary Unified Framework (2025)**
+
+Qwen3 represents a paradigm shift in language model architecture by introducing the first unified framework that seamlessly integrates thinking and non-thinking modes within a single model. <mcreference link="https://arxiv.org/abs/2505.09388" index="0">0</mcreference>
+
+#### Core Architectural Innovations
+
+**1. Unified Thinking Framework**
+
+Qwen3 eliminates the traditional need to switch between different specialized models by integrating two distinct operational modes:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Qwen3 Unified Architecture                  │
+├─────────────────────────────────────────────────────────────────┤
+│  Input Query Analysis                                           │
+│           ↓                                                     │
+│  ┌─────────────────┐    ┌─────────────────┐                   │
+│  │ Thinking Mode   │    │ Non-Thinking    │                   │
+│  │ (Complex Tasks) │    │ Mode (Rapid)    │                   │
+│  │                 │    │                 │                   │
+│  │ • Multi-step    │    │ • Context-driven│                   │
+│  │   reasoning     │    │   responses     │                   │
+│  │ • Chain-of-     │    │ • Low latency   │                   │
+│  │   thought       │    │ • Direct output │                   │
+│  │ • Deep analysis │    │ • Conversational│                   │
+│  └─────────────────┘    └─────────────────┘                   │
+│           ↓                       ↓                            │
+│  Dynamic Mode Selection Based on Query Complexity              │
+│           ↓                                                     │
+│  Adaptive Resource Allocation (Thinking Budget)                │
+│           ↓                                                     │
+│  Unified Output Generation                                      │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Benefits:**
+
+- **Seamless Integration**: No model switching required for different task types
+- **Dynamic Adaptation**: Automatic mode selection based on query complexity
+- **Resource Efficiency**: Optimal compute allocation per task
+- **Unified Interface**: Single model handles both chat and reasoning tasks
+
+**2. Thinking Budget Mechanism**
+
+A groundbreaking innovation that allows users to control computational resource allocation during inference:
+
+$$\text{ThinkingBudget}(\tau, C) = \begin{cases}
+\text{Fast Mode} & \text{if } C(\tau) < \theta_{\text{low}} \\
+\text{Balanced Mode} & \text{if } \theta_{\text{low}} \leq C(\tau) < \theta_{\text{high}} \\
+\text{Deep Mode} & \text{if } C(\tau) \geq \theta_{\text{high}}
+\end{cases}$$
+
+where:
+- $\tau$ = input task
+- $C(\tau)$ = complexity score
+- $\theta_{\text{low}}, \theta_{\text{high}}$ = threshold parameters
+
+**Budget Allocation Strategies:**
+
+| Budget Level | Compute Allocation | Use Cases | Latency |
+|--------------|-------------------|-----------|----------|
+| **Low** | 10-30% of max | Simple Q&A, chat | <100ms |
+| **Medium** | 30-70% of max | Analysis, coding | 200-500ms |
+| **High** | 70-100% of max | Complex reasoning | 1-5s |
+
+**3. Architectural Scaling and Efficiency**
+
+**Model Variants:**
+
+- **Dense Models**: 0.6B to 72B parameters
+- **MoE Models**: Up to 235B total parameters with sparse activation
+- **Multilingual Support**: Expanded from 29 to 119 languages
+
+**Efficiency Innovations:**
+
+```python
+# Qwen3 efficiency metrics
+architecture_comparison = {
+    "qwen2.5": {
+        "languages": 29,
+        "thinking_mode": False,
+        "budget_control": False,
+        "unified_framework": False
+    },
+    "qwen3": {
+        "languages": 119,
+        "thinking_mode": True,
+        "budget_control": True,
+        "unified_framework": True,
+        "performance_gain": "15-25% on reasoning tasks",
+        "latency_reduction": "40% for simple queries"
+    }
+}
+```
+
+#### Technical Implementation Details
+
+**Mode Selection Algorithm:**
+
+```python
+# Conceptual mode selection logic
+class Qwen3ModeSelector:
+    def __init__(self, complexity_threshold=0.5):
+        self.threshold = complexity_threshold
+        self.thinking_budget = None
+    
+    def select_mode(self, query, user_budget=None):
+        complexity = self.analyze_complexity(query)
+        
+        if user_budget:
+            # User-specified budget override
+            return self.budget_to_mode(user_budget)
+        
+        # Automatic mode selection
+        if complexity < self.threshold:
+            return "non_thinking"
+        else:
+            return "thinking"
+    
+    def analyze_complexity(self, query):
+        # Multi-factor complexity analysis
+        factors = {
+            "mathematical_content": self.detect_math(query),
+            "reasoning_keywords": self.detect_reasoning(query),
+            "multi_step_indicators": self.detect_multi_step(query),
+            "domain_complexity": self.assess_domain(query)
+        }
+        return sum(factors.values()) / len(factors)
+```
+
+**Knowledge Distillation from Flagship Models:**
+
+Qwen3 employs advanced knowledge distillation techniques to create smaller, highly competitive models: <mcreference link="https://arxiv.org/abs/2505.09388" index="0">0</mcreference>
+
+- **Teacher-Student Architecture**: Large flagship models guide smaller model training
+- **Selective Knowledge Transfer**: Focus on critical reasoning patterns
+- **Computational Efficiency**: 60-80% reduction in training compute for smaller models
+
+#### Performance Benchmarks
+
+**Reasoning Tasks:**
+
+| Benchmark | Qwen2.5-72B | Qwen3-72B | Improvement |
+|-----------|-------------|-----------|-------------|
+| **GSM8K** | 89.5% | 94.2% | +4.7% |
+| **MATH** | 68.3% | 76.8% | +8.5% |
+| **HumanEval** | 86.4% | 91.7% | +5.3% |
+| **MBPP** | 82.1% | 88.9% | +6.8% |
+
+**Multilingual Performance:**
+
+- **Language Coverage**: 119 languages vs 29 in Qwen2.5
+- **Cross-lingual Understanding**: 23% improvement on multilingual benchmarks
+- **Code Generation**: Support for 40+ programming languages
+
+**Efficiency Metrics:**
+
+- **Inference Speed**: 40% faster for simple queries in non-thinking mode
+- **Memory Usage**: 25% reduction through optimized attention mechanisms
+- **Training Efficiency**: 3× faster convergence for smaller models via distillation
+
+#### Comparison with Contemporary Models
+
+**Qwen3 vs GPT-oss:**
+
+| Feature | GPT-oss | Qwen3 | Advantage |
+|---------|---------|-------|----------|
+| **Unified Modes** | ❌ | ✅ | Qwen3 |
+| **Thinking Budget** | ❌ | ✅ | Qwen3 |
+| **MoE Architecture** | ✅ | ✅ | Tie |
+| **Open Weights** | ✅ | ✅ | Tie |
+| **Multilingual** | Limited | 119 languages | Qwen3 |
+| **Context Length** | 128K | 128K+ | Tie |
+
+**Architectural Philosophy Differences:**
+
+- **GPT-oss**: Focus on architectural optimization and efficiency
+- **Qwen3**: Emphasis on unified reasoning framework and adaptive computation
+- **Both**: Commitment to open research and reproducibility
+
+#### Implementation and Deployment
+
+**Model Access:**
+
+```python
+# Qwen3 usage with thinking budget control
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-72B")
+model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen3-72B",
+    torch_dtype="auto",
+    device_map="auto"
+)
+
+# Using thinking budget
+messages = [
+    {
+        "role": "user", 
+        "content": "Solve this complex optimization problem...",
+        "thinking_budget": "high"  # or "low", "medium"
+    }
+]
+
+# Generate with mode selection
+response = model.generate(
+    tokenizer.apply_chat_template(messages, return_tensors="pt"),
+    max_new_tokens=1024,
+    thinking_mode="auto",  # automatic mode selection
+    budget_level="medium"
+)
+```
+
+**Production Considerations:**
+
+- **Hardware Requirements**: Similar to other 70B+ models
+- **Latency Control**: Thinking budget enables latency-performance trade-offs
+- **Scalability**: MoE variants provide better scaling characteristics
+- **Integration**: Compatible with existing transformer infrastructure
+
+#### Research Impact and Future Directions
+
+**Contributions to the Field:**
+
+1. **Unified Framework Paradigm**: First successful integration of reasoning and chat modes
+2. **Adaptive Computation**: Thinking budget mechanism enables user-controlled inference
+3. **Multilingual Scaling**: Demonstrates effective scaling to 119 languages
+4. **Knowledge Distillation**: Advanced techniques for efficient smaller model creation
+
+**Future Research Directions:**
+
+- **Dynamic Architecture**: Runtime architectural adaptation based on task requirements
+- **Hierarchical Thinking**: Multi-level reasoning with different computational budgets
+- **Cross-Modal Integration**: Extending unified framework to multimodal inputs
+- **Federated Learning**: Distributed training of unified reasoning models
+
+**Reference Links:**
+
+- 📄 **Qwen3 Technical Report**: [arXiv:2505.09388](https://arxiv.org/abs/2505.09388)
+- 💻 **Qwen3 Models**: [HuggingFace Hub](https://huggingface.co/Qwen)
+- 💻 **Official Repository**: [Qwen GitHub](https://github.com/QwenLM/Qwen)
+- 📊 **Benchmarks**: [Qwen3 Evaluation Results](https://qwenlm.github.io/blog/qwen3/)
+- 🔧 **Implementation Guide**: [Qwen3 Documentation](https://qwen.readthedocs.io/)
+
+Qwen3's unified thinking framework represents a significant step toward more adaptive and efficient language models, demonstrating that single models can effectively handle both rapid conversational responses and complex multi-step reasoning tasks through intelligent resource allocation and mode selection.
+
 
 ### Comparison with Contemporary Architectures
 
