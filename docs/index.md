@@ -114,6 +114,8 @@ Discover techniques to optimize LLM inference for production deployment:
 - Model compression techniques (distillation, pruning)
 - Hardware acceleration and system-level optimizations
 
+### [Physical AI in Autonomous Driving](physical_ai_autonomous_driving.md)
+
 ## Getting Started
 
 Explore the documentation for each module to understand the architecture, implementation details, and usage examples. The project provides a flexible framework that can be adapted to various use cases and deployment scenarios.
