@@ -33,6 +33,7 @@ nav:
     - Advanced Transformer Techniques: transformers_advanced.md
     - Inference Optimization: inference_optimization.md
     - GPT Architecture Evolution: gpt_architecture_evolution.md
+    - Autonomous Systems Survey: autonomous_system/autonomous_systems_survey.md
     - Physical AI in Autonomous Driving: physical_ai_autonomous_driving.md
   - Notebooks:
     - Memory Example: notebooks/memory_example.ipynb
